@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpCarryPriceMonitorMapper" >
+
+    <!-- 插入运价监控信息 -->
+    <insert id="insertCarryPriceMonitor" parameterType="com.flight.carryprice.entity.JdjpCarryPriceMonitor">
+        INSERT INTO
+          jdjp_carry_price_monitor
+          (order_id, order_pnr, dep_code, arr_code, air_ways, flight_no, seat,
+          dep_time, error_carry_price, real_carry_price, operate_status, operator)
+        VALUES
+          (#{orderId}, #{orderPnr}, #{depCode}, #{arrCode}, #{airWays}, #{flightNo}, #{seat},
+          #{depTime}, #{errorCarryPrice}, #{realCarryPrice}, #{operateStatus}, #{operator});
+    </insert>
+
+
+</mapper>

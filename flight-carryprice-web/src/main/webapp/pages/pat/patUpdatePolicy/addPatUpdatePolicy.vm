@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<style>
+.radio input{width:12px;position:relative;top:4px}
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+	<div class="pop-wrap">
+		<div class="add-staff-pop oz order-mes-mod">
+			<form id="patUpdatePolicyAdd_form">
+				<table>
+					<tr>
+						<td><span style="color: red">*</span>航空公司</td>
+						<td>
+                        <select  name="airWays"  class="validate[required]">
+	                        <option value="">全部</option>
+							#foreach($com in ${company})
+								<option value="${com.code}" >${com.code}—${com.name}</option>
+							#end
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="color: red">*</span>热门类型
+						</td>
+						<td>
+							<select class="text text3 validate[required]" id="airlineType" name="airlineType">
+							<option value="">全部</option>
+                       		#foreach($type in ${airlineType})
+								<option value="${type.key}">
+								${type.value}
+								</option>
+							#end
+                        	</select>
+						</td>
+					</tr>
+					<tr  class="Ordinary">
+						<td>
+							<span style="color: red">*</span>出发机场
+						</td>
+						<td>
+							<select  name="depCode" class="validate[required]">
+								<option value="">全部</option>
+								#foreach($air in ${airport})
+									<option value="${air.code}" >${air.code}-${air.name}</option>
+								#end
+							</select>
+						</td>
+					</tr>
+					<tr class="Ordinary">
+						<td>
+							<span style="color: red">*</span>到达机场
+						</td>
+						<td>
+							<select  name="arrCode" class="validate[required]">
+								<option value="">全部</option>
+								#foreach($air in ${airport})
+									<option value="${air.code}" >${air.code}-${air.name}</option>
+								#end
+							</select>
+						</td>
+					</tr>
+					<tr>
+                    			<td><span style="color: red">*</span>航班号</td>
+                    			<td><input type="text" name="flightNo" class="validate[required]" /></td>
+                    </tr>
+                    <tr>
+                    			<td><span style="color: red">*</span>舱位</td>
+                    			<td><input type="text" name="seat" class="validate[required]" maxlength="1"/></td>
+                    </tr>
+                    <tr>
+                    			<td>
+                    				<span style="color: red">*</span>有效期
+                    			</td>
+                    			<td>
+                    				T+<input type="text" name="deptDay" class="validate[required]" size="5" />~
+                    				T+<input type="text" name="deptDay" class="validate[required]" size="5" />
+                    			</td>
+                    </tr>
+
+                    <tr>
+                                <td><span style="color: red">*</span>预定时间范围</td>
+                                <td>
+                                     <input type="text" name="reserveTimeDay" class="validate[required]" size="5" maxlength="3"/>~
+                                     <input type="text" name="reserveTimeDay" class="validate[required]" size="5" maxlength="3"/>
+                                </td>
+                    </tr>
+                    <tr>
+                    			<td><span style="color: red">*</span>起飞日期</td>
+                    			<td><input type="text" name="depDate" class="validate[required]" readonly="readonly"
+                    									onfocus="WdatePicker({doubleCalendar: true ,dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"/></td>
+                    </tr>
+                    <tr>
+                    			<td><span style="color: red">*</span>更新时刻</td>
+                    			<td><input type="text" name="planTime" class="validate[required]" readonly="readonly"
+                    									onfocus="WdatePicker({doubleCalendar: true ,dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d %H:%m:%s'})"  /></td>
+                    </tr>
+				</table>
+
+	            <div class="operate-box2" style="padding-left: 200px">
+	            	<input type="button" class="btn btn4" value="返回" onclick="javascript:goBack();">
+		            <input type="button" id="saveBtn" class="btn btn3" value="确定" onclick="javascript:save();">
+	            </div>
+            </form>
+		</div>
+	</div>
+	<div id="flown" class="inputContainer"></div>
+<script type="text/javascript">
+	//提交时表单验证
+	$(function(){
+	  $('#patUpdatePolicyAdd_form').validationEngine({
+		    scroll: true, //屏幕自动滚动到第一个验证不通过的位置。
+		    addPromptClass: 'formError-noArrow formError-text',  //样式
+		    binded: false,   //是否绑定即时验证
+		    //showArrow: false,  //是否显示提示信息
+		    promptPosition: 'centerRight', //提示信息位置
+		    showOneMessage: true,  //是否只显示一个提示信息
+		    autoPositionUpdate :true,  //是否自动调整提示层的位置
+	    	maxErrorsPerField: 1  //单个元素显示错误提示的最大数量，值设为数值。默认 false 表示不限制。
+	  });
+	});
+	//保存
+	function save(){
+		var isValid = $("#patUpdatePolicyAdd_form").validationEngine("validate");
+		if(!isValid){
+			return;
+		}
+		//把表单转为json对象
+		var jsonObj = $("#patUpdatePolicyAdd_form").serializeObject();
+		if(jsonObj.depCode==jsonObj.arrCode && jsonObj.depCode!=""){
+			alert("出发机场和到达机场不能相同");
+			return;
+		}
+		var reg = new RegExp("^([A-Z]{2}[0-9]{3,4}[a-zA-Z]{0,1}){1}$");
+		var flightNo = jsonObj.flightNo;
+		if(!reg.test(flightNo)){
+			alert("航班号格式不正确");
+			return;
+		}
+		var jsonStr = JSON.stringify(jsonObj);
+		if(!confirm("确定要保存吗?")){
+			return;
+		}
+		$.ajax({
+			 url: "${staticPath}/pat/patUpdatePolicy/doAddPatUpdatePolicy",
+			 data: {
+				 "jsonStr" : jsonStr,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == "1"){
+					 alert("新增成功");
+					 queryPatCarryPricePolicy();
+				 }else if(data == "-1"){
+					 alert("新增失败");
+				 }else{
+					 alert(data);
+				 }
+			 }
+		 });
+
+	}
+	//返回
+	function goBack(){
+		$("#dialog").empty().dialog("close");
+	}
+
+	/* $(function(){
+		showOrdinary();
+	})
+    function showOrdinary(){
+    	$(".Ordinary").show();
+    	$("#arrCode").attr("name","arrCode");
+    	$("#depCode").attr("name","depCode");
+    }
+
+    function hideOrdinary(){
+    	$("#depCode").removeAttr("name");
+    	$("#arrCode").removeAttr("name");
+    	$(".Ordinary").hide();
+    }
+    $("#airlineType").change(function(){
+    	if($(this).val() == 0){
+    		showOrdinary();
+    	}else{
+    		hideOrdinary();
+    	}
+    }); */
+</script>
+</body>
+</html>

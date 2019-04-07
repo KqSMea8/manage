@@ -1,0 +1,36 @@
+.tuna_jmpinfo .jmp_title, .tuna_jmpinfo .jmp_table, .tuna_jmpinfo .jmp_text {
+    padding: 10px !important;
+    border-color: #09A9F3 !important;
+}
+.tuna_jmpinfo .jmp_title .tri_t, .jmp_text .tri_t {
+    background-position: 1px 0;
+}
+.tuna_jmpinfo {
+    margin: 20px;
+    color: #333;
+    font: 12px/2 Arial,Tahoma,simsun;
+    -webkit-text-size-adjust: none;
+}
+.tuna_jmpinfo .jmp_text {
+    border: 1px solid #67a1e2;
+    background: #e8f4ff;
+}
+.tuna_jmpinfo .jmp_text {
+    background-color: #FFF !important;
+}
+.tuna_jmpinfo .base_jmp b {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url(../images/un_jmp_tri.png);
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.tuna_jmpinfo .base_jmp b {
+    display: none !important;
+}
+.tuna_jmpinfo .jmp_bd {
+    padding: 0 !important;
+    line-height: 20px !important;
+    word-wrap: break-word;
+}

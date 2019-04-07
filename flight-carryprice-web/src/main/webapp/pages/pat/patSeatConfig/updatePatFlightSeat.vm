@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<style>
+.radio input{width:12px;position:relative;top:4px}
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+	<div class="pop-wrap">
+		<div class="add-staff-pop oz order-mes-mod">
+			<form id="patCarryPriceConfigUpdate_form">
+			<input value="${queryBean.id}" name="id" type="hidden">
+				<table>
+					<tr>
+					<input type="hidden" name="airWays" value="${queryBean.airWays}">
+						<td><span style="color: red">*</span>航空公司</td>
+						<td>
+                        <select validate[required]" disabled="disabled" style="background-color: #EEEEEE;">
+	                        <option value="">全部</option>
+							#foreach($com in ${company})
+								<option value="${com.code}" (#if($!{queryBean.airWays}== $!{com.code}) selected #end)>${com.code}—${com.name}</option>
+							#end
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="color: red">*</span>PAT航线类型
+						</td>
+						<td>
+							<select class="text text3 validate[required]" name="airlineType">
+							<option value="">全部</option>
+                       		#foreach($pType in ${airlineType})
+								<option value="${pType.key}" (#if($!{queryBean.airlineType}== $!{pType.key}) selected #end)>
+								${pType.value}
+								</option>
+							#end
+                        	</select>
+						</td>
+					</tr>
+					<tr  class="Ordinary">
+					<input type="hidden" name="depCode" value="${queryBean.depCode}">
+						<td>
+							<span style="color: red">*</span>出发机场
+						</td>
+						<td>
+							<select disabled="disabled" style="background-color: #EEEEEE;">
+								<option value="">全部</option>
+								#foreach($air in ${airport})
+									<option value="${air.code}" (#if($!{queryBean.depCode}== $!{air.code}) selected #end)>${air.code}-${air.name}</option>
+								#end
+							</select>
+						</td>
+					</tr>
+					<tr class="Ordinary">
+					<input type="hidden" name="arrCode" value="${queryBean.arrCode}">
+						<td>
+							<span style="color: red">*</span>到达机场
+						</td>
+						<td>
+							<select disabled="disabled" style="background-color: #EEEEEE;">
+								<option value="">全部</option>
+								#foreach($air in ${airport})
+									<option value="${air.code}" (#if($!{queryBean.arrCode}== $!{air.code}) selected #end)>${air.code}-${air.name}</option>
+								#end
+							</select>
+						</td>
+					</tr>
+					<tr>
+                    			<td><span style="color: red">*</span>航班号</td>
+                    			<input type="hidden" name="flightNo" value="${queryBean.flightNo}">
+                    			<td><input type="text" disabled="disabled" class="validate[required]" placeholder="* 表示全部航班" value="$!{queryBean.flightNo}"/></td>
+                    </tr>
+                    <tr>
+                    			<td><span style="color: red">*</span>舱位</td>
+                    			<input type="hidden" name="seat" value="${queryBean.seat}">
+                    			<td><input type="text" disabled="disabled" class="validate[required]" maxlength="1" value="$!{queryBean.seat}"/></td>
+                    </tr>
+                    <tr>
+                    			<td>
+                    				<span style="color: red">*</span>起飞时间
+                    			</td>
+                    			<td>
+                    				T+<input type="text" name="deptDay" class="validate[required]" size="5" maxlength="2" value="$!{deptDateFrom}"/>~
+                    				T+<input type="text" name="deptDay" class="validate[required]" size="5" maxlength="2" value="$!{deptDateTo}"/>
+                    			</td>
+                    </tr>
+                    <tr>
+                    			<td><span style="color: red">*</span>状态</td>
+                    			<td>
+                    				<input type="radio" value="1" name="state" (#if($!{queryBean.state}==1) checked="checked" #end) >启用
+                    				<input type="radio" value="0" name="state" (#if($!{queryBean.state}==0) checked="checked" #end)>禁用
+                    	        </td>
+                    </tr>
+                    <tr>
+                                <td><span style="color: red">*</span>预定时间范围</td>
+                                <td>
+                                     <input type="text" name="reserveTimeDay" class="validate[required]" size="5" maxlength="3" value="$!{reserveTimeDayFrom}"/>~
+                                     <input type="text" name="reserveTimeDay" class="validate[required]" size="5" maxlength="3" value="$!{reserveTimeDayTo}"/>
+                                </td>
+                    </tr>
+
+
+				</table>
+
+	            <div class="operate-box2" style="padding-left: 200px">
+	            	<input type="button" class="btn btn4" value="返回" onclick="javascript:goBack();">
+		            <input type="button" id="saveBtn" class="btn btn3" value="确定" onclick="javascript:save();">
+	            </div>
+            </form>
+		</div>
+	</div>
+	<div id="flown" class="inputContainer"></div>
+<script type="text/javascript">
+	//提交时表单验证
+	$(function(){
+	  $('#patCarryPriceConfigUpdate_form').validationEngine({
+		    scroll: true, //屏幕自动滚动到第一个验证不通过的位置。
+		    addPromptClass: 'formError-noArrow formError-text',  //样式
+		    binded: false,   //是否绑定即时验证
+		    //showArrow: false,  //是否显示提示信息
+		    promptPosition: 'centerRight', //提示信息位置
+		    showOneMessage: true,  //是否只显示一个提示信息
+		    autoPositionUpdate :true,  //是否自动调整提示层的位置
+	    	maxErrorsPerField: 1  //单个元素显示错误提示的最大数量，值设为数值。默认 false 表示不限制。
+	  });
+	});
+	//保存
+	function save(){
+		var isValid = $("#patCarryPriceConfigUpdate_form").validationEngine("validate");
+		if(!isValid){
+			return;
+		}
+		//把表单转为json对象
+		var jsonObj = $("#patCarryPriceConfigUpdate_form").serializeObject();
+		if(jsonObj.depCode==jsonObj.arrCode && jsonObj.depCode!=""){
+			alert("出发机场和到达机场不能相同");
+			return;
+		}
+		var jsonStr = JSON.stringify(jsonObj);
+		if(!confirm("确定要保存吗?")){
+			return;
+		}
+		$.ajax({
+			 url: "${staticPath}/pat/patSeatConfig/doUpdatePatFlightSeat",
+			 data: {
+				 "jsonStr" : jsonStr,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					 alert("更新成功");
+					 queryPatCarryPriceConfig();
+				 }else if(data == 0){
+					 alert("更新失败");
+				 }else{
+					 alert(data);
+				 }
+			 }
+		 });
+
+	}
+	//返回
+	function goBack(){
+		$("#dialog").empty().dialog("close");
+	}
+
+	/* $(function(){
+		showOrdinary();
+	})
+    function showOrdinary(){
+    	$(".Ordinary").show();
+    	$("#arrCode").attr("name","arrCode");
+    	$("#depCode").attr("name","depCode");
+    }
+
+    function hideOrdinary(){
+    	$("#depCode").removeAttr("name");
+    	$("#arrCode").removeAttr("name");
+    	$(".Ordinary").hide();
+    }
+    $("#airlineType").change(function(){
+    	if($(this).val() == 0){
+    		showOrdinary();
+    	}else{
+    		hideOrdinary();
+    	}
+    }); */
+</script>
+</body>
+</html>

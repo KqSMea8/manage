@@ -1,0 +1,69 @@
+<meta name="description" content="京东国内机票运价管理系统-您身边的商务出行服务专家。">
+<meta name="keywords" content="京东国内机票运价管理系统-您身边的商务出行服务专家。">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="shortcut icon" type="images/x-icon" href="${rc.contextPath}/images/favicon.ico">
+<link rel="stylesheet" href="${rc.contextPath}/ui/jquery-ui-themes-1.11.0/themes/smoothness/jquery-ui.min.css"/>
+<link rel="stylesheet" href="${rc.contextPath}/css/base20150119.css" type="text/css" />
+<link rel="stylesheet" href="${rc.contextPath}/css/style20150304.css?t=2016032510" type="text/css" />
+<link rel="stylesheet" href="${rc.contextPath}/js/common/tipsy/tipsy.css">
+<link rel="stylesheet" href="${rc.contextPath}/ui/jquery-validation-engine/css/validationEngine.jquery.css">
+<script type="text/javascript" src="${rc.contextPath}/js/common/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/ui/jquery-ui-1.11.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/common/tipsy/jquery.tipsy.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/common/common20150210.js?t=201508051436"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/common/public20160127.js"></script>
+<!-- 时间控件start -->
+<script type="text/javascript" src="${rc.contextPath}/js/common/My97DatePicker/WdatePicker.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/js/common/My97DatePicker/skin/WdatePicker.css">
+<!-- 时间控件end -->
+<script type="text/javascript" src="${rc.contextPath}/ui/layer/layer.js"></script>
+<!-- 城市选择空间,文本框输入模式 开始 -->
+<script type="text/javascript" src="${rc.contextPath}/js/common/city/cityname20151228.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/common/city/citySelector20150115.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/css/citySelector.css">
+<!-- 城市选择空间,文本框输入模式 结束 -->
+<!-- 航司选择控件,文本框输入模式 开始 -->
+<script type="text/javascript" src="${rc.contextPath}/js/common/aircompany/aircompany20151228.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/common/aircompany/aircompanySelector20150115.js"></script>
+
+<!-- 自定义js -->
+<script type="text/javascript" src="${rc.contextPath}/js/my/common.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/my/common.date.js"></script>
+
+<!-- valid.js -->
+<script src="${rc.contextPath}/ui/jquery-validation-engine/js/jquery.validationEngine-zh_CN.js"></script>
+<script src="${rc.contextPath}/ui/jquery-validation-engine/js/jquery.validationEngine.js"></script>
+
+
+<link rel="stylesheet" href="${rc.contextPath}/css/aircompanySelector.css">
+<!-- 航司选择控件,文本框输入模式 结束 -->
+<!-- 航空公司数据 开始 -->
+<!-- 航空公司数据 结束 -->
+<div id="_cityMultiSelectDiv" style="display: none;"></div>
+<div id="_loading" style="display: none;overflow:hidden;">
+	<table style="margin:0 auto;">
+		<tr>
+			<td><img src="${rc.contextPath}/images/loading.jpg" alt="正在加载..." /></td>
+			<td><span id="loadingMessage" style="margin-left: 8px;">处理中请稍后...</span>
+			</td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	function _cityMultiSelectDialog(inputId){
+		var inputText = $.trim($("#"+inputId).val());
+		$("#"+_cityMultiSelectDialogDiv).empty().load("${rc.contextPath}/airportMutiSelect",{'airPortCodes':inputText},function(){
+			$("#_cityMap_confirm_btn").bind("click",function(){
+				_cityMap_confirm(inputId);
+				$(document).unbind("keypress");
+				$("#"+_cityMultiSelectDialogDiv).empty().dialog("close");
+			});
+			$("#_cityMap_cancel_btn").bind("click",function(){
+				$(document).unbind("keypress");
+				$("#"+_cityMultiSelectDialogDiv).empty().dialog("close");
+			});
+			_cityMultiSelectDialogInit();
+			$("#"+_cityMultiSelectDialogDiv).dialog("open");
+		});
+	}
+</script>

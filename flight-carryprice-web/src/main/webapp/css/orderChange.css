@@ -1,0 +1,52 @@
+@charset "utf-8";
+/* CSS Document */
+body{font-size:12px;}
+.box a{text-decoration:none;}
+.box a:hover{text-decoration:underline;}
+.box .box{border:1px solid #ddd;width:700px;}
+.box .title{font-size:14px;font-weight:bold;text-indent:20px;height:30px;
+.box line-height:30px;margin:0;background:url(../images/top.gif) bottom;}
+.box .informaition{overflow:hidden;padding:10px 0;}
+.box .informaition input,.informaition span{float:left;margin-left:10px;}
+.box .informaition span{padding:2px 0;}
+.box .informaition input{margin-left:20px;}
+.box .informaition a{color:blue;}
+.box .content dt{margin-left:46px;overflow:hidden;margin-bottom:10px;}
+.box .content dt>span{margin-right:18px;float:left;line-height:28px;}
+.box .content dt input{width:40px;margin-right:10px;height:24px;}
+.box .content dt select{width:80px;margin-right:10px;height:24px;}
+.box .content .gray input{width:16px;margin:0;position:relative;top:6px;}
+.box .content dt>span label{float:left;line-height:28px;}
+.box .content a{line-height:22px;color:blue;}
+.box .content img{margin-top:10px}
+.box .main{overflow:hidden;padding-bottom:10px;}
+.box .main span{margin-left:20px;display:block;float:left;}
+.box .main label,.main input,.main select{float:left;width:100px;}
+.box .main label,.time input,.time select{float:left;width:150px;}
+.box .main label{width:80px;line-height:22px;}
+.box .main select{width:104px;}
+.box .main textarea{width:280px;height:30px;max-width:504px;max-height:100px;}
+.box .button{margin:20px;}
+.box .button button{width:90px;height:30px;margin-right:20px;}
+.box .red{color:red;}
+.box .border-bottom{border-bottom:1px solid #ddd;}
+.box .gray{color:gray;}
+.box .w200{display:inline-block;width:120px;}
+.box .martop10{margin-top:20px;}
+.box .mr4{margin-right:12px;}
+.box .content .marl{margin-left:110px;}
+.box .marl .current{border:1px solid red;padding:0px 8px;
+ 	background:url(../images/xz.gif) no-repeat bottom right;}
+.box .marl .notcurrent{border:1px solid #ddd;padding:0px 8px;}
+.box .pointer{cursor:pointer}
+.box .line700{min-width:700px;}
+
+.box .tab-title{overflow:hidden;}
+.box .tab-title span{display:block;float:left;margin-left:20px;width:60px;
+	text-align:center;background:url(../images/top.gif) center;cursor:pointer;
+	border:1px solid #ddd;line-height:22px;}
+.box .tab-title .current01{color:red;background:#fff;border:1px solid red;}
+.box .hidden_class{display:none}
+.box .main .hidden_class{display:none}
+.box .chnHidden{display: none}
+.box .aduHidden{display: none}

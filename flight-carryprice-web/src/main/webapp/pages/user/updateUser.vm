@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统-修改员工信息</title>
+	#parse('/comm/public.vm')
+	<style type="text/css">
+	.item-select{ width:140px; height:30px;}
+	.search-wrap-mod dl input{ margin-right:5px;}
+	.search-wrap-mod{ padding:20px 0 4px 20px;}
+	#roleArl{ float:left; width:710px; height:auto; padding:5px 10px; border:1px solid #999; overflow:hidden;}
+	.div_cabin{ margin-left:95px; overflow:hidden; margin-bottom:20px;}
+	.search-wrap-mod dl{ clear:both; line-height:30px;}
+	.operate-box2{ padding:20px 96px;}
+	.mr5{ margin-right:5px;}
+	.regionArea{width:450px; height:20px; padding:5px 10px; border:1px solid #999; overflow:hidden; margin-right:5px;}
+	</style>
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="new_content">
+    <!--left-content start-->
+	 #parse('/comm/left.vm')
+    <!--left-content end-->
+        <!--right-content start  -->
+    <div class="right-content" style="border:0;">
+    	<div class="crumb-nav">
+    		<a href="javascript:goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">账号管理</a>&gt;
+    		<a href="javascript:void(0);" class="href0">员工信息编辑</a>
+    	</div>
+    	<div class="main-con tickets-autosell-wrap">
+			<div class="search-wrap-mod mb oz">
+			    <form id="addForm" action="" method="post">
+			       <input type="hidden" id="hiddenRoleStr" value="$!{roleString}" />
+			       <input type="hidden" id="hiddenUserCode" value="$!{user.usercode}" />
+			       <input type="hidden" id="usercode" name="usercode" value="$!{user.usercode}" />
+			       <dl class="dl-mod">
+			         <dt>用户名：</dt>
+			         <dd>$!{user.username}</dd>
+			       </dl>
+			       <dl class="dl-mod">
+			         <dt>姓名：</dt>
+			         <dd><input type="text" class="text text3" id="chargeperson" name="chargeperson" value="$!{user.chargeperson}" onfocus="if(this.value=='例如：张三'){this.value=''};this.style.color='#333';" onblur="if(this.value==''||this.value=='例如：张三'){this.value='例如：张三';this.style.color='#999';}"/></dd>
+                     <dd><label class="required">*</label></dd>
+                   </dl>
+                   <dl class="dl-mod">
+                      <dt>职位/角色：</dt>
+                      <dd class="checkbox-mod mr5" id="roleArl">
+                      	<div id="roleArea"></div>
+                      </dd>
+                      <label class="required">*</label>
+                   </dl>
+                   <dl class="dl-mod">
+			         <dt>手机：</dt>
+			         <dd><input type="text" class="text text3" id="mobile" name="mobile" value="$!{user.mobile}"></dd>
+                   </dl>
+                   <dl class="dl-mod">
+			         <dt>电话：</dt>
+			         <dd><input type="text" class="text text3" id="tel" name="tel" value="$!{user.tel}"></dd>
+                   </dl>
+                   <dl class="dl-mod">
+			         <dt>工号：</dt>
+			         <dd><input type="text" class="text text3" id="worknumber" name="worknumber" value="$!{user.worknumber}"></dd>
+                   </dl>
+		           <div class="operate-box2">
+		                <input type="button" class="btn btn1" value="保存" onclick="save();">
+		                <input type="button" class="btn btn1" value="返回" onclick="goback();">
+		           </div>
+                </form>
+			</div>
+        </div>
+    </div>
+	<!-- right-content end -->	
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+</body>
+<script type="text/javascript">
+	$(function(){
+		showRoles();
+	});
+	
+	//角色
+	function showRoles(){
+		var roleString = $.trim($("#hiddenRoleStr").val());
+		console.log(roleString)
+		$.ajax({
+			url:'${staticPath}/userManager/user/queryRolesForAddUser',
+			success: function(data){  
+				
+				//列出所有的角色
+				$("#roleArea").html("");
+				for(var i = 0;i<data.length;i++){
+					var roleName=data[i].rolename;
+    				var roleCode=data[i].rolecode;
+					$("#roleArea").append("<div class='item-select'><input type='checkbox' id='role_"+i+"' name='rolecode' value='"+roleCode+"' class='check-box' ><label for='role_"+i+"'>"+roleName+"</label></div>");
+				}
+				
+				//当前用户的角色默认选中
+				if(roleString!=null && roleString.length>0){
+        			$("[name='rolecode']").each(function(i) {
+					     var value = $(this).val();
+					     var roles = roleString.split(",");
+					     for(var i = 0; i < roles.length; i++){
+					     	if(roles[i]==value){
+					        	$(this).attr("checked","checked");
+						 	}
+					     }
+
+				    });
+        		}
+		   }
+		});
+	}
+	
+	//表单验证
+	function formValidate(){
+// 		var userCode = $.trim($("#hiddenUserCode").val());
+		//var userName = $.trim($("#hiddenUserName").val());
+		var chargeperson = $.trim($("#chargeperson").val());
+		var password = $.trim($("#password").val());
+		var confirmPassword = $.trim($("#confirmPassword").val());
+		var rolecode = $.trim($("input[name='rolecode']:checked").val());
+		
+		//验证姓名
+	    var regTwo = /^([a-zA-Z]{2,10}|[\u4e00-\u9fa5]+)$/;
+	    if(chargeperson.length == 0 || chargeperson == "例如：张三"){ 
+		    alert("姓名不能为空！");
+		    return false; 
+		}else{
+			if(!regTwo.test(chargeperson)){ 
+			     alert("姓名必须为汉字或2-10位英文字母！"); 
+			     return false; 
+			} 
+		}
+		/* //验证密码
+		var reg = /^[0-9a-zA-Z]{6,16}$/;
+		if(password.length == 0){ 
+			alert("密码不能为空！");
+		    return false; 
+		}else{
+			if(!reg.test(password)){ 
+			     alert("密码应由6-16位数字或字母组成！"); 
+			     return false; 
+			} 
+		}
+		//验证二次输入密码
+		if(confirmPassword.length == 0){ 
+			alert("请再次输入密码！");
+		    return false; 
+		}
+		//验证密码是否一致
+	    if(password != confirmPassword){
+	         alert("两次的密码不一致！");
+	         return false;
+	    } */
+		//验证角色
+		if(rolecode.length == 0){
+		    alert("请勾选角色复选框！");
+		    return false;
+		}
+		return true;
+	}
+	
+	/*保存*/
+	function save(){
+		if(formValidate()){
+// 			var hiddenRole = $.trim($("#hiddenRoleStr").val());
+// 			var usercode = $.trim($("#hiddenUserCode").val());
+// 			var chargeperson = $.trim($("#chargeperson").val());
+// 			var password = $.trim($("#password").val());
+			var roleArray = [];
+	        var roleCodes = "";
+     	    $("input[name='rolecode']:checked").each(function(){
+     	    	roleArray.push($(this).val());
+	        });
+     	    if(roleArray != null && roleArray.length>0){
+     		   for(var i=0;i<roleArray.length;i++){
+				   var roleOne = roleArray[i];
+				   roleCodes = roleCodes + $.trim(roleOne);
+				   if(i != roleArray.length-1){
+					   roleCodes = roleCodes + ",";
+				   }
+			   }
+     	    }
+     	    
+		    var mobile = $.trim($("#mobile").val());
+		    
+// 		    var params = "usercode="+usercode+"&chargeperson="+chargeperson+"&password="+password+"&roleCodes="+roleCodes+
+// 		    "&mobile="+mobile;
+			
+			//form转json对象
+			var jsonObj = $("#addForm").serializeJson();
+			jsonObj["id"] = "${user.id}";
+			delete jsonObj.rolecode;
+			delete jsonObj.confirmPassword;
+			
+			//将json对象转为字符串
+			var jsonStr = JSON.stringify(jsonObj); 
+			
+// 			if(!confirm("确定要修改用户信息吗，修改成功之后将强制注销此用户重新登录！")){
+			if(!confirm("确定要修改用户信息吗！")){
+				return;
+			}
+		    
+			$.ajax({
+				   type: "POST",    
+			       url: "${staticPath}/userManager/user/doUpdateUser",
+			       data: {
+			    	   "jsonStr" : jsonStr,
+			    	   "newRoleCodes" : roleCodes
+			       },
+				   dataType: "json",
+			       success: function(data){
+			    	   if(isBlank(data)){  //返回信息为空
+			    		   alert("没有获取到返回信息");
+			    	   	   return;
+			    	   }
+			    	   
+			    	   if(data > 0){
+		          			alert("修改成功！");
+		          			goback();
+	          		   }else{
+	          				alert("修改失败！");
+	          		   }
+			    	   
+				   }
+			}); 
+		}
+	}
+	
+	//返回
+	function goback(){
+		//var queryParams = $.trim($("#queryParams").val());
+		window.location.href="${staticPath}/userManager/user/userList";
+	}
+	
+</script>
+</html>

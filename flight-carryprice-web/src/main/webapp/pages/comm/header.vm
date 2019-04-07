@@ -1,0 +1,126 @@
+<style type="text/css">
+#_sysWelcomeLabel2{color:#fff;}
+</style>
+
+<script type="text/javascript">
+$(function(){
+	var _sysNowDate = new Date();
+	var _sysWelcome = "今天是 "+_sysNowDate.getFullYear()+"年"+(_sysNowDate.getMonth()+1)+"月"+(_sysNowDate.getDate())+"日 星期"+nemberToWeekday(_sysNowDate.getDay());
+	$("#_sysWelcomeLabel").text(_sysWelcome);
+	$("#_sysWelcomeLabel2").text(","+getStageOfDay(_sysNowDate.getHours())+"好.");
+	$("#queryOrderDetail").bind("click" ,queryOrderInfo);
+	$("#publicCheck_orderInfo").bind("dblclick",queryOrderInfo);
+});
+function getStageOfDay(hour){
+	var stage = "";
+	if(hour>=0&&hour<6){
+		stage = "凌晨";
+	}else if(hour>=6&&hour<12){
+		stage = "上午";
+	}else if(hour>=12&&hour<14){
+		stage = "中午";
+	}else if(hour>=14&&hour<18){
+		stage = "下午";
+	}else if(hour>=18&&hour<=23){
+		stage = "晚上";
+	}else{}
+	return stage;
+}
+function nemberToWeekday(number){
+	var day = "";
+	switch (number){
+	    case 0:day="日";
+	      break;
+	    case 1:day="一";
+	      break;
+	    case 2:day="二";
+	      break;
+	    case 3:day="三";
+	      break;
+	    case 4:day="四";
+	      break;
+	    case 5:day="五";
+	      break;
+	    case 6:day="六";
+	      break;
+   }
+	return day;	   
+}
+function logout(){
+	if(confirm("您确定注销并退出系统吗?")){
+		window.location.href="${staticPath}/common/anon/logout";
+	}
+}
+
+function queryOrderInfo(){
+	var val = $.trim($("#publicCheck_orderInfo").val());
+	if(val=="输入订单号，PNR号，票号，乘客姓名" || val==""){
+		$("#publicCheck_orderInfo").val("");
+		$("#publicCheck_orderInfo").focus();
+		return ;
+	}
+	var parameter = "";
+	// 判断传递参数类型
+	var reg1 = /^[a-zA-Z]{2}[0-9]{18}$/; // 订单号
+	var reg2 = /^[0-9a-zA-Z]{6}$/; // PNR号
+	var reg3 = /^((\d{13})|(\d{3}-\d{10}))$/; // 票号
+	if(reg1.test(val)){
+		parameter = "orderNo="+val;
+	}else if(reg2.test(val)){
+		parameter = "pnr="+val;
+	}else if(reg3.test(val)){
+		parameter = "ticketNo="+val;
+	}else {
+		parameter = "passengerName="+val;
+	}
+	$.ajax({
+		type:"post",
+		url:staticPath+"order/orderSearch",
+		data:parameter,
+		dataType:"json",
+		success:function(result){
+			if(result != null && result != ''){
+				var obj = eval(result);
+				if(obj.flag=="2"){
+					var url = "${rc.contextPath}/order/queryAllList?"+parameter+"&flag=orderSearch";
+					window.location = encodeURI(encodeURI(url)) ;
+				}else if(obj.flag=="0"){
+					alert("很抱歉，没有找到相关记录！");
+				}else{
+					queryOrderOrRefundDetail(obj.flag ,'');
+				}
+			}
+		},
+		error:function(){
+			alert("很抱歉,操作失败");
+		}
+	});
+}
+
+</script>
+<!--通栏 start-->
+<div class="site-nav">
+    <div class="site-nav-con site-inner-nav-con oz">
+        <div class="user-wrap fl" >
+        	<span class="user-name" style="padding: 0;">${sessionUser.username}</span><span id="_sysWelcomeLabel2"></span>
+        	<span id="_sysWelcomeLabel"></span>
+        </div>
+        <ul class="fr">
+            <li>[<a href="javascript:;" class="exit" id="btnExit" onclick="javascript:logout();">退出系统</a>]</li>
+
+        </ul>
+    </div>
+</div>
+<!--通栏 end-->
+<!-- header start -->
+<div class="header inner-header oz">
+    <h1 class="fl"><a href="javascript:;" onclick="goHomepage();"><img src="${rc.contextPath}/images/logo_sl.png" width="246" height="60" alt="京东国内机票运价管理系统"></a></h1>
+<!--     <div class="search-box"> -->
+<!--         <div class="search-txt fl"><input type="text" class="text" id="publicCheck_orderInfo" value="输入订单号，PNR号，票号，乘客姓名" onfocus="if(this.value=='输入订单号，PNR号，票号，乘客姓名'){this.value=''};this.style.color='#333';" onblur="if(this.value==''||this.value=='输入订单号，PNR号，票号，乘客姓名'){this.value='输入订单号，PNR号，票号，乘客姓名';this.style.color='#999';}" ></div> -->
+<!--         <div class="search-btn fr"><button id="queryOrderDetail" class="btn btn1"  style="font-size:16px;">搜&nbsp;索</button></div> -->
+<!--     </div> -->
+</div>
+<!-- header end -->
+<!-- DIV 弹窗DIV begin -->
+<div id="dialog_div"></div>
+<!-- DIV 弹窗DIV end -->

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统-基础数据维护</title>
+	#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+    	<div class="crumb-nav">
+    		<a href="javascript:goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">基础数据维护</a>&gt;
+    		<a href="javascript:void(0);" class="href0">总控参数</a>
+    	</div>
+   		<form id="searchForm" action="${staticPath}/basedata/runparam/runparametersList" method="post">
+   		<!-- 此处用于搜索时,所传递的参数 结束 -->
+    	<div class="main-con tickets-order-view-wrap">
+    		<!-- 搜索内容 start -->
+			<div class="search-wrap-mod mb oz">
+                <dl class="dl-mod fl">
+                    <dt>名称：</dt>
+                    <dd>
+                        <input type="text" name="name" value="$!{queryBean.name}" class="text text3">
+                    </dd>
+                </dl>
+                
+                <div class="search-btn-box fl" style="padding-left:88px;">
+                    <input type="button" id="query" class="btn btn2" value="查询" />
+                    <input type="button" class="btn btn2" onclick="add()" value="新增" />
+                </div>
+                
+                <div class="spacer"></div>
+			</div>
+			<!-- 搜索内容 end -->
+			
+			<!-- 搜索结果 start -->
+			<div class="order-mes-mod mb">
+                <table>
+                    <thead>
+                        <tr class="single-line-text">
+                        	<th style="width:5%">序号</th>
+                        	<th style="width:10%;">名称</th>
+                        	<th style="width:30%;">值</th>
+                        	<th style="width:25%;">说明</th>
+                        	<th style="width:10%;">操作人</th>
+                        	<th style="width:10%;">操作时间</th>
+                            <th style="width:10%;">操作</th>
+                         </tr>
+                    </thead>
+					<tbody>
+					#if($!{pageInfo.list})
+						#foreach($run in ${pageInfo.list})
+							<tr>
+								<td>$!{velocityCount}</td>
+								<td>$!{run.name}</td>
+                                <td class="memo"><span style="word-wrap:break-word;word-break:break-all;">$!{run.value}</span></td>
+								<td class="memo"><span style="word-wrap:break-word;word-break:break-all;">$!{run.remark}</span></td>
+								<td>$!{run.operator}</td>
+								<td>$!date.format('yyyy-MM-dd HH:mm',$!run.updateTime)</td>
+								<td>
+									<a href="javascript:void(0);" onclick="update('${run.id}')">【修改】</a>
+									<a href="javascript:void(0);" onclick="del('${run.id}')">【删除】</a>
+								</td>
+							</tr>
+						#end
+					#end
+						#if($!{pageInfo.list.size()} == 0)
+                        <tr>
+                            <td colspan="7">
+                                <label style="color: gray;">很抱歉，没有找到相关记录！</label>
+                            </td>
+                        </tr>
+						#end
+					</tbody>
+                </table>
+            </div>
+            <!-- 搜索结果 end -->
+            <!-- 分页 start -->
+            <div class="pagelist mb oz">
+				#if($!{pageInfo.list.size()}!=0)
+                #parse('/comm/pagination.vm')
+           		#end
+            </div>
+            <!-- 分页 end -->
+        </div>
+        </form>
+    </div>
+    
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+
+	$(function() {
+		$("#query").bind("click", query);
+
+	});
+
+	function query() {
+		formToTrim("searchForm");
+		$("#searchForm").submit();
+	}
+	
+	
+	//新增
+	function add(){
+		showDialog("dialog","新增参数信息","${staticPath}/basedata/runparam/toAddRunparameters");
+	}
+	
+	//修改
+	function update(runId){
+		showDialog("dialog","修改参数信息","${staticPath}/basedata/runparam/toUpdateRunparameters?runId="+runId);
+	}
+	
+	//删除
+	function del(runId){
+		if(!confirm("确定要删除吗?")){
+			return;
+		}
+		$.ajax({
+			 url: "${staticPath}/basedata/runparam/deleteRunparameters",
+			 data: {
+				 "runId" : runId
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					alert("删除成功");
+					query();
+				 }else{
+					 alert("删除失败");
+				 }
+			 }
+		});
+	}
+	
+</script>
+</body>
+</html>
+

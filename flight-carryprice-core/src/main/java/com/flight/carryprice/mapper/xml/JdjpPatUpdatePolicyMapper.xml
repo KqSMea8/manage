@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flight.carryprice.mapper.JdjpPatUpdatePolicyMapper">
+    <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpPatUpdatePolicy">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="airlines" jdbcType="VARCHAR" property="airlines" />
+        <result column="dep_date" jdbcType="VARCHAR" property="depDate" />
+        <result column="air_ways" jdbcType="VARCHAR" property="airWays" />
+        <result column="dep_code" jdbcType="VARCHAR" property="depCode" />
+        <result column="arr_code" jdbcType="VARCHAR" property="arrCode" />
+        <result column="seat" jdbcType="VARCHAR" property="seat" />
+        <result column="dept_date" jdbcType="VARCHAR" property="deptDate" />
+        <result column="flight_no" jdbcType="VARCHAR" property="flightNo" />
+        <result column="dept_date" jdbcType="VARCHAR" property="deptDate" />
+        <result column="seat_level" jdbcType="VARCHAR" property="seatLevel" />
+        <result column="distance" jdbcType="INTEGER" property="distance" />
+        <result column="discount" jdbcType="REAL" property="discount" />
+        <result column="seat_type" jdbcType="TINYINT" property="seatType" />
+        <result column="reserve_time_duration" jdbcType="VARCHAR" property="reserveTimeDuration" />
+        <result column="plan_quartz_time" jdbcType="TIMESTAMP" property="planQuartzTime" />
+        <result column="sync_status" jdbcType="TINYINT" property="syncStatus" />
+        <result column="airline_type" jdbcType="TINYINT" property="airlineType" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="operator" jdbcType="VARCHAR" property="operator" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="execute_quartz_time" jdbcType="TIMESTAMP" property="executeQuartzTime" />
+        <result column="execute_finish_time" jdbcType="TIMESTAMP" property="executeFinishTime" />
+        <result column="source" jdbcType="TINYINT" property="source" />
+    </resultMap>
+
+    <select id="queryList" parameterType="com.flight.carryprice.entity.JdjpPatUpdatePolicy" resultMap="BaseResultMap">
+        SELECT id,airlines,air_ways,dep_code,arr_code,seat,dep_date,plan_quartz_time,sync_status,airline_type,create_time,operator,remark,execute_quartz_time,execute_finish_time,
+        source FROM jdjp_pat_update_policy
+        <where>
+            <if test="syncStatus != null">
+                and sync_status = #{syncStatus}
+            </if>
+            <if test="airlineType != null">
+                and airline_type = #{airlineType}
+            </if>
+            <if test="depCode != null and depCode != ''">
+                and dep_code = #{depCode}
+            </if>
+            <if test="arrCode != null and arrCode != ''">
+                and arr_code = #{arrCode}
+            </if>
+            <if test="airWays != null and airWays != ''">
+                and air_ways = #{airWays}
+            </if>
+            <if test="seat != null and seat != ''">
+                and seat = #{seat}
+            </if>
+        </where>
+        ORDER BY update_time DESC
+    </select>
+
+</mapper>

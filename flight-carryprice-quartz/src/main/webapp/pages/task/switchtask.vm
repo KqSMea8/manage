@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>任务控制界面</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" type="images/x-icon" href="${rc.contextPath}/common/images/favicon.ico">
+	<link rel="stylesheet" href="${rc.contextPath}/common/ui/jquery-ui-themes-1.11.0/themes/smoothness/jquery-ui.min.css"/>
+	<link rel="stylesheet" href="${rc.contextPath}/common/css/base20150119.css" type="text/css" />
+	<link rel="stylesheet" href="${rc.contextPath}/common/css/style20150304.css?t=2016032510" type="text/css" />
+	<link rel="stylesheet" href="${rc.contextPath}/common/js/common/tipsy/tipsy.css">
+	<script type="text/javascript">
+		/* 此为js获取系统根目录路径变量值,全局变量,方便js操作,无需再考虑项目路径问题 */
+		var rc.contextPath='${rc.contextPath}'+'/';
+	</script>
+</head>
+
+
+<body>
+<div class="content">
+    <div class="crumb-nav" style="text-align:center;padding-top:12px;font-size:20px">
+		$!{host} 定时任务处理
+		<span style="float: right; padding-right: 20px;">
+			[<a href="javascript:;" class="exit" id="btnExit" onclick="javascript:logout();">退出系统</a>]
+		</span>
+    </div>
+</div>
+<div class="main-con tickets-order-view-wrap">
+    <dl class="dl-mod fl">
+		#foreach($member in $result.model.entrySet())
+
+		#* 自动维护运价缓存任务(自动插入FD运价缓存更新任务)  *#
+			#if($member.key == "addCarryPriceTaskJob")
+                <dd><dt>自动维护运价缓存任务(自动插入FD运价缓存更新任务):</dt></dd>
+                <dd>
+
+					#if($member.value == "1")
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled="disabled" />
+                        <a href="#">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=addCarryPriceTaskJob&status=stop&quartzBeanId=carryPriceMissionJobTask">停止</a>
+					#end
+					#if($member.value == "0")
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=addCarryPriceTaskJob&status=start&quartzBeanId=carryPriceMissionJobTask">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" />
+                        <a href="#">停止</a>
+					#end
+
+                </dd>
+                <dd>
+                <dt>
+                    <a href="${rc.contextPath}/task/switch?jobTask=doOnce&status=start&quartzBeanId=carryPriceMissionJobTask">自动维护运价缓存任务(自动插入FD运价缓存更新任务)</a>
+                </dt>
+                </dd>
+			#end
+
+		#* 自动刷新FD运价缓存信息  *#
+			#if($member.key == "autoFlushFdToRedisJob")
+                <dd><dt>自动刷新FD运价缓存信息:</dt></dd>
+                <dd>
+
+					#if($member.value == "1")
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled="disabled" />
+                        <a href="#">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=autoFlushFdToRedisJob&status=stop&quartzBeanId=fdCarryPriceAutoToRedisJobTask">停止</a>
+					#end
+					#if($member.value == "0")
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=autoFlushFdToRedisJob&status=start&quartzBeanId=fdCarryPriceAutoToRedisJobTask">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" />
+                        <a href="#">停止</a>
+					#end
+
+                </dd>
+                <dd>
+                <dt>
+                    <a href="${rc.contextPath}/task/switch?jobTask=doOnce&status=start&quartzBeanId=fdCarryPriceAutoToRedisJobTask">自动刷新FD运价缓存信息</a>
+                </dt>
+                </dd>
+			#end
+
+		#* 手动刷新FD运价缓存信息  *#
+			#if($member.key == "manualFlushFdToRedisJob")
+                <dd><dt>手动刷新FD运价缓存信息:</dt></dd>
+                <dd>
+
+					#if($member.value == "1")
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled="disabled" />
+                        <a href="#">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=manualFlushFdToRedisJob&status=stop&quartzBeanId=fdCarryPriceManualToRedisJobTask">停止</a>
+					#end
+					#if($member.value == "0")
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=manualFlushFdToRedisJob&status=start&quartzBeanId=fdCarryPriceManualToRedisJobTask">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" />
+                        <a href="#">停止</a>
+					#end
+
+                </dd>
+                <dd>
+                <dt>
+                    <a href="${rc.contextPath}/task/switch?jobTask=doOnce&status=start&quartzBeanId=fdCarryPriceManualToRedisJobTask">手动刷新FD运价缓存信息</a>
+                </dt>
+                </dd>
+			#end
+
+		#* 自动插入FD运价更新策略  *#
+			#if($member.key == "autoAddFdUpdatePolicyJob")
+                <dd><dt>自动插入FD运价更新策略:</dt></dd>
+                <dd>
+
+					#if($member.value == "1")
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled="disabled" />
+                        <a href="#">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=autoAddFdUpdatePolicyJob&status=stop&quartzBeanId=fdUpdatePolicyAutoAddJobTask">停止</a>
+					#end
+					#if($member.value == "0")
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=autoAddFdUpdatePolicyJob&status=start&quartzBeanId=fdUpdatePolicyAutoAddJobTask">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" />
+                        <a href="#">停止</a>
+					#end
+
+                </dd>
+                <dd>
+                <dt>
+                    <a href="${rc.contextPath}/task/switch?jobTask=doOnce&status=start&quartzBeanId=fdUpdatePolicyAutoAddJobTask">自动插入FD运价更新策略</a>
+                </dt>
+                </dd>
+			#end
+
+		#* FD运价维护更新(扫描FD更新策略更新FD运价)  *#
+			#if($member.key == "updateFdCarryPriceByPolicyJob")
+                <dd><dt>FD运价维护更新(扫描FD更新策略更新FD运价):</dt></dd>
+                <dd>
+
+					#if($member.value == "1")
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled="disabled" />
+                        <a href="#">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=updateFdCarryPriceByPolicyJob&status=stop&quartzBeanId=fdCarryPriceUpdateByPolicyJobTask">停止</a>
+					#end
+					#if($member.value == "0")
+                        <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                        <a href="${rc.contextPath}/task/switch?jobTask=updateFdCarryPriceByPolicyJob&status=start&quartzBeanId=fdCarryPriceUpdateByPolicyJobTask">启动</a>
+                        <input name="checkbox" type="checkbox" value="checkbox" checked="checked" />
+                        <a href="#">停止</a>
+					#end
+
+                </dd>
+                <dd>
+                <dt>
+                    <a href="${rc.contextPath}/task/switch?jobTask=doOnce&status=start&quartzBeanId=fdCarryPriceUpdateByPolicyJobTask">FD运价维护更新(扫描FD更新策略更新FD运价)</a>
+                </dt>
+                </dd>
+			#end
+
+        #* NFD PAT运价自动更新配置  *#
+        #if($member.key == "nfdPatAutoUpdateJob")
+            <dd><dt>NFD PAT运价自动更新配置:</dt></dd>
+            <dd>
+
+                #if($member.value == "1")
+                    <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled="disabled" />
+                    <a href="#">启动</a>
+                    <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                    <a href="${rc.contextPath}/task/switch?jobTask=nfdPatAutoUpdateJob&status=stop&quartzBeanId=nfdPatAutoUpdateJobTask">停止</a>
+                #end
+                #if($member.value == "0")
+                    <input name="checkbox" type="checkbox" value="checkbox"  disabled="disabled" />
+                    <a href="${rc.contextPath}/task/switch?jobTask=nfdPatAutoUpdateJob&status=start&quartzBeanId=nfdPatAutoUpdateJobTask">启动</a>
+                    <input name="checkbox" type="checkbox" value="checkbox" checked="checked" />
+                    <a href="#">停止</a>
+                #end
+
+            </dd>
+            <dd>
+                <dt>
+                    <a href="${rc.contextPath}/task/switch?jobTask=doOnce&status=start&quartzBeanId=nfdPatAutoUpdateJobTask">NFD PAT运价自动更新配置</a>
+                </dt>
+            </dd>
+        #end
+		#end
+    </dl>
+</div>
+<script type="text/javascript">
+    function logout(){
+        if(confirm("您确定注销并退出系统吗?")){
+            window.location.href="${rc.contextPath}/common/anon/logout";
+        }
+    }
+	</script>
+</body>
+</html>

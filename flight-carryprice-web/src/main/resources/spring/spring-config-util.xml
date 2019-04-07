@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-lazy-init="true" default-autowire="byName">
+
+    <util:properties id="redisMapKeys">
+        <prop key="AIRLINE_MAP_KEY">${AIRLINE_MAP_KEY}</prop>
+    </util:properties>
+
+    <util:properties id="systemProperties">
+        <prop key="mockflag">${mockflag}</prop>
+        <prop key="ghUrlSecurityKey">${gh.url.security.key}</prop>
+        <prop key="appEnvControlYf">${app.env.control.yf}</prop>
+    </util:properties>
+
+</beans>
+
+
+

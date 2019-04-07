@@ -1,0 +1,439 @@
+﻿@charset "utf-8";
+/* CSS Document 
+* @description:机票供货平台样式表
+* @create:2014-08-12
+* @author:zhangxu@19e.com.cn
+* @tel:6918
+
+* @update:2014-08-16 一期供货改版样式表
+* @author:zhangxu@19e.com.cn
+* @tel:6918
+* @Version:v0.1
+*/
+/*****site-nav start*****/
+.site-nav{height:28px;border-bottom:1px solid #ebebeb;background:#78b6e7;}
+.site-nav-con{width:980px;margin:0 auto;}
+.site-nav li{float:left;font:12px/28px arial,"\5b8b\4f53";padding-top:1px;color:#fff;}
+.site-nav a:link,.site-nav a:visited{color:#fff;line-height:27px;}
+.site-nav a:hover,.site-nav a:active{color:#fff;text-decoration:underline;}
+.site-nav b{margin:0 14px;color:#c7c7c7;font-size:10px;line-height:27px;}
+/*内页 site-nav*/
+.site-nav .user-wrap{line-height:28px;color:#fff;}
+.site-nav .user-wrap span{line-height:28px;padding-right:12px;color:#fff;}
+.site-nav .user-name{color:#fff;padding-right:6px;line-height:28px;}
+.site-inner-nav-con{width:98%;padding:0 1%;}
+.site-nav b{margin:0 10px;}
+.site-nav .exit:link,.site-nav .exit:visited{color:#fff;padding:0 3px;line-height:28px;}
+.site-nav .exit:hover,.site-nav .exit:active{color:#fff;text-decoration:underline;}
+/*****site-nav end*****/
+/*****header start*****/
+/***/.header h1{padding-top:12px;}
+.header h1 a{display:block;}
+.header .contact{width:200px;padding:24px 24px 0 0;}
+.header dt{float:left;color:#555;font:normal 12px/24px "\5b8b\4f53";}
+.header dd{float:left;color:#f60;font:bold 16px/24px arial;}
+/***/.inner-header{position:relative;width:98%;padding:0 1%;height:76px;border-bottom:3px solid #50A0DD;background:url(../images/hetopbg.png) repeat-x; overflow:hidden;}
+.inner-header .search-box{position:absolute;top:27%;left:32%;width:416px;height:39px;}
+.inner-header .search-txt{width:302px;height:21px;padding:7px 4px 7px 26px;border:2px solid #d9d9d9;background:#fff url(../images/sprite-icon.png) no-repeat -255px -16px;}
+.inner-header .search-txt .text{float:left;padding:0 3px;width:296px;height:21px;border:none;line-height:21px;font-size:14px;font-weight:normal;color:#999;}
+.inner-header .search-btn{width:80px;height:39px;}
+.inner-header .search-btn .btn{float:left;margin:0;width:80px;height:39px;border:1px solid #d9d9d9; border-left:0; background:url(../images/heinbtnbg.png) repeat-x; color:#333; line-height:37px; text-align:center;}
+
+
+/*****header end*****/
+.content{width:100%;margin:5px 0 20px;overflow:hidden;width:expression(document.body.clientWidth <= 1200? "1200px": "auto");
+    min-width:1200px;}
+.new_content {width: 100%;margin: 5px 0 0 0; overflow: hidden; min-width: 1200px;}
+/*****left-content start*****/
+.left-content{width:190px;_display:inline;}
+.left-menu h2{_margin-bottom:-1px;height:38px;background:#78b6e7;color: #fff; font-size:18px; text-align:center; line-height:38px; font-weight:bold;border-bottom:1px solid #e2e2e2;}
+.left-menu .menu-con{width:190px;overflow:hidden;background-color:#fff;}
+.left-menu h3{border-right:1px solid #e2e2e2;border-left:1px solid #e2e2e2;position:relative; padding-left:45px; border-bottom:1px solid #e2e2e2;background-color:#f5f5f5;font:bold 14px/34px arial,"\5b8b\4f53";color:#333;cursor:pointer;white-space:nowrap;height: 35px;}
+.left-menu h3 b{position:absolute;top:13px;right:12px;display:block;width:12px;height:6px;background:url(../images/sprite-icon.png) no-repeat -273px 0;_zoom:1;_font-size:0;_line-height:0;}
+.left-menu .slide-down h3{border-bottom:none; color:#fff; background-color:#78b6e7;border-right:1px solid #78b6e7;border-left:1px solid #78b6e7;}
+.left-menu .slide-down h3 b{background-position:-273px -6px;}
+.left-menu li ul{display:none;padding:2px 0;border-bottom:1px solid #e2e2e2; background:#f2f2f2;}
+.left-menu li ul.current{display:block;padding:2px 0;border-bottom:1px solid #e2e2e2; background:#f2f2f2;}
+.left-menu li ul li{background:#fff;}
+.left-menu li ul li:hover{background:#edf6ff;  font-weight:800;}
+.left-menu li ul li.current{background:#edf6ff;  font-weight:800;}
+.left-menu li a:link,.left-menu li a:visited{display:block;padding-left:28px;height:28px;line-height:28px;color:#000;position:relative;white-space:nowrap;}
+.left-menu li a:hover,.left-menu li a:active{color:#0463a7;}
+.left-menu li a:link b,.left-menu li a:visited b{display:block;width:9px;height:11px;position:absolute;top:9px;left:13px;}
+.left-menu li a:hover b,.left-menu li a:active b{background:url(../images/sprite-icon.png) no-repeat -183px 0;}
+.left-menu .current:link,.left-menu .current:visited{color:#0463a7;  font-weight:800;}
+.left-menu .current:link b,.left-menu .current:visited b{background:url(../images/sprite-icon.png) no-repeat -183px 0;}
+.left-menu h3 span{ width:20px; height:20px; display:block; position:absolute; top:8px; left:14px;}
+.left-menu .slide-down h3 span{ width:20px; height:20px; display:block; position:absolute; top:8px; left:14px;}
+.left-menu .slide-down h3 .menu_rate{ background:url(../images/menu_icones.png) no-repeat left 0;}
+.left-menu .slide-down h3 .menu_issue{ background:url(../images/menu_icones.png) no-repeat left -20px;}
+.left-menu .slide-down h3 .menu_refund{ background:url(../images/menu_icones.png) no-repeat left -40px;}
+.left-menu .slide-down h3 .menu_finance{ background:url(../images/menu_icones.png) no-repeat left -60px;}
+.left-menu .slide-down h3 .menu_auto{background:url(../images/menu_icones.png) no-repeat left -80px;}
+.left-menu .slide-down h3 .menu_user{background:url(../images/menu_icones.png) no-repeat left -100px;}
+.left-menu .slide-down h3 .menu_soft{ background:url(../images/menu_icones.png) no-repeat left -120px;}
+.left-menu  h3 .menu_rate{ background:url(../images/menu_icones.png) no-repeat right 0;}
+.left-menu  h3 .menu_issue{ background:url(../images/menu_icones.png) no-repeat right -20px;}
+.left-menu  h3 .menu_refund{ background:url(../images/menu_icones.png) no-repeat right -40px;}
+.left-menu  h3 .menu_finance{ background:url(../images/menu_icones.png) no-repeat right -60px;}
+.left-menu  h3 .menu_auto{background:url(../images/menu_icones.png) no-repeat right -80px;}
+.left-menu  h3 .menu_user{background:url(../images/menu_icones.png) no-repeat right -100px;}
+.left-menu  h3 .menu_soft{ background:url(../images/menu_icones.png) no-repeat right -120px;}
+/*****left-content end*****/
+/*****right-content start*****/
+.right-content{min-width:900px; margin:0 14px 0 204px;border:1px solid #e2e2e2;border-radius:4px 4px 0 0;background-color:#fff; }
+.right-content .left-con{width:39.9%; border-right:1px solid #e2e2e2; border-radius:4px 4px 0 0; background-color:#fff; float:left; box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;}
+.right-content .right-con{width:60%; border-radius:4px 4px 0 0; background-color:#fff; float:left;}
+.crumb-nav{height:34px; border-bottom:1px solid #e6e6e6;padding:0 10px;background:url(../images/crumb-bg.png) repeat-x;font-family:"\5b8b\4f53";}
+.crumb-nav a:link,.crumb-nav a:visited{line-height:34px;margin:0 4px;}
+.crumb-nav .href0:link,.crumb-nav .href0:visited{color:#555;cursor:default;}
+.crumb-nav .href0:hover,.crumb-nav .href0:active{color:#555;}
+.main-con{padding:5px 14px 0 14px;min-height:350px;_height:350px;}
+.dl-mod{margin-bottom:10px;overflow:hidden;zoom:1;}
+.dl-mod dt{float:left;width:20%;padding-right:3px;line-height:28px;text-align:right;}
+.dl-mod .require{line-height:28px;}
+.dl-mod dd{float:left;line-height:28px;}
+.dl-modnew{margin:20px 0;overflow:hidden;zoom:1;}
+.dl-modnew dt{float:left;width:70px;padding-right:3px;line-height:28px;}
+.select-mod{margin-top:3px;width:100px;height:22px;padding:2px 0;border:1px solid #bbb;line-height:18px;}
+.select-mod option{padding-left:3px;font-family:"\5b8b\4f53";}
+.select-mod2{margin-top:3px;width:180px;height:22px;padding:2px 0;border:1px solid #bbb;line-height:18px;}
+.select-mod2 option{padding-left:3px;font-family:"\5b8b\4f53";}
+.radio-mod input,.checkbox-mod input{float:left;}
+.radio-mod .radio-box,.checkbox-mod .check-box{float:left;margin-top:6px;*margin-top:2px;}
+.radio-mod label,.checkbox-mod label{float:left;padding:0 20px 0 3px;line-height:26px;}
+.radio-mod label,.checkbox-mod2 label{float:left;line-height:26px;}
+.item-select{float:left;}
+.item-check{float:left; width:85px;}
+.radio-mod .item-select label,.checkbox-mod .item-select label{width:84px;padding-right:0;}
+.textarea-mod{width:400px;height:52px;}
+.txt-tip{color:#f00;padding-left:10px;}
+.date-mod .label2,.date-mod2 .label2{float:left;padding:0 6px;line-height:22px;}
+.date-mod .input-box,.date-mod2 .input-box,.date-mod3 .input-box{float:left;position:relative;}
+.date-mod .text,.date-mod2 .text,.date-mod3 .text{_display:block;text-indent:14px;font-size:14px;background:url(../images/date-icon.gif) no-repeat right center;}
+.date-mod .texts{_display:block;text-indent:14px;font-size:14px;background:url(../images/date-icon.gif) no-repeat right center; width:135px; border:1px solid #999; margin-right:5px; height:20px;}
+.date-mod dd{padding-left:1px;}
+.city-icon{background:url(../images/city-icon.gif) no-repeat right center;}
+.aircom-icon{background:url(../images/aplane-icon.jpg) no-repeat right center;}
+.date-mod .text{width:156px;}
+.date-mod2 .text{width:132px;}
+.date-mod3 .text{width:175px;}
+.date-mod .label1,.date-mod2 .label1{float:left;padding:0 10px;line-height:28px;}
+.date-mod3 .label1{float:left;padding:0 23px;line-height:28px;}
+.date-mod s,.date-mod2 s,.date-mod3 s{display:none;width:20px;height:16px;position:absolute;top:6px;right:3px;background:url(../images/sprite-icon.png) no-repeat -265px -51px;}
+.search-btn-box{padding-left:35px;}
+.search-btn-box .btn{margin:0 5px;}
+.operate-box{border-top:1px solid #007cc8;padding:14px 0 0 88px;}
+.operate-box .btn{margin:0 5px;}
+.order-mes-mod h2{padding:6px 0 8px;}
+.order-mes-mod .title{display:inline-block;padding-left:6px;border-left:3px solid #007cc6;font:bold 14px/18px arial,"\5b8b\4f53";}
+.order-mes-mod table{width:100%;border-collapse:collapse;}
+.order-mes-mod th,.order-mes-mod td{border:1px solid #dadada; text-align:center;}
+.order-mes-mod th{padding:6px 0;background-color:#f0f0f0;line-height:20px;}
+.order-mes-mod td{line-height:18px;padding:6px 0;}
+.order-mes-mod .single-line-text th{padding:10px 0;}
+.order-mes-mod .double-line-text th{padding:10px 0;font-weight:bold;}
+.order-mes-mod .policy-remark{font-size:12px;text-align:left;padding-left:20px;}
+.order-mes-mod .passenger-amount,.order-mes-mod .ticket-kinds{font-weight:normal;padding-left:30px;line-height:18px;}
+.order-mes-mod .order-total{text-align:left;padding-left:20px;}
+.friendly-tips{border:1px solid #fad5a7;padding:10px 14px;background-color:#ffffeb;}
+.friendly-tips h4{padding-bottom:10px;font:bold 14px/20px arial,"\5b8b\4f53";color:#f60;}
+.table-mod{width:100%;}
+.table-mod th,.table-mod td{padding:3px 0;}
+.order-num-col{width:160px;}
+.pas-name-col{width:110px;}
+.pas-name-col2{width:200px;}
+.oper-name-col{width:120px;}
+.operate-col{width:80px;}
+.pnr-code-col{width:160px;}
+.flight-mes-col{width:220px;}
+.operate-mes-col{width:120px;}
+.order-status-col{width:130px;}
+.order-status-col2{width:90px;}
+.date-col,.flight-class-col{width:100px;}
+.time-col,.flight-num-col{width:120px;}
+.serial-col,.checkbox-col{width:40px;}
+.remark-col{width:60%;}
+.tab-tit-mod{height:32px;border-bottom:1px solid #0463a7;}
+.tab-tit-mod li{float:left;height:32px;margin:0 5px;text-align:center;_display:inline;}
+.tab-tit-mod a:link,.tab-tit-mod li a:visited{display:block;padding-right:25px;font-weight:bold;line-height:32px;color:#555;background:url(../images/tab-normal-bg.png) no-repeat right top;}
+.tab-tit-mod a:hover,.tab-tit-mod a:active{color:#0463a7;text-decoration:none;}
+.tab-tit-mod span{display:block;float:left;padding-right:25px;height:32px;background:url(../images/tab-normal-bg.png) no-repeat left top;}
+.tab-tit-mod .current{position:relative;top:1px;border-bottom:1px solid #fff;height:32px;}
+.tab-tit-mod .current a:link,.tab-tit-mod .current a:visited,.tab-tit-mod .current a:hover,.tab-tit-mod .current a:active{background-image:url(../images/tab-active-bg.png);color:#0463a7;font-weight:bold;}
+.tab-tit-mod .current span{background-image:url(../images/tab-active-bg.png);}
+.tab-list{display:none;overflow:hidden;zoom:1;}
+.tab-mod .current-tab{display:block;}
+.tab-mod .search-wrap-mod{padding:0;border:none;}
+.tab-con-mod{padding:11px 0 4px;border:1px solid #dadada;border-top:0;}
+.border-box{padding:11px 0 4px;border:1px solid #dadada;overflow:hidden;zoom:1;}
+.warn-tip{padding-left:30px;color:#f00;}
+.warn-tip .weak-icon{float:left;margin:6px 5px 0 0;width:16px;height:16px;background:url(../images/sprite-icon.png) no-repeat -269px -69px;}
+/*通知首页*/
+.notice-tab .tab-con-mod{min-height:200px;_height:200px;}
+.nodata{padding:40px 0 10px 32%;line-height:22px;color:#555;}
+.nodata span{float:left;width:22px;height:22px;background:url(../images/sprite-icon.png) no-repeat -263px -90px;padding-left:10px;}
+.notice-list{margin-bottom:10px;}
+.notice-list .con-list{padding:4px 10px 0;}
+.notice-list .con-list li{position:relative;height:24px;padding-left:20px;}
+.notice-list .con-list a:link,.notice-list .con-list a:visited{padding:6px 6px 6px 0;color:#333;font:normal 12px/24px arial,"\5b8b\4f53";}
+.notice-list .con-list a:hover,.notice-list .con-list a:active{color:#0463a7;}
+.notice-list .con-list span{padding-right:30px;color:#777;font:normal 11px/24px arial;}
+.notice-list .new span{background:url(../images/icon-new.gif) no-repeat right 1px;}
+.notice-list li b{position:absolute;top:9px;left:10px;display:block;width:6px;height:12px;background:url(../images/sprite-icon.png) no-repeat -225px 0;}
+.notice-con-wrap{position:relative;margin-bottom:20px;padding:10px 10px 30px;}
+.notice-con-wrap h3{text-align:center;color:#353535;font:bold 16px/36px "Microsoft yahei","\5b8b\4f53";position:relative;}
+.times{border-bottom:1px dotted #999;padding-bottom:10px;margin:0 10px 20px;text-align:center;}
+.notice-con-wrap .times span{text-align:center;color:#999;font:normal 12px/22px arial;}
+.notice-con p{text-indent:2em;line-height:22px;padding:0 20px 10px;text-align:left;}	
+.return-notice{position:absolute;top:11px;left:20px;line-height:36px;}
+.return-notice span{padding-right:3px;font-family:"\5b8b\4f53";font-weight:bold;color:#0463a7;}
+/*政策管理*/
+.city-select,.file-select{padding:1px 0;}
+.city-select .text{color:#333;}
+.city-select .btn2,.file-select .btn2{margin:-1px 10px 0;}
+.flight-num .txt-tip{color:#999;}
+.suit-timetable .timetable-list{width:636px;}
+.flightclass-list{width:800px;}
+.remarks .select-mod{width:500px;}
+.sperate-row1{border-bottom:1px solid #dadada;padding-bottom:9px;}
+.sperate-row2{padding-top:9px;}
+.sperate-row3{border-top:1px solid #dadada;padding-top:9px;}
+.search-wrap-mod{padding:11px 0 4px;border:1px solid #dadada;}
+.search-wrap-mod dl{padding-right:10px;}
+.search-wrap-mod .select-mod{width:140px;}
+.policy-change-wrap .search-wrap-mod .radio-mod{width:140px;}
+.policy-change-wrap .search-wrap-mod .policy-kinds{padding-right:0;}
+.policy-revise-wrap .tip1{padding:10px;color:#f60;}
+.policy-revise-wrap h3{padding:10px;background-color:#efefef;}
+.policy-revise-wrap .col1{width:10%;padding-left:50px;border-bottom:1px solid #dadada;height:45px}
+.policy-revise-wrap .col2{width:10%;padding-left:30px;border-bottom:1px solid #dadada;}
+.policy-revise-wrap .col3{width:10%;padding-left:30px;border-bottom:1px solid #dadada;}
+.policy-revise-wrap .col4{border-bottom:1px solid #dadada;}
+.policy-revise-wrap .select-mod{width:350px;}
+.select-edit-box{padding-right:10px;overflow:hidden;zoom:1;}
+.select-edit-box label{padding:0 4px;}
+.select-edit-box .text{width:70px;}
+.select-edit-box .select-mod{width:70px;}
+.select-edit-box.radio-mod .radio-box2{margin-top:6px;*margin-top:2px;padding-left:10px;}
+.policy-revise-wrap .policy-remark textarea{width:300px;margin-right:10px;_display:inline;}
+.policy-revise-wrap .policy-remark .checkbox-mod{padding-top:30px;}
+.policy-revise-wrap .tip2{padding-top:3px;line-height:24px;}
+.rebate-point{width:80px;}
+.rebate-point .select-edit-box{width:60px;margin:0 auto;padding:4px 0;}
+.rebate-point .text{width:30px;}
+.policy-maintain-wrap .date-mod3 .input-box{width:130px;float:none;overflow:hidden;zoom:1;margin:6px auto 0;}
+.new-policy{background-color:#e7ecf0;}
+.policy-maintain-wrap .oper-btn-box{padding:10px 0;}
+/*出票订单管理*/
+.tickets-order-view-wrap .tab-tit-mod span,.tickets-order-view-wrap .tab-tit-mod a{padding-right:10px;}
+.tickets-order-view-wrap .tab-con-mod .order-mes-mod{padding:4px 14px 0;}
+.tickets-endorse-wrap td.flight-mes{width:150px;text-align:left;padding-left:30px;}
+.order-kinds{overflow:hidden;zoom:1;}
+.order-kinds span{float:left;_display:inline;width:15px;height:15px;margin-left:10px;background:url(../images/order-kinds.gif) no-repeat;}
+.order-kinds .urgency-icon{background-position:0 0;}
+.order-kinds .new-icon{background-position:0 -15px;}
+.order-kinds .team-icon{background-position:0 -30px;}
+.order-kinds .overtime-icon{background-position:0 -45px;}
+.order-kinds .upgrade-icon{background-position:0 -60px;}
+.order-kinds .changeOpen-icon{background-position:0 -76px;}
+.order-kinds .particular-icon{background-position:0 -90px;}
+.order-kinds .auto-icon{background-position:0 -105px;}
+.order-kinds .change-icon{background-position:0 -120px;}
+.order-kinds .refund-icon{background-position:0 -135px;}
+.order-kinds .carry-icon{background-position:0 -150px;}
+.ticket-modify-pop{width:600px;margin:0 auto;padding-top:20px;}
+.ticket-modify-pop .text{float:none;}
+/*财务管理*/
+.disabled-style:link,.disabled-style:visited,.disabled-style:hover,.disabled-style:active{color:#999;cursor:default;}
+.statement-list{padding-bottom:14px;overflow-x:scroll;overflow-y:hidden;width:100%; text-align:center;}
+.statement-list td{white-space:nowrap;padding:6px;}
+.order-mes-mod .statement-list .single-line-text th{white-space:nowrap;padding:10px 20px;}
+/*用户管理*/
+.base-mes{padding:0 60px;}
+.com-mes-settings-wrap .view-more{padding-left:20px;}
+.order-mes-mod h2 a:link,.order-mes-mod h2 a:visited{color:#f60;line-height:18px;}
+.order-mes-mod h2 a:hover,.order-mes-mod h2 a:active{color:#f60;text-decoration:underline;}
+.order-mes-mod h2 .blue-link:link,.order-mes-mod h2 .blue-link:visited{color:#0463a7;line-height:18px;}
+.order-mes-mod h2 .blue-link:hover,.order-mes-mod h2 .blue-link:active{color:#0463a7;text-decoration:underline;}
+.com-mes-settings-wrap .view-more a:link,.com-mes-settings-wrap .view-more a:visited{color:#f60;line-height:30px;font-family:"\5b8b\4f53";}
+.com-mes-settings-wrap .view-more a:hover,.com-mes-settings-wrap .view-more a:active{color:#f60;text-decoration:underline;}
+.com-mes-settings-wrap  .more-base-mes{display:none;border-top:1px solid #dadada;padding-top:14px;}
+.com-mes-settings-wrap table{table-layout:fixed;border:1px solid #dadada;}
+.com-mes-settings-wrap th{border-width:0 0 1px;}
+.com-mes-settings-wrap td{border:none;padding:9px 0;}
+.com-mes-settings-wrap .border-b td{border-bottom:1px solid #dadada;}
+.dd-tip{width:140px;}
+.com-position select{width:140px;color:#999;}
+.autosell-setting-con .tab-con-mod{padding:20px 14px 4px;}
+.hd-mod{border:1px solid #dadada;border-radius:4px 4px 0 0;}
+.hd-mod h3{background:url(../images/tit-bg.jpg) repeat-x;height:36px;font:bold 14px/36px arial,"\5b8b\4f53";padding-left:10px;border-bottom:1px solid #dedede;}
+.pay-account-settings .account-text{width:260px;}
+.pay-account-settings .hd-mod dl,.unattended-time-settings .hd-mod dl{padding-left:50px;}
+.unattended-time-settings .hd-mod dl{margin-top:20px;}
+.unattended-time-settings .text{width:120px;}
+.sell-rule-settings .search-wrap-mod{padding:11px 0 4px;}
+.sell-rule-settings .status-col{width:60px;}
+.sell-rule-settings .operate-col{width:70px;}
+.autosell-setting-con{position:relative;}
+.intro-con{position:absolute;top:4px;right:0;}
+.intro-con a:link,.intro-con a:visited{margin:0 10px;color:#f00;text-decoration:underline;}
+.intro-con a:hover,.intro-con a:active{color:#f00;text-decoration:none;}
+.autosell-setting-con .oper-btn-box{padding:10px 0;}
+/*订单明细*/
+.pnl-info-wrap{width:100%;}
+.pnl-info{height:34px;border:1px solid #dadada;line-height:34px;}
+.pnl-info a:link,.pnl-info a:visited{display:inline-block;line-height:34px;color:#0463a7;}
+.pnl-info a:hover,.pnl-info a:active{text-decoration:underline;color:#0463a7;}
+.lock-order span{color:#0463a7;}
+.lock-order b{color:#333;}
+.lock-order{margin-left:10px;}
+.lock-order img{float:left;margin-top:2px;}
+.pnl-info .lock-order img{margin-top:10px;*margin-top:3px;}
+.flight-message{margin-top:10px;}
+.flight-message td{padding-left:20px;text-align:left;}
+.flight-message .air-mes span{display:inline-block;line-height:28px;}
+.airComsDiv{ padding-left:45px;}
+#airComsTbody .airComsTd{text-align:center;}
+.flight-message .air-mes strong{padding-right:30px;font-family:arial,"\5b8b\4f53";}
+.flight-message .air-mes span strong{font-size:14px;color:#000;}
+.flight-message .flight-logo{line-height:28px;display:inline-block;padding-left:26px;}
+.flight-logo-new{line-height:22px;display:inline-block;padding-left:25px; margin-left:3px;}
+.flight-logo-mu{background:url(../images/flight-logo/MU.gif) no-repeat;}/*东方航空*/
+.flight-logo-ca{background:url(../images/flight-logo/CA.gif) no-repeat;}/*中国国航*/
+.flight-logo-cz{background:url(../images/flight-logo/CZ.gif) no-repeat;}/*南方航空*/
+.flight-logo-fm{background:url(../images/flight-logo/FM.gif) no-repeat;}/*上海航空*/
+.flight-logo-zh{background:url(../images/flight-logo/ZH.gif) no-repeat;}/*深圳航空*/
+.flight-logo-mf{background:url(../images/flight-logo/MF.gif) no-repeat;}/*厦门航空*/
+.flight-logo-hu{background:url(../images/flight-logo/HU.gif) no-repeat;}/*海南航空*/
+.flight-logo-8l{background:url(../images/flight-logo/8L.gif) no-repeat;}/*祥鹏航空*/
+.flight-logo-3u{background:url(../images/flight-logo/3U.gif) no-repeat;}/*四川航空*/
+.flight-logo-sc{background:url(../images/flight-logo/SC.gif) no-repeat;}/*山东航空*/
+.flight-logo-ho{background:url(../images/flight-logo/HO.gif) no-repeat;}/*吉祥航空*/
+.flight-logo-bk{background:url(../images/flight-logo/BK.gif) no-repeat;}/*奥凯航空*/
+.flight-logo-eu{background:url(../images/flight-logo/EU.gif) no-repeat;}/*成都航空*/
+.flight-logo-g5{background:url(../images/flight-logo/G5.gif) no-repeat;}/*华夏航空*/
+.flight-logo-kn{background:url(../images/flight-logo/KN.gif) no-repeat;}/*联合航空*/
+.flight-logo-nx{background:url(../images/flight-logo/NX.gif) no-repeat;}/*澳门航空*/
+.flight-logo-cn{background:url(../images/flight-logo/CN.gif) no-repeat;}/*大新华航空*/
+.flight-logo-gs{background:url(../images/flight-logo/GS.gif) no-repeat;}/*天津航空*/
+.flight-logo-ns{background:url(../images/flight-logo/NS.gif) no-repeat;}/*河北航空*/
+.flight-logo-jd{background:url(../images/flight-logo/JD.gif) no-repeat;}/*首都航空*/
+.flight-logo-jr{background:url(../images/flight-logo/JR.gif) no-repeat;}/*幸福航空*/
+.flight-logo-ky{background:url(../images/flight-logo/KY.gif) no-repeat;}/*昆明航空*/
+.flight-logo-tv{background:url(../images/flight-logo/TV.gif) no-repeat;}/*西藏航空*/
+.flight-logo-hx{background:url(../images/flight-logo/HX.gif) no-repeat;}/*香港航空*/
+.flight-logo-uq{background:url(../images/flight-logo/UQ.gif) no-repeat;}/*新疆航空*/
+.flight-logo-oq{background:url(../images/flight-logo/CQ.gif) no-repeat;}/*重庆航空*/
+.flight-logo-9c{background:url(../images/flight-logo/9C.gif) no-repeat;}/*春秋航空*/
+.flight-logo-gj{background:url(../images/flight-logo/GJ.gif) no-repeat;}/*长龙航空*/
+.flight-logo-dz{background:url(../images/flight-logo/DZ.gif) no-repeat;}/*东海航空*/
+.flight-logo-yi{background:url(../images/flight-logo/YI.gif) no-repeat;}/*英安航空*/
+.flight-logo-qw{background:url(../images/flight-logo/QW.gif) no-repeat;}/*青岛航空*/
+.flight-logo-dr{background:url(../images/flight-logo/DR.gif) no-repeat;}/*瑞丽航空*/
+.flight-logo-pn{background:url(../images/flight-logo/PN.gif) no-repeat;}/*西部航空*/
+.flight-logo-vd{background:url(../images/flight-logo/VD.gif) no-repeat;}/*鲲鹏航空*/
+.flight-logo-8c{background:url(../images/flight-logo/8C.gif) no-repeat;}/**/
+.flight-logo-cq{background:url(../images/flight-logo/CQ.gif) no-repeat;}/**/
+.flight-logo-cu{background:url(../images/flight-logo/CU.gif) no-repeat;}/**/
+.flight-logo-km{background:url(../images/flight-logo/KM.gif) no-repeat;}/**/
+.flight-logo-ua{background:url(../images/flight-logo/UA.gif) no-repeat;}/**/
+.flight-logo-fu{background:url(../images/flight-logo/FU.gif) no-repeat;}/*福州航空*/
+
+.paytype-message{margin-top:10px;}
+.paytype-message .paytype-logo{line-height:28px;display:inline-block;padding-left:26px;}
+.paytype-logo-zhi{background:url(../images/pay-logo/zhi.gif) no-repeat;}/*支付宝*/
+.paytype-logo-cai{background:url(../images/pay-logo/cai.gif) no-repeat;}/*财付通*/
+
+.flight-message .date{font-size:14px;font-weight:bold;padding-right:20px;}
+.flight-message .start-mes{padding-right:10px;}
+.flight-message .end-mes{padding-left:10px;}
+.flight-message .start-mes .city,.flight-message .end-mes .city{font-size:14px;font-weight:bold;color:#f00;}
+.flight-message .start-mes .city i,.flight-message .end-mes .city i{font-style:normal;color:#000;}
+.flight-message .start-mes .time,.flight-message .end-mes .time{font-size:14px;padding-right:6px;}
+.review-refund table,.add-remark table{border:1px solid #dadada;}
+.review-refund td,.add-remark td{text-align:left;border:none;border-bottom:1px solid #ddd;padding:10px 0;}
+.review-refund .tit,.add-remark .tit,.textarea-wrap .tit{text-align:right;width:60px;}
+.review-refund .con,.add-remark .con,.textarea-wrap .con{padding-left:10px;width:620px;}
+.review-refund .con textarea,.add-remark .con textarea,.textarea-wrap .textarea{float:left;width:394px;height:26px;padding:3px;border:1px solid #bbb;}
+.textarea-wrap{overflow:hidden;zoom:1;}
+.textarea-wrap .tit{float:left;line-height:34px;}
+.textarea-wrap .con{float:left;}
+.textarea-wrap .btn-group3{float:left;}
+.refund-mes span{padding-left:10px;}
+/*改签明细*/
+.order-mes-mod h2 .lock-order:link,.order-mes-mod h2 .lock-order:visited{display:inline-block;color:#0463a7;}
+.order-mes-mod h2 .lock-order:hover,.order-mes-mod h2 .lock-order:active{text-decoration:underline;color:#0463a7;}
+/*各类弹窗*/
+.pop-wrap{padding:14px;}
+.select-city-wrap{width:660px;padding:0 10px;margin:0 auto;background-color:#fff;}
+.select-tip{padding:4px 0 10px;}
+.select-tip h3{font-size:14px;font-weight:bold;line-height:30px;}
+.select-tip p{padding-left:20px;color:#f00;line-height:30px;}
+.select-tip a{margin-left:6px;line-height:30px;}
+.select-letter .select-all{padding-top:1px;}
+.select-letter{padding-bottom:10px;}
+.select-letter a{margin-left:6px;font-weight:bold;color:#f80;font-size:14px;}
+.select-letter label{padding-left:4px;}
+.selected-letter a{font-size:14px;color:#f80;}
+.select-city-wrap li{float:left;width:90px;}
+.select-city-wrap li label{float:left;padding-left:4px;line-height:26px;}
+.check-box{float:left;margin-top:6px;*margin-top:2px;}
+.selected-city{border:1px solid #0463a7;margin:10px 0;padding-bottom:10px;}
+.selected-city p{padding-left:10px;line-height:30px;background-color:#edf6fb;}
+.selected-city .city-list{padding:10px 10px 0;}
+.edit-contact-pop{padding-left:30px;width:380px;margin:0 auto;}
+.edit-account-pop{padding-left:30px;width:500px;margin:0 auto;}
+.pop-wrap .operate-box2 {margin-top:20px;padding-left:98px;}
+.edit-worktime-pop{padding-left:10px;width:465px;margin:0 auto;}
+.edit-staff-pop,.add-staff-pop{padding-left:30px;width:350px;margin:0 auto;}
+.edit-staff-pop .operate-box2,.add-staff-pop .operate-box2{padding-left:60px;}
+.add-staff-pop{width:520px;}
+.staff-role dd{width:300px;}
+.staff-role .checkbox-mod{width:80px;white-space:nowrap;}
+.check-name{margin-top:-1px;padding-left:20px;}
+.revise-account-pop{padding-left:50px;width:300px;margin:0 auto;}
+.revise-account-pop .operate-box2{padding-left:40px;}
+.add-rules-pop{padding-left:40px;width:660px;margin:0 auto;}
+.add-rules-pop .select-mod{width:140px;}
+.fail-reason-pop{width:465px;margin:0 auto;padding-top:10px;}
+.fail-reason-pop .select-mod{width:200px;}
+.fail-reason-pop textarea,.fail-reason-pop .operate-box2{margin-top:10px;}
+.fail-reason-pop textarea{width:350px;}
+.notice-pop{width:680px;height:475px;margin:0 auto;padding:10px;background-color:#fff;border:2px solid #0463a7;}
+.notice-con-pop{width:458px;height:398px;padding:14px;border:1px solid #ccc;overflow-y:auto;}
+.notice-con-pop h2{padding-bottom:20px;text-align:center;font:bold 20px/40px "Microsoft yahei";}
+.notice-con-pop .con{text-indent:2em;}
+.notice-con-pop .tit,.notice-con-pop .con p{padding-bottom:10px;}
+.notice-con-pop .announce-mes{padding-top:20px;float:right;text-align:center;}
+.notice-list-pop{width:180px;height:426px;border:1px solid #ccc;overflow-y:auto;}
+.notice-list-pop a:link,.notice-list-pop a:visited{display:block;line-height:20px; margin-bottom:10px;padding:0 10px;}
+.notice-list-pop .current:link,.notice-list-pop .current:visited{background-color:#0463a7;color:#fff;}
+.confirm-box{padding-top:14px;text-align:center;}
+.add-b2baccount-pop,.edit-b2baccount-pop{width:410px;padding-left:60px;margin:0 auto;}
+.add-accountrelation-pop{width:380px;padding-left:40px;margin:0 auto;}
+/*分页代码 start*/
+.pagelist{text-align:right;}
+.pagelist span,.pagelist a{float:left;height:18px;padding:3px 8px;margin-right:3px;border-radius:3px;background-color:#fff;border:1px solid #ccc;font-size:14px;line-height:18px;}
+.pagelist span{cursor:pointer;}
+.pagelist a:link,.pagelist a:visited{color:#333;}
+.pagelist a:hover,.pagelist a:active{color:#0463a7;border-color:#0463a7;}
+.pagelist span.disabled{color:#ccc;cursor:default;}
+.pagelist .current:link,.pagelist .current:visited,.pagelist .current:hover,.pagelist .current:active{background-color:#0463a7;color:#fff;}
+.pagelist .goto-label{float:left;margin:2px 5px 0 0;width:32px;height:20px;padding:1px;border-width:1px;border-style:solid;border-color:#aaa #ddd #ddd #aaa;padding:2px 0px;text-align:center;}
+.pagelist .select-mod{float:left;margin:2px 5px 0 0;width:38px;height:25px;padding:1px;border-width:1px;border-style:solid;border-color:#aaa #ddd #ddd #aaa;padding:2px 0px;text-align:center;}
+.pagelist label{float:left;padding:0 8px 0 4px;color:#666;line-height:28px;}
+.pagelist .goto-btn{float:left;width:52px;height:26px;padding:0;margin:1px 5px 0 0;background-position:-152px -211px;line-height:26px;color:#333;font-weight:normal;}
+/*分页代码 end*/
+/*****right-content end*****/
+/*错误提示 start*/
+.error-tip{width:338px;min-height:300px;padding:50px 0 50px 250px;text-align:center;}
+.error-tip .btn{margin:10px auto 0;width:98px;height:32px;background-position:0 -282px;}
+/*****footer start*****/
+.footer{border-top:2px solid #50A0DD;padding:10px 0 20px;width:100%;margin:0 auto;font:normal 12px/24px arial,"\5b8b\4f53";}
+.footer-nav{margin:0 auto;width:980px;text-align:center;}
+.footer a:link,.footer a:visited{margin:0 7px;color:#5a5a5a;}
+.footer a:hover,.footer a:active{color:#444;text-decoration:underline;}
+.footer-nav b{font-weight:400;color:#d3d3d3;}
+.copyright{color:#5a5a5a;text-align:center;line-height:18px;}
+/*****footer end*****/

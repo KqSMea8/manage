@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>京东国内机票运价管理系统-基础数据维护</title>
+    #parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+        <div class="crumb-nav">
+            <a href="javascript:goHomepage();">首页</a>&gt;
+            <a href="javascript:void(0);" class="href0">NFD运价管理</a>&gt;
+            <a href="javascript:void(0);" class="href0">NFD运价</a>
+        </div>
+        <form id="NfdCarryPriceA_searchForm" action="${staticPath}/nfd/nfdCarryPriceInfo/nfdCarryPriceInfoList"
+              method="post">
+            <!-- 此处用于搜索时,所传递的参数 结束 -->
+            <div class="main-con tickets-order-view-wrap">
+                <!-- 搜索内容 start -->
+                <div class="search-wrap-mod mb oz">
+
+                    <dl class="dl-mod fl">
+                        <dt>航司：</dt>
+                        <dd>
+                            <select class="text text3" name="airWays">
+                                <option value="">全部</option>
+                                #foreach($air in ${company})
+                                    <option value="${air.code}" (#if($!{air.code}== $!{queryBean.airWays}) selected #end)>
+                                            ${air.code}—${air.name}</option>
+                                #end
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>出发机场：</dt>
+                        <dd>
+                            <select class="text text3" name="depCode">
+                                <option value="">全部</option>
+                                #foreach($air in ${airport})
+                                    <option value="${air.code}" (#if($!{air.code}== $!{queryBean.depCode}) selected #end)>
+                                    ${air.code}-${air.name}</option>
+                                #end
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>到达机场：</dt>
+                        <dd>
+                            <select class="text text3" name="arrCode">
+                                <option value="">全部</option>
+                                #foreach($air in ${airport})
+                                    <option value="${air.code}" (#if($!{air.code}== $!{queryBean.arrCode}) selected #end)>
+                                            ${air.code}-${air.name}</option>
+                                #end
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>舱位：</dt>
+                        <dd>
+                            <input type="text" class="text text3" name="seat" value="$!{queryBean.seat}"/>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>状态：</dt>
+                        <dd>
+                            <select class="text text3" name="state">
+                                <option value='' (#if($!{queryBean.state}== '') selected #end)>全部</option>
+                                <option value='0' (#if($!{queryBean.state}== '0') selected #end)>禁用</option>
+                                <option value='1' (#if($!{queryBean.state}== '1') selected #end)>启用</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>运价类型：</dt>
+                        <dd>
+                            <select class="text text3" name="airlinePopularType">
+                                <option value='' (#if($!{queryBean.airlinePopularType}== '') selected #end)>全部</option>
+                                <option value='0' (#if($!{queryBean.airlinePopularType}== '0') selected #end)>NFD运价</option>
+                                <option value='1' (#if($!{queryBean.airlinePopularType}== '1') selected #end)>PAT运价</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <div class="search-btn-box fl" style="padding-left:88px;">
+                        <input type="button" id="query" class="btn btn2" onclick="queryNfdCarryPriceInfo()" value="查询"/>
+                        <input type="button" class="btn btn2" onclick="addNfdCarryPriceInfo()" value="新增"/>
+                        <input type="button" class="btn btn2" onclick="javascript:isShow()" value="批量启用" />
+                        <input type="button" class="btn btn2" onclick="javascript:isHide()" value="批量停用" />
+                    </div>
+
+                    <div class="spacer"></div>
+                </div>
+                <!-- 搜索内容 end -->
+
+                <!-- 搜索结果 start -->
+                <div class="order-mes-mod mb">
+                    <table>
+                        <thead>
+                        <tr class="single-line-text">
+                            <th style="width:2%;"><input type="checkbox" onclick="checkBox('nfdId',this.checked)"/></th>
+                            <th style="width:3%;">运价类型</th>
+                            <th style="width:8%;">航空公司</th>
+                            <th style="width:3%;">舱位</th>
+                            <th style="width:3%;">运价级别(政策码)</th>
+                            <th style="width:3%;">对应舱位</th>
+                            <th style="width:8%">出发城市</th>
+                            <th style="width:8%;">到达城市</th>
+                            <th style="width:5%;">舱位类型</th>
+                            <th style="width:3%;">价格</th>
+                            <th style="width:3%;">里程</th>
+                            <th style="width:3%;">状态</th>
+                            <th style="width:7%;">适用航班</th>
+                            <th style="width:7%;">有效期</th>
+                            <th style="width:7%;">适用星期</th>
+                            <th style="width:3%;">最晚预定时间</th>
+                            <th style="width:8%;">去程时刻限制</th>
+                            <th style="width:6%;">创建时间</th>
+                            <th style="width:6%;">更新时间</th>
+                            <th style="width:4%;">操作人</th>
+                            <th style="width:5%;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #if($!{pageInfo.list})
+                            #foreach($nfd in ${pageInfo.list})
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" value="$!{nfd.id}" name="nfdId">
+                                    </td>
+                                    <td>
+                                         #if($!{nfd.airlinePopularType}==0)NFD#end
+                                         #if($!{nfd.airlinePopularType}==1)PAT#end
+                                    </td>
+                                    <td>
+                                        #foreach($comp in ${company})
+                                            #if($!{nfd.airWays} == $!{comp.code})
+                                                $!{comp.code}—$!{comp.name}
+                                            #end
+                                        #end
+                                    </td>
+                                    <td>
+                                            $!{nfd.seat}
+                                    </td>
+                                    <td>$!{nfd.priceLevel}</td>
+                                    <td>$!{nfd.priceLevelSeat}</td>
+                                    <td class="text-left">
+                                        #foreach($port in ${airport})
+                                            #if($!{nfd.depCode} == $!{port.code})
+                                                $!{port.code}—$!{port.name}
+                                            #end
+                                        #end
+                                    </td>
+                                    <td class="text-left">
+                                        #foreach($port in ${airport})
+                                            #if($!{nfd.arrCode} == $!{port.code})
+                                                $!{port.code}—$!{port.name}
+                                            #end
+                                        #end
+                                    </td>
+                                    <td>
+                                        #if($!{nfd.seatType}==1)经济舱#end
+                                        #if($!{nfd.seatType}==2)商务舱#end
+                                        #if($!{nfd.seatType}==3)头等舱#end
+                                        #if($!{nfd.seatType}==4)高端经济舱#end
+                                        #if($!{nfd.seatType}==5)超级经济舱#end
+                                        #if($!{nfd.seatType}==6)高级经济舱#end
+                                        #if($!{nfd.seatType}==7)公务舱#end
+                                        #if($!{nfd.seatType}==8)超值经济舱#end
+                                        #if($!{nfd.seatType}==9)超值头等舱#end
+                                        #if($!{nfd.seatType}==10)乐享经济舱#end
+                                        #if($!{nfd.seatType}==11)明珠经济舱#end
+                                        #if($!{nfd.seatType}==12)舒适经济舱#end
+                                        #if($!{nfd.seatType}==13)特价头等舱#end
+                                        #if($!{nfd.seatType}==14)优享头等舱#end
+                                        #if($!{nfd.seatType}==50)全价经济舱#end
+                                        #if($!{nfd.seatType}==51)全价头等#end
+                                    </td>
+                                    <td>
+                                        #if($!{nfd.carryPrice})
+                                            <span>
+                                            	$number.format("#",$!{nfd.carryPrice})
+                                            </span>
+                                        #end
+                                    </td>
+                                    <td>$!{nfd.distance}</td>
+                                    <td>
+                                        #if($!{nfd.state}=='0')禁用#end
+                                        #if($!{nfd.state}=='1')启用#end
+                                    </td>
+                                    <td>$!{nfd.includeFlightNo}</td>
+                                    <td>
+                                        $!date.format('yyyy-MM-dd',$!{nfd.takeOffEffectDate})
+                                        至
+                                        $!date.format('yyyy-MM-dd',$!{nfd.takeOffExpireDate})
+                                    </td>
+                                    <td>
+                                            $!{nfd.schedules}
+                                    </td>
+                                    <td>$!{nfd.advanceBiggestDay}天</td>
+                                    <td>$!{nfd.flightTimeLimit}</td>
+                                    <td>
+                                        $!date.format('yyyy-MM-dd HH:mm',$!{nfd.createTime})
+                                    </td>
+                                    <td>
+                                        $!date.format('yyyy-MM-dd HH:mm',$!{nfd.updateTime})
+                                    </td>
+                                    <td>$!{nfd.operator}</td>
+                                    <td>
+                                        <a href="javascript:void(0);"
+                                           onclick="updateNfdCarryPriceInfo('${nfd.id}')">【修改】</a><br/>
+                                    </td>
+                                </tr>
+                            #end
+                        #end
+                        #if($!{pageInfo.list.size()} == 0)
+                            <tr>
+                                <td colspan="21">
+                                    <label style="color: gray;">很抱歉，没有找到相关记录！</label>
+                                </td>
+                            </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 搜索结果 end -->
+                <!-- 分页 start -->
+                <div class="pagelist mb oz">
+                    #if($!{pageInfo.list})
+                        #parse('/comm/pagination.vm')
+                    #end
+                </div>
+                <!-- 分页 end -->
+            </div>
+        </form>
+    </div>
+
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+    //查询
+    function queryNfdCarryPriceInfo() {
+        formToTrim("NfdCarryPriceA_searchForm");
+        $("#NfdCarryPriceA_searchForm").submit();
+    }
+    //带有分页信息查询
+    function finishEditqueryNfdCarryPriceA() {
+        var pageIndex1 = document.createElement("input");
+        pageIndex1.setAttribute("type", "hiden");
+        pageIndex1.setAttribute("value", "${pageIndex}");
+        pageIndex1.setAttribute("name", "pageIndex");
+        $(".spacer").append(pageIndex1);
+
+        var pageSize1 = document.createElement("input");
+        pageSize1.setAttribute("type", "hiden");
+        pageSize1.setAttribute("value", "${pageSize}");
+        pageSize1.setAttribute("name", "pageSize");
+        $(".spacer").append(pageIndex1);
+
+        formToTrim("NfdCarryPriceA_searchForm");
+        $("#NfdCarryPriceA_searchForm").submit();
+
+    }
+    //新增
+    function addNfdCarryPriceInfo() {
+        showDialog("dialog", "新增nfd运价信息", "${staticPath}/nfd/nfdCarryPriceInfo/toAddNfdCarryPriceInfo", 700, 750);
+    }
+    //修改
+    function updateNfdCarryPriceInfo(luggageId) {
+        showDialog("dialog", "修改nfd运价信息", "${staticPath}/nfd/nfdCarryPriceInfo/toUpdateNfdCarryPriceInfo?id=" + luggageId, 700, 750);
+    }
+    //获取表单对象
+    function getTableForm() {
+        return document.getElementById('NfdCarryPriceA_searchForm');
+    }
+    //复选框勾选数量
+    function checkedCount(name) {
+        var batchChecks = document.getElementsByName(name);
+        var count = 0;
+        for (var i = 0;i < batchChecks.length; i++) {
+            if (batchChecks[i].checked) {
+                count++;
+            }
+        }
+        return count;
+    }
+     //获取选中的id
+    function checkIds(){
+        var nfdIds = "";
+        $.each($("input[name='nfdId']:checked"),function(){
+            nfdIds = nfdIds + $(this).val() + ",";
+        });
+        nfdIds = nfdIds.substring(0, nfdIds.length-1);
+        return nfdIds;
+    }
+    //批量启用
+    function isShow() {
+        var nfdIds = checkIds();
+        if(checkedCount('nfdId')<=0) {
+            alert("请至少选择一个!");
+            return;
+        }
+        if(!confirm("确定批量启用吗?")) {
+            return;
+        }
+
+        $.ajax({
+            url: "${staticPath}/nfd/nfdCarryPriceInfo/isShow",
+            data: {"nfdIds" : nfdIds},
+            dataType:"json",
+            success: function(data){
+                if(data == 1){
+                    alert("批量启用成功");
+                    queryNfdCarryPriceInfo();
+                }else{
+                    alert("批量启用失败");
+                }
+            }
+        });
+    }
+    //批量停用
+    function isHide() {
+        var nfdIds = checkIds();
+        if(checkedCount('nfdId')<=0) {
+            alert("请至少选择一个!");
+            return;
+        }
+        if(!confirm("确定批量启用吗?")) {
+            return;
+        }
+
+        $.ajax({
+            url: "${staticPath}/nfd/nfdCarryPriceInfo/isHide",
+            data: {"nfdIds" : nfdIds},
+            dataType:"json",
+            success: function(data){
+                if(data == 1){
+                    alert("批量停用成功");
+                    queryNfdCarryPriceInfo();
+                }else{
+                    alert("批量停用失败");
+                }
+            }
+        });
+
+    }
+
+    //批量勾选复选按钮
+    function checkBox(name,checked){
+        $("input[name='"+name+"']").attr("checked",checked);
+    }
+</script>
+</body>
+</html>
+

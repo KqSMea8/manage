@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!-- 启用spring mvc 注解-->
+    <mvc:annotation-driven/>
+
+    <mvc:resources location="/common/" mapping="/common/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
+    <mvc:resources location="/css/" mapping="/css/**"/>
+
+    <!-- 使Spring支持自动检测组件，如注解的Controller -->
+    <!-- 扫描所有的controller 但是不扫描service -->
+    <context:component-scan base-package="com.flight.carryprice.quartz.controller">
+    </context:component-scan>
+
+    <!-- 启动spring mvc的注解功能，完成请求和注解POJO的映射 -->
+    <bean
+            class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <!-- 配置信息转换，将用@responsebody注解的返回值转换为json返回前台，编码为utf-8 -->
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="suffix" value=".vm"/>
+        <property name="requestContextAttribute" value="rc"/>
+    </bean>
+
+
+    <bean id="velocityConfigurer"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath">
+            <value>pages/</value>
+        </property>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+                <prop key="contentType">text/html;charset=UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <mvc:resources mapping="/common/images/**" location="/common/images/"/>
+    <mvc:resources mapping="/common/js/**" location="/common/js/"/>
+    <mvc:resources mapping="/common/css/**" location="/common/css/"/>
+    <mvc:resources mapping="/common/ui/**" location="/common/ui/"/>
+</beans>

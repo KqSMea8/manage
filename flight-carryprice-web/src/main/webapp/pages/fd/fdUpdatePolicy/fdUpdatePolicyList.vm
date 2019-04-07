@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统</title>
+	#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+    	<div class="crumb-nav">
+    		<a href="javascript:goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">FD运价管理</a>&gt;
+    		<a href="javascript:void(0);" class="href0">FD运价更新策略</a>
+    	</div>
+   		<form id="searchForm" action="${staticPath}/fd/fdUpdatePolicy/getFdUpdatePolicyList" method="post">
+   		<!-- 此处用于搜索时,所传递的参数 结束 -->
+    	<div class="main-con tickets-order-view-wrap">
+    		<!-- 搜索内容 start -->
+			<div class="search-wrap-mod mb oz">
+                <dl class="dl-mod fl">
+                    <dt>航司：</dt>
+                    <dd>
+                        <select class="text text3" name="airWays">
+                            <option value=""  #if($queryBean.airways =='') selected="selected" #end>全部</option>
+							#foreach($aircorp in ${aircorpList})
+								<option  value="$!{aircorp.code}" #if($!{aircorp.code} == $!{queryBean.airWays}) selected="selected" #end>
+									$!{aircorp.code}—$!{aircorp.name}
+								</option>
+							#end
+                        </select>
+					</dd>
+                </dl>
+                <dl class="dl-mod fl">
+                    <dt>状态：</dt>
+                    <dd>
+                        <select class="text text3" name="syncStatus">
+                       		<option value='' #if($queryBean.syncStatus =='')selected="selected" #end>全部</option>
+							<option value='0' #if($queryBean.syncStatus =='0')selected="selected" #end>未同步</option>
+							<option value='1' #if($queryBean.syncStatus =='1')selected="selected" #end>同步中</option>
+							<option value='2' #if($queryBean.syncStatus =='2')selected="selected" #end>同步完成</option>
+						</select> 
+                    </dd>
+                </dl> 
+                <dl class="dl-mod fl">
+                    <dt>出发机场：</dt>
+                    <dd>
+                        <select class="text text3" name="depCode">
+                            <option value=""  #if($queryBean.depCode =='') selected #end>全部</option>
+							#foreach($airport in ${airportList})
+								<option  value="${airport.code}" #if($!{queryBean.depCode} == $!{airport.code}) selected #end>
+									$!{airport.code}—$!{airport.name}
+								</option>
+							#end
+                        </select>
+                    </dd>
+                </dl>
+                <dl class="dl-mod fl">
+                    <dt>到达机场：</dt>
+                    <dd>
+                        <select class="text text3" name="arrCode">
+                            <option value=""  #if($queryBean.arrCode =='') selected #end>全部</option>
+							#foreach($airport in ${airportList})
+								<option  value="${airport.code}" #if($!{queryBean.arrCode} == $!{airport.code}) selected #end>
+									$!{airport.code}—$!{airport.name}
+								</option>
+							#end
+                        </select>
+                    </dd>
+                </dl>
+                <div class="search-btn-box fl" style="padding-left:88px;">
+                    <input type="button" id="query" class="btn btn2" value="查询" />
+                    <input type="button" class="btn btn2" onclick="add()" value="新增" />
+                </div>
+                
+                <div class="spacer"></div>
+			</div>
+			<!-- 搜索内容 end -->
+			
+			<!-- 搜索结果 start -->
+			<div class="order-mes-mod mb">
+                <table>
+                    <thead>
+                        <tr class="single-line-text">
+                        	<th style="width:2%;">序号</th>
+                        	<th style="width:8%">出发机场</th>
+                        	<th style="width:8%">到达机场</th>
+                            <th style="width:8%">航空公司</th>
+                            <th style="width:8%;">起飞时间</th>
+                            <th style="width:8%;">更新时刻</th>
+                            <th style="width:5%;">状态</th>
+                            <th style="width:5%;">航线类型</th>
+                            <th style="width:5%;">操作人</th>
+                            <th style="width:7%;">备注</th>
+                            <th style="width:15%;">插入时间</th>
+                            <th style="width:8%;">同步开始时间</th> 
+                            <th style="width:8%;">同步完成时间</th>  
+                            <th style="width:5%;">操作</th>                          
+                         </tr>
+                    </thead>
+					<tbody>
+					#if($!{pageInfo.list})
+						#foreach($fd in ${pageInfo.list})
+							<tr>
+								<td>$!{velocityCount}</td>
+								<td>
+                                    #if($fd.depCode =='***')所有#end
+                                    #if($fd.depCode !='***')
+										#foreach($airport in ${airportList})
+											#if($!{fd.depCode} == $!{airport.code})
+												$!{airport.code}—$!{airport.name}
+											#end
+										#end
+									#end
+								</td>
+								<td>
+									#if($fd.arrCode =='***')所有#end
+									#if($fd.arrCode !='***')
+										#foreach($airport in ${airportList})
+											#if($!{fd.arrCode} == $!{airport.code})
+												$!{airport.code}—$!{airport.name}
+											#end
+										#end
+									#end
+						       </td>
+								<td>
+									#if($fd.airWays =='***')所有#end
+									#if($fd.airWays !='***')
+										#foreach($aircorp in ${aircorpList})
+											#if($!{fd.airWays} == $!{aircorp.code})
+												$!{aircorp.code}—$!{aircorp.name}
+											#end
+										#end
+									#end
+								</td>
+								<td>$!date.format('yyyy-MM-dd',$!{fd.depDate})</td>
+								<td>$!date.format('yyyy-MM-dd  HH:mm',$!{fd.planQuartzTime})</td>
+								<td>
+									#if($!fd.syncStatus =='0')未同步#end
+									#if($!fd.syncStatus =='1')同步中#end
+									#if($!fd.syncStatus =='2')同步完成#end
+								</td>
+								<td>
+									#if($!{fd.airlineType} =='0')普通#end
+									#if($!{fd.airlineType} =='1')热门#end
+								</td>
+								<td>$!{fd.operator}</td>
+								<td>$!{fd.remark}</td>
+								<td>$!date.format('yyyy-MM-dd  HH:mm',$!{fd.createTime})</td>
+								<td>$!date.format('yyyy-MM-dd  HH:mm',$!{fd.executeQuartzTime})</td>
+								<td>
+									$!date.format('yyyy-MM-dd  HH:mm',$!fd.executeFinishTime)
+								</td>
+								<td>
+                                     #if($!{fd.syncStatus} =='0')
+										 <a href="javascript:void(0);" onclick="deteleP('$!{fd.id}')">【删除】</a>
+									 #end
+								</td>
+							</tr>
+						#end
+					#end
+						#if($!{pageInfo.list.size()} == 0)
+                        <tr>
+                            <td colspan="14">
+                                <label style="color: gray;">很抱歉，没有找到相关记录！</label>
+                            </td>
+                        </tr>
+						#end
+					</tbody>
+                </table>
+            </div>
+            <!-- 搜索结果 end -->
+            <!-- 分页 start -->
+            <div class="pagelist mb oz">
+				#if($!{pageInfo.list.size()}!=0)
+                #parse('/comm/pagination.vm')
+           		#end
+            </div>
+            <!-- 分页 end -->
+        </div>
+        </form>
+    </div>
+    
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+	//绑定查询按钮
+	$(function() {
+		$("#query").bind("click", query);
+
+	});
+	//查询
+	function query() {
+		formToTrim("searchForm");
+		$("#searchForm").submit();
+	}	
+	//新增
+	function add(){
+		showDialog("dialog","新增fd运价更新策略信息","${staticPath}/fd/fdUpdatePolicy/toAddFdUpdatePolicy");
+	}
+
+	//删除
+	function deteleP(id){
+		if(!confirm("确定要删除吗?")){
+			return;	
+		}
+		$.ajax({
+			 url: "${staticPath}/fd/fdUpdatePolicy/deletefdUpdatePolicy",
+			 data: {
+				 "id" : id,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					 alert("删除成功");
+					 window.location.href = "${staticPath}/fd/fdUpdatePolicy/getFdUpdatePolicyList";
+				 }else{
+					 alert("删除失败");
+				 }
+			 }
+		 });
+	}
+</script>
+</body>
+</html>
+

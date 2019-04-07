@@ -1,0 +1,181 @@
+<script type="text/javascript">
+    var pageIndex=parseInt(${pageInfo.pageNum});
+    var totalPageCount=parseInt(${pageInfo.pages});
+    var everyPageRecordCount=parseInt(${pageInfo.pageSize});
+    var curPageIndex=pageIndex;
+    var totalPageCount=totalPageCount;
+    var everyPageRecordCount=everyPageRecordCount;
+    var hasPreviousPage=${pageInfo.hasPreviousPage};
+    var hasNextPage=${pageInfo.hasNextPage};
+    function gotoPageIndex(pageIndex)
+    {
+        var selectObj = document.getElementById("everyPageRecordCount");
+        if(selectObj != null){
+            var everyPageRecordCount = selectObj.options[selectObj.options.selectedIndex].value;
+        }else{
+            var everyPageRecordCount = 10;
+        }
+        //openLoading("加载中...");
+        if(document.forms){
+            if(document.forms.item(0) != null && document.forms.item(0).pageIndex && document.forms.item(0).pageSize && document.forms.item(0).method == 'post'){
+                document.forms.item(0).pageIndex.value = pageIndex;
+                document.forms.item(0).pageSize.value = everyPageRecordCount;
+                document.forms.item(0).submit();
+                return;
+            }
+        }
+        var url=location.href;
+        var n = url.lastIndexOf("?");
+        var newUrl;
+        if(n==(-1))
+        {
+            newUrl=url + "?pageIndex=" + pageIndex + "&pageSize=" + everyPageRecordCount;
+            window.location.href =newUrl;
+            return;
+        }
+        var query = url.substring(n+1);
+        var pairs = query.split("&");
+        var newQuery = "";
+        for(var i=0; i<pairs.length; i++)
+        {
+            var pos = pairs[i].indexOf("=");
+            if(pos==-1) continue;
+            var argname = pairs[i].substring(0,pos);
+            if(argname=="pageIndex" || argname=="pageSize") continue;
+            newQuery = newQuery + pairs[i] + "&";
+        }
+        var newurl=url.substring(0,n+1) + newQuery + "pageIndex=" + pageIndex + "&pageSize=" + everyPageRecordCount;
+        window.location.href =newurl;
+
+    }
+
+    function gotoPageFirst()
+    {
+        if(curPageIndex != 1){
+            gotoPageIndex(1);
+        }
+    }
+
+    function gotoPageLast()
+    {
+        if(curPageIndex != totalPageCount){
+            gotoPageIndex(totalPageCount);
+        }
+    }
+
+    function gotoPagePrev()
+    {
+        if(hasPreviousPage){
+            var prevIndex=curPageIndex-1;
+            gotoPageIndex(prevIndex);
+        }
+    }
+
+    function gotoPageNext()
+    {
+        if(hasNextPage){
+            var nextIndex=curPageIndex+1;
+            gotoPageIndex(nextIndex);
+        }
+    }
+
+    function gotoButtonClicked()
+    {
+        var strIndex=document.getElementById("gotoLabel").value;
+        var nIndex=parseInt(strIndex);
+        if(isNaN(nIndex))
+        {
+            alert("输入跳转到的页号必须是数字!");
+        }
+        else if(nIndex <1)
+        {
+            alert("输入跳转到的页号必须大于或等于1!");
+        }
+        else if(nIndex >totalPageCount)
+        {
+            alert("输入跳转到的页号超出总页数!");
+        }
+        else
+        {
+            gotoPageIndex(nIndex);
+        }
+    }
+    var start=parseInt(((pageIndex-1)/4)*4+1);
+    var end=parseInt(((pageIndex+3)/4)*4);
+    if(end > totalPageCount){
+        end=totalPageCount;
+    }
+
+</script>
+#if(${pageInfo.pages}<=0)
+
+<table width="70%" height="25px;" border="0" align="center"  cellpadding="0" cellspacing="0">
+    <tr>
+        <td align="center">
+            <dl class="nodata oz" style="margin:0 auto;">
+                <dt class="fl" ><span></span></dt><dd class="fl" >没有可显示的项目</dd>
+            </dl>
+        </td>
+    </tr>
+
+</table>
+#else
+
+<input type='hidden' name='pageIndex'/>
+<input type='hidden' name='pageSize'/>
+<div class="gotopage_orange fr">
+    <div>
+    </div>
+    <label>共找到 ${pageInfo.total} 条记录</label>
+    <span onclick="gotoPageFirst();">首页</span>
+    <span onclick="gotoPagePrev();">上一页</span>
+    #set($start=((${pageInfo.pageNum} - 1)/4)*4+1)
+    #set($end=((${pageInfo.pageNum} + 3)/4)*4)
+    #if(${end}>${pageInfo.pages})
+        #set($end=${pageInfo.pages})
+    #end
+    #if(${start}>=5)
+        <A id="pageShowIDO" href="javascript:gotoPageIndex(${start}-1);" >....</A>
+    #end
+    #foreach($i in [${start}..${end}])
+        <A id="pageShowIDO" href="javascript:void(0);" onclick="gotoPageIndex(${i});"
+            #if(${i}==${pageInfo.pageNum})
+           class="current">
+            #else
+                class="disabled">
+            #end
+            ${i}
+        </A>
+    #end
+
+    #if(${end}<${pageInfo.pages})
+        <A id="pageShowIDO" href="javascript:gotoPageIndex(${end}+1);" >....</A>
+    #end
+    <span onclick="gotoPageNext();" >下一页</span>
+    <span onclick="gotoPageLast();" >尾页</span>
+    <label>每页</label>
+    <select id="everyPageRecordCount" class="select-mod" onchange="gotoPageIndex(1);">
+        <option value="20"
+            #if(${pageInfo.pageSize}==20)
+                selected='selected'
+            #end
+        >20</option>
+        <option value="50"
+            #if(${pageInfo.pageSize}==50)
+                selected='selected'
+            #end
+        >50</option>
+        <option value="100"
+            #if(${pageInfo.pageSize}==100)
+                selected='selected'
+            #end
+        >100</option>
+    </select>
+    <label>跳转至</label>
+    <input id="gotoLabel" class="goto-label" name="gotoLabel" type="text">
+    <label>页</label>
+    <input name="pageShowIDO" onclick="gotoButtonClicked();" type="button" class="btn goto-btn" value="确定">
+    <label>共${pageInfo.pages}页</label>
+</div>
+
+#end

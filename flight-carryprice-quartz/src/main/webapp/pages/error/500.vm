@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>京东国内机票工单管理系统-通知公告</title>
+#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+     #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+    	<div class="error-tip oz">
+            <div class="img-tip">
+            	#*<h2>错误：<%=exception.getMessage()%></h2>*#
+            	
+            	<img src="${rc.contextPath}/images/error-upgrade.png" alt="出错休息一下~">
+            </div>
+            <div class="return-operate"><input type="button" class="btn" value="返回首页"></div>
+        </div>
+    </div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+#parse('/comm/footer.vm')
+<!-- footer end -->
+</body>
+</html>

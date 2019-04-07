@@ -1,0 +1,57 @@
+@charset "utf-8";
+/* CSS Document */
+.mr10{ margin-right:10px;}
+.mt10{ margin-top:10px;}
+.mb10{ margin-bottom:10px;}
+.ml10{ margin-left:10px;}
+.oh{ overflow:hidden;}
+.fl{ float:left;}
+.fr{ float:right;}
+
+/* login 样式start */
+body{ background:#227eb1;}
+
+.login{ width:100%; height:auto;}
+
+.login_tit{ width:100%; height:40px; line-height:40px; background:#103E58; color:#fff;}
+
+.login_tit h2{ width:1170px; height:40px; margin:0 auto; padding-left:30px;}
+
+/* 主要内容con样式start */
+.login_out{ width:100%; height:auto;}
+
+.login table{ height:100%; width:1200px;}
+
+.login_con{ width:1200px; height:510px; overflow:hidden; margin:0 auto; background:url(../images/login/conbg.jpg) no-repeat top center;}
+
+.logtop{ width:1200px; height:118px;}
+
+.loginbox{ width:395px; height:265px; background:#fff; margin:0 auto; border:1px solid #ccc; border-radius:5px;}
+
+.loginbox-l{ width:125px; height:265px; background:url(../images/login/boxl.jpg) no-repeat right 15px;}
+
+.loginbox-l img{ display:block; margin:85px auto;}
+
+.loginbox-r h3{ width:260px; height:40px; line-height:40px; color:#4585b5; border-bottom:1px solid #4585b5; margin:10px 0 15px 10px;}
+
+.loginbox-r dl{ width:240px; margin:10px 0 0 10px; height:30px;   line-height:30px; }
+
+.loginbox-r dl dt{ float:left;}
+
+.loginbox-r dl dd{ float:left;}
+
+.loginbox-r .btn-dl{ height:25px; margin-top:0;}
+
+.loginbox-r dl dd input{ width:160px; height:25px; line-height:25px; padding-left:10px; margin-left:10px;}
+
+.loginbox-r dl .valid{ width:80px; height:25px; border:1px solid #7F9DB9; margin-right:10px;}
+
+.loginbox-r dl .button{ width:100px; height:25px; background:#31A054; color:#fff; border:0; margin:5px 0 0 20px; cursor:pointer; text-align:center; padding:0;}
+
+.loginbox-r .warn-p{ width:150px; height:25px; display:inline-block; margin-left:57px; color:red; line-height:25px; background:url(../images/login/exclamation.png) no-repeat 0 center; padding-left:21px; }
+
+
+
+
+
+

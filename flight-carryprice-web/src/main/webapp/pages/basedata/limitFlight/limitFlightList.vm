@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统-基础数据维护</title>
+	#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+	<!--left-content start-->
+	#parse('/comm/left.vm')
+	<!--left-content end-->
+	<!--right-content start  -->
+	<div class="right-content">
+		<div class="crumb-nav">
+			<a href="javascript:goHomepage();">首页</a>&gt;
+			<a href="javascript:void(0);" class="href0">基础数据维护</a>&gt;
+			<a href="javascript:void(0);" class="href0">限制航班管理</a>
+		</div>
+		<form id="limitFlightSearchForm" action="${staticPath}/baseData/limitFlight/limitFlightList" method="post">
+			<!-- 此处用于搜索时,所传递的参数 结束 -->
+			<div class="main-con tickets-order-view-wrap">
+				<!-- 搜索内容 start -->
+				<div class="search-wrap-mod mb oz">
+					<dl class="dl-mod fl">
+						<dt>航空公司：</dt>
+						<dd>
+							<select  name="airWays">
+								<option value=""  (#if($!{queryBean.airWays}== '') selected #end)>全部</option>
+								#foreach($com in ${company})
+								#if($!{com.code})
+								<option  value="${com.code}" (#if($!{queryBean.airWays}== $!{com.code}) selected #end)>
+									${com.code}—${com.name}
+								</option>
+								#end
+								#end
+							</select>
+						</dd>
+						<dt>出发机场：</dt>
+						<dd>
+							<select name="depCode">
+								<option value=""  (#if($!{queryBean.depCode}== '') selected #end)>全部</option>
+								#foreach($air in ${airport})
+								#if($!{air.code})
+								<option  value="${air.code}" (#if($!{queryBean.depCode}== $!{air.code}) selected #end)>
+									${air.code}—${air.name}
+								</option>
+								#end
+								#end
+							</select>
+						</dd>
+						<dt>到达机场：</dt>
+						<dd>
+							<select  name="arrCode">
+								<option value=""  (#if($!{queryBean.arrCode}== '') selected #end)>全部</option>
+								#foreach($air in ${airport})
+								#if($!{air.code})
+								<option  value="${air.code}" (#if($!{queryBean.arrCode}== $!{air.code}) selected #end)>
+									${air.code}—${air.name}
+								</option>
+								#end
+								#end
+							</select>
+						</dd>
+
+						<dt>是否虚假舱位：</dt>
+						<dd>
+							<select name="isFalseSeat">
+								<option value>全部</option>
+								<option value="0" (#if($!{queryBean.isFalseSeat}== '0') selected #end)>否</option>
+								<option value="1" (#if($!{queryBean.isFalseSeat}== '1') selected #end)>是</option>
+							</select>
+						</dd>
+
+						<dt>航班号：</dt>
+						<dd>
+							<input value="$!{queryBean.flightNo}" name="flightNo" type="text" placeholder="* 代表航班号为全部">
+						</dd>
+					</dl>
+					<dl class="dl-mod fl">
+						<dt>舱位：</dt>
+						<dd>
+							<input value="$!{queryBean.seat}" name="seat" type="text" />
+						</dd>
+					</dl>
+
+					<div class="search-btn-box fl" style="padding-left:88px;">
+						<input type="button" id="query" class="btn btn2" value="查询"  onclick="queryLimitFlight()"/>
+						<input type="button" class="btn btn2" onclick="addLimit()" value="新增" />
+						<input type="button" class="btn btn2" onclick="pushLimitToRedis()" value="同步redis" />
+					</div>
+
+					<div class="spacer"></div>
+				</div>
+				<!-- 搜索内容 end -->
+
+				<!-- 搜索结果 start -->
+				<div class="order-mes-mod mb">
+					<table>
+						<thead>
+						<tr class="single-line-text">
+							<th style="width:5%;">序号</th>
+							<th style="width:8%">航空公司</th>
+							<th style="width:10%;">出发机场</th>
+							<th style="width:10%;">到达机场</th>
+							<th style="width:5%;">航班号</th>
+							<th style="width:5%;">舱位</th>
+							<th style="width:8%;">销售有效开始时间</th>
+							<th style="width:8%;">销售有效结束时间</th>
+							<th style="width:5%;">是否虚假舱位</th>
+							<th style="width:8%;">限制有效时间起始</th>
+							<th style="width:8%;">限制有效时间截止</th>
+							<th style="width:7%;">操作人</th>
+							<th style="width:8%;">操作时间</th>
+							<th style="width:5%;">操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						#if($!{pageInfo.list})
+						#foreach($limitFlight in ${pageInfo.list})
+						<tr>
+							<td>$!{velocityCount}</td>
+							<td>
+								#foreach($com in ${company})
+								#if($!{com.code})
+								#if($!{limitFlight.airWays}==$!{com.code})
+								<span>${com.code}—${com.name}</span>
+								#end
+								#end
+								#end
+							</td>
+							<td>
+								#foreach($air in ${airport})
+								#if($!{air.code})
+								#if($!{limitFlight.depCode}==$!{air.code})
+								<span>${air.code}—${air.name}</span>
+								#end
+								#end
+								#end
+							</td>
+							<td>
+								#foreach($air in ${airport})
+								#if($!{air.code})
+								#if($!{limitFlight.arrCode}==$!{air.code})
+								<span>${air.code}—${air.name}</span>
+								#end
+								#end
+								#end
+							</td>
+							<td>
+								#if($!{limitFlight.flightNo}=='*')全部#end
+								#if($!{limitFlight.flightNo}!='*')$!{limitFlight.flightNo}#end
+							</td>
+							<td>$!{limitFlight.seat}</td>
+							<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{limitFlight.limitSaleTimeBegin})</td>
+							<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{limitFlight.limitSaleTimeEnd})</td>
+							<td>
+								#if($!{limitFlight.isFalseSeat}=='0')否#end
+								#if($!{limitFlight.isFalseSeat}=='1')是#end
+							</td>
+							<td>
+								<span>$!date.format('yyyy/MM/dd',$!{limitFlight.limitTimeBegin})</span>
+							</td>
+							<td>
+								<span>$!date.format('yyyy/MM/dd',$!{limitFlight.limitTimeEnd})</span>
+							</td>
+							<td>$!{limitFlight.operator}</td>
+							<td>
+								#if($!{limitFlight.updateTime})
+								<span>$!date.format('yyyy/MM/dd HH:mm:ss',$!{limitFlight.updateTime})</span>
+								#end
+							</td>
+							<td>
+								<a style="cursor:pointer;" href="javascript:void(0);" onclick="updateLimitFlight(${limitFlight.id})">【修改】</a>
+								<a href="javascript:void(0);" onclick="deleteById('${limitFlight.id}')">【删除】</a>
+							</td>
+						</tr>
+						#end
+						#end
+						#if($!{pageInfo.list.size()} == 0)
+						<tr>
+							<td colspan="15">
+								<label style="color: gray;">很抱歉，没有找到相关记录！</label>
+							</td>
+						</tr>
+						#end
+						</tbody>
+					</table>
+				</div>
+				<!-- 搜索结果 end -->
+
+				<!-- 分页 start -->
+				<div class="pagelist mb oz">
+					#if($!{pageInfo.list})
+					#parse('/comm/pagination.vm')
+					#end
+				</div>
+				<!-- 分页 end -->
+			</div>
+		</form>
+	</div>
+
+	<!-- 弹出层 -->
+	<div id="dialog"></div>
+	<!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+	//查询
+	function queryLimitFlight() {
+		formToTrim("limitFlightSearchForm");
+		$("#limitFlightSearchForm").submit();
+	}
+
+	//修改
+	function updateLimitFlight(limitFlightId){
+		showDialog("dialog","修改限制航班信息","${staticPath}/baseData/limitFlight/toUpdateLimitFlight?limitFlightId="+limitFlightId);
+	}
+
+	//新增
+	function addLimit(){
+		showDialog("dialog","新增限制航班信息","${staticPath}/baseData/limitFlight/toAddLimitFlight");
+	}
+	//同步redis
+    function pushLimitToRedis(){
+        var msg = "确定要同步到缓存吗？";
+        if(!confirm(msg)==true){
+            return;
+        }
+        $.ajax({
+			 url: "${staticPath}/baseData/limitFlight/doFlushAllFlightInfo",
+			 dataType:"json",
+			 success: function(data){
+				 if(data > 0){
+					 alert("同步成功");
+				 }else{
+					 alert("同步失败");
+				 }
+			 }
+        });
+
+    }
+	//删除
+	function deleteById(limitFlightId){
+		if(!confirm("确定要删除吗?")){
+			return;
+		}
+		$.ajax({
+			 url: "${staticPath}/baseData/limitFlight/delLimitFlightInfo",
+			 data: {
+				 "limitFlightId" : limitFlightId,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					 alert("删除成功");
+					 queryLimitFlight();
+				 }else if(data == -1){
+					 alert("删除失败，该id没有对应的对象");
+				 }else{
+					 alert("删除失败");
+				 }
+			 }
+		 });
+	}
+</script>
+</body>
+</html>
+

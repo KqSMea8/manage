@@ -1,0 +1,128 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.flight</groupId>
+		<artifactId>flight-carryprice</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>flight-carryprice-api</artifactId>
+	<packaging>war</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.flight</groupId>
+			<artifactId>flight-carryprice-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<!-- jsf-规范jar -->
+		<dependency>
+			<groupId>com.jd</groupId>
+			<artifactId>jsf</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>flight-carryprice-api</finalName>
+
+		<resources>
+
+			<!-- 资源过滤的配置 -->
+			<resource>
+				<directory>src/main/resources/${profiles.active}</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+				<excludes>
+					<!-- <exclude>development/*</exclude> -->
+					<!-- <exclude>production/*</exclude> -->
+					<exclude>profiles/**</exclude>
+				</excludes>
+			</resource>
+
+		</resources>
+
+		<plugins>
+			<!-- generator插件 -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
+					<overwrite>true</overwrite>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>tk.mybatis</groupId>
+						<artifactId>mapper</artifactId>
+						<version>${mapper.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- tomcat 插件 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<path>/</path>
+					<port>8080</port>
+					<uriEncoding>UTF-8</uriEncoding>
+					<url>http://localhost:8080/manager/html</url>
+					<server>tomcat6</server>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+	<profiles>
+		<!-- 开发环境，默认激活 -->
+		<profile>
+			<id>development</id>
+			<!--默认环境 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<profiles.active>profiles/development</profiles.active>
+			</properties>
+		</profile>
+
+		<!-- 生产环境 -->
+		<profile>
+			<id>production</id>
+			<properties>
+				<profiles.active>profiles/production</profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+</project>

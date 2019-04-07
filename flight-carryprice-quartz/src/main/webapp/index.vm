@@ -1,0 +1,17 @@
+#*<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>京东国内机票运价库管理系统</title>
+	<meta name="description" content="京东国内机票运价管理系统-您身边的商务出行服务专家。"/>
+	<meta name="keywords" content="京东国内机票运价管理系统-您身边的商务出行服务专家。"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="shortcut icon" type="images/x-icon" href="${rc.contextPath}/images/favicon.ico"/>
+      <script type="text/javascript">
+          $(function(){
+              window.location.href="${rc.contextPath}/common/anon/login";
+          });
+      </script>
+  </head>
+  <body>
+  </body>
+</html>*#

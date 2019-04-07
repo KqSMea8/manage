@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpFdUpdatePolicyMapper" >
+    <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpFdUpdatePolicy" >
+       <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="dep_code" property="depCode" jdbcType="VARCHAR" />
+        <result column="arr_code" property="arrCode" jdbcType="VARCHAR" />
+        <result column="air_ways" property="airWays" jdbcType="VARCHAR" />
+        <result column="dep_date" property="depDate" jdbcType="DATE" />
+        <result column="plan_quartz_time" property="planQuartzTime" jdbcType="TIMESTAMP" />
+        <result column="sync_status" property="syncStatus" jdbcType="TINYINT" />
+        <result column="airline_type" property="airlineType" jdbcType="TINYINT" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="execute_quartz_time" property="executeQuartzTime" jdbcType="TIMESTAMP" />
+        <result column="execute_finish_time" property="executeFinishTime" jdbcType="TIMESTAMP" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="operator" property="operator" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="allFields">
+        id,dep_code,arr_code,air_ways,dep_date,plan_quartz_time,sync_status,airline_type,
+        remark,execute_quartz_time,execute_finish_time,create_time,update_time,operator
+    </sql>
+
+    <!-- '同步状态  0-未同步   1-同步中   2-同步完成' -->
+    <select id="selectFdPolicyOne" resultMap = "BaseResultMap">
+        SELECT
+        <include refid="allFields"/>
+        FROM jdjp_fd_update_policy
+        WHERE sync_status = 0 and plan_quartz_time &lt;= now()
+        ORDER BY create_time ASC
+        limit 1
+    </select>
+
+    <select id="queryList" resultMap="BaseResultMap" parameterType="com.flight.carryprice.entity.JdjpFdUpdatePolicy">
+        SELECT
+        <include refid="allFields"/>
+        FROM jdjp_fd_update_policy
+	    <where>
+		  <if test="depCode!=null and depCode!=''">
+		      and dep_code=#{depCode}
+		  </if>
+		  <if test="arrCode!=null and arrCode!=''">
+		      and arr_code=#{arrCode}
+		  </if>
+	  	  <if test="airWays!=null and airWays!=''">
+		      and air_ways=#{airWays}
+		  </if>
+          <if test="syncStatus!=null ">
+              and sync_status=#{syncStatus}
+          </if>
+	    </where>
+  	    ORDER BY create_time DESC ,id DESC
+    </select>
+
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+	  INSERT INTO jdjp_fd_update_policy (dep_code,arr_code,air_ways,dep_date,plan_quartz_time,sync_status,
+	    airline_type,operator,remark,execute_quartz_time,execute_finish_time)
+	  VALUES
+	  <foreach item="item" collection="list" separator=",">
+	    (#{item.depCode},#{item.arrCode},#{item.airWays},#{item.depDate},#{item.planQuartzTime},#{item.syncStatus},
+	    #{item.airlineType},#{item.operator},#{item.remark},#{item.executeQuartzTime},#{item.executeFinishTime})
+	  </foreach>
+  </insert>
+</mapper>

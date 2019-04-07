@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flight.carryprice.mapper.JdjpPatFlightSeatMapper">
+    <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpPatFlightSeatConfig">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="airline_type" jdbcType="TINYINT" property="airlineType" />
+        <result column="air_ways" jdbcType="VARCHAR" property="airWays" />
+        <result column="dep_code" jdbcType="VARCHAR" property="depCode" />
+        <result column="arr_code" jdbcType="VARCHAR" property="arrCode" />
+        <result column="flight_no" jdbcType="VARCHAR" property="flightNo" />
+        <result column="seat" jdbcType="VARCHAR" property="seat" />
+        <result column="seat_level" jdbcType="VARCHAR" property="seatLevel" />
+        <result column="distance" jdbcType="INTEGER" property="distance" />
+        <result column="discount" jdbcType="REAL" property="discount" />
+        <result column="seat_type" jdbcType="VARCHAR" property="seatType" />
+        <result column="state" jdbcType="TINYINT" property="state" />
+        <result column="dept_date" jdbcType="VARCHAR" property="deptDate" />
+        <result column="reserve_time_duration" jdbcType="VARCHAR" property="reserveTimeDuration" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="operator" jdbcType="VARCHAR" property="operator" />
+    </resultMap>
+
+    <select id="queryList" parameterType="com.flight.carryprice.entity.JdjpPatFlightSeatConfig" resultMap="BaseResultMap">
+    SELECT id,airline_type,air_ways,dep_code,arr_code,flight_no,seat,state,
+    dept_date,reserve_time_duration,distance,discount,seat_type,seat_level,create_time,update_time,operator
+    FROM jdjp_pat_flight_seat_config
+    <where>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="depCode != null and depCode != ''">
+            and dep_code = #{depCode}
+        </if>
+        <if test="arrCode != null and arrCode != ''">
+            and arr_code = #{arrCode}
+        </if>
+        <if test="airWays != null and airWays != ''">
+            and air_ways = #{airWays}
+        </if>
+        <if test="seat != null and seat != ''">
+            and seat = #{seat}
+        </if>
+        <if test="airlineType != null">
+            and airline_type = #{airlineType}
+        </if>
+    </where>
+    ORDER BY update_time DESC
+    </select>
+
+</mapper>

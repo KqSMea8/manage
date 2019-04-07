@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统-角色管理</title>
+	#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+    	<div class="crumb-nav">
+    		<a href="javascript:goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">账号管理</a>&gt;
+    		<a href="javascript:void(0);" class="href0">角色管理</a>
+    	</div>
+   		<form id="searchForm" action="${staticPath}/userManager/role/roleList" method="post">
+   		<!-- 此处用于搜索时,所传递的参数 结束 -->
+    	<div class="main-con tickets-order-view-wrap">
+    		<!-- 搜索内容 start -->
+			<div class="search-wrap-mod mb oz">
+                <dl class="dl-mod fl">
+                    <dt>角色：</dt>
+                    <dd>
+                        <select class="select-mod" id="rolecode" name="rolecode">
+                           <option value="">--请选择--</option>
+							#foreach($role in $roleList)
+                                <option value="$!{role.rolecode}"
+								#if(${queryRole.rolecode}==${role.rolecode})
+                                        selected="selected"
+								#end
+                                >$!{role.rolename}</option>
+							#end
+                        </select>
+                    </dd>
+                </dl>
+                
+                <div class="search-btn-box fl" style="padding-left:88px;">
+                    <input type="button" id="query" class="btn btn2" value="查询">
+                    <input type="button" id="addBtn" class="btn btn2" value="新增" onclick="addRole();">
+                </div>
+                
+                <div class="spacer"></div>
+			</div>
+			<!-- 搜索内容 end -->
+			
+			<!-- 搜索结果 start -->
+			<div class="order-mes-mod mb">
+                <table>
+                    <thead>
+                        <tr class="single-line-text">
+                        	<th style="width:20%;">序号</th>
+                        	<th style="width:30%;">角色名称</th>
+                        	<th style="width:30%;">状态</th>
+                            <th style="width:20%;">操作</th>                            
+                         </tr>
+                    </thead>
+					<tbody>
+					#if($!{pageInfo.list})
+						#foreach($role in $pageInfo.list)
+							<tr>
+								<td>${velocityCount}</td>
+								<td>$!{role.rolename}</td>
+								<td>
+									#if(${role.isenabled}==0)
+                                        启用
+									#end
+									#if(${role.isenabled}==1)
+                                        禁用
+									#end
+								</td>
+								<td>
+									<a href="javascript:updateRole('${role.id}');">【编辑】</a>&nbsp;&nbsp;
+									#if(${role.isenabled}==0)
+                                        <a href="javascript:disableRole('${role.id}');">【禁用】</a>
+									#end
+									#if(${role.isenabled}==1)
+                                        <a href="javascript:enableRole('${role.id}');">【启用】</a>
+									#end
+								</td>
+							</tr>
+						#end
+					#end
+						#if($!{pageInfo.list.size()}==0)
+                        <tr>
+                            <td colspan="17">
+                                <label style="color: gray;">很抱歉，没有找到相关记录！</label>
+                            </td>
+                        </tr>
+						#end
+					</tbody>
+                </table>
+            </div>
+            <!-- 搜索结果 end -->
+            <!-- 分页 start -->
+            <div class="pagelist mb oz">
+				#if($!{pageInfo.list.size()}!=0)
+				#parse('/comm/pagination.vm')
+			#end
+            </div>
+            <!-- 分页 end -->
+        </div>
+        </form>
+    </div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+
+	$(function() {
+		$("#query").bind("click", query);
+
+	});
+
+	//点击查询
+	function query() {
+		formToTrim("searchForm");
+		$("#searchForm").submit();
+	}
+	
+	
+	//编辑角色
+	function updateRole(roleId) {
+		window.location.href = "${staticPath}/userManager/role/toUpdateRole?roleId=" + roleId;
+	}
+	
+	//新增角色
+	function addRole(){
+ 	   window.location.href="${staticPath}/userManager/role/toAddRole";
+    }
+	
+	//禁用
+	function disableRole(roleId){
+		if(!confirm("确定要禁用吗?")){
+			return;
+		}
+		$.ajax({
+			 url: "${staticPath}/userManager/role/disableRole",
+			 data: {
+				 "roleId" : roleId
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					alert("禁用成功")
+					query();
+				 }else{
+					 alert("禁用失败")
+				 }
+			 }
+		});
+	}
+	
+	//启用
+	function enableRole(roleId){
+		if(!confirm("确定要启用吗?")){
+			return;
+		}
+		$.ajax({
+			 url: "${staticPath}/userManager/role/enableRole",
+			 data: {
+				 "roleId" : roleId
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					alert("启用成功")
+					query();
+				 }else{
+					 alert("启用失败")
+				 }
+			 }
+		});
+	}
+	
+</script>
+</body>
+</html>
+

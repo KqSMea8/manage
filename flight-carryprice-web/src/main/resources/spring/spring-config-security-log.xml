@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-autowire="byName" default-lazy-init="true">
+
+
+    <bean id="securityLogUtil" class="com.jd.lifetravel.component.securityLog.util.SecurityLogUtil">
+        <property name="systemName" value="lifetravel"/>  <!-- 系统名，生旅业务线统一配置lifetravel -->
+        <property name="appName" value="jipiao.mis.man"/> <!-- 应用名，根据实际填写，建议填写j-one/jdos中配置的应用名 -->
+    </bean>
+
+    <!-- 请求参数适配器类，目前支持object，map 2种输入数据结构，请根据实际需求配置bean，fieldMap不同时请配置不同的bean -->
+    <bean id="objReq" class="com.jd.lifetravel.component.securityLog.util.req.Object2ReqInfo">
+        <property name="fieldMap">
+            <!-- 字段匹配配置，注意类型必须一致，否则会无效，如果字段名一样，可以不配置；
+                        对于在日志输出ReqInfo中不存在的请求字段，可以不配置，会自动填入到additionParams扩展字段 -->
+            <map>
+                <entry key="passengerNames" value="realName"/>
+                <entry key="contactPhones" value="telephone"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="mapReq" class="com.jd.lifetravel.component.securityLog.util.req.Map2ReqInfo">
+        <property name="fieldMap">
+            <map>
+                <entry key="passengerNames" value="realName"/>
+                <entry key="contactPhones" value="telephone"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="reqInfoStrategyContext" class="com.jd.lifetravel.component.securityLog.util.req.ReqInfoStrategyContext">
+        <property name="strategyFactory">
+            <map>
+                <!-- 接口对应的req策略配置，key为接口名 -->
+                <entry key="objInterfaceName" value-ref="objReq"/>
+                <entry key="applyOnlineRefund" value-ref="mapReq"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- 响应参数适配器类，目前支持List<Object>和List<Map>的输入数据结构，请根据实际需求配置bean -->
+    <bean id="objResp" class="com.jd.lifetravel.component.securityLog.util.resp.List2RespInfo">
+        <property name="fieldMap">
+            <!-- 字段匹配配置，注意类型必须一致，否则会无效；注意，对于respInfo，只有此处配置的字段才会输出到日志，所以即使是相同的字段名，也请配置,如下面的orderId。
+                        对于RespInfo中没有定义的标识字段，建议直接用主键标识，映射到primaryId字段上 -->
+            <map>
+                <entry key="passengerNames" value="realName"/>
+                <entry key="contactPhones" value="telephone"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="mapResp" class="com.jd.lifetravel.component.securityLog.util.resp.Map2RespInfo">
+        <property name="fieldMap">
+            <map>
+                <entry key="passengerNames" value="realName"/>
+                <entry key="contactPhones" value="telephone"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="respInfoStrategyContext" class="com.jd.lifetravel.component.securityLog.util.resp.RespInfoStrategyContext">
+        <property name="strategyFactory">
+            <map>
+                <!-- 接口对应的resp策略配置，key为接口名 -->
+                <entry key="objInterfaceName" value-ref="objResp"/>
+                <entry key="applyOnlineRefund" value-ref="mapResp"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
+
+
+

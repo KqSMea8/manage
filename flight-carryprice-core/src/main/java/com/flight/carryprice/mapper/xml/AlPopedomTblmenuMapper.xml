@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.AlPopedomTblmenuMapper" >
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.AlPopedomTblmenu" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="AppCode" property="appcode" jdbcType="INTEGER" />
+    <result column="MenuCode" property="menucode" jdbcType="INTEGER" />
+    <result column="MenuName" property="menuname" jdbcType="VARCHAR" />
+    <result column="MenuNameStyle" property="menunamestyle" jdbcType="VARCHAR" />
+    <result column="MenuSort" property="menusort" jdbcType="SMALLINT" />
+    <result column="IsEnabled" property="isenabled" jdbcType="SMALLINT" />
+  </resultMap>
+  
+  
+  <select id="selectLeftMenu" resultMap="BaseResultMap">
+  	select * from al_popedom_tblMenu menu
+		where menu.isenabled = 0
+		and menu.appcode = #{appCode}
+		and exists (
+				select distinct p.menucode from al_Popedom_tblRolePopedom p
+				where exists( 
+					select r.RoleCode from al_popedom_tblUserRole r,al_popedom_tblrole tr
+						where r.rolecode = tr.rolecode and tr.isEnabled = 0
+						and r.isEnabled = 0 and r.userCode = #{userCode} and  p.RoleCode = r.Rolecode
+					)
+				and p.menucode = menu.menucode
+			)
+		order by menu.menusort
+  </select>
+  
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+    <tool>
+        <key>stringUtils</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.util.StringUtils</class>
+    </tool>
+    <tool>
+        <key>esc</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.EscapeTool</class>
+    </tool>
+    <tool>
+        <key>params</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.view.tools.ParameterParser</class>
+    </tool>
+    <tool>
+        <key>math</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+    <tool>
+        <key>import</key>
+        <scope>request</scope>
+        <class>org.apache.velocity.tools.view.ImportTool</class>
+    </tool>
+    <!--数字格式化-->
+    <tool>
+        <key>NumberTool</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.NumberTool</class>
+    </tool>
+    <!--日期格式化-->
+    <tool>
+        <key>date</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.ComparisonDateTool</class>
+        <parameter name="format" value="yyyy-MM-dd"/>
+        <parameter name="depth" value="2"/>
+        <parameter name="skip" value="month"/>
+    </tool>
+</toolbox>
+<!--
+
+<tools>
+<toolbox scope="application">
+    <tool class="com.acs.survey.util.PermissionTool" />
+    <tool class="org.apache.velocity.tools.generic.DateTool" />
+    <tool class="org.apache.velocity.tools.generic.MathTool" />
+    <tool class="org.apache.velocity.tools.generic.NumberTool" />
+    <tool class="org.apache.velocity.tools.generic.RenderTool" />
+    <tool class="org.apache.velocity.tools.generic.EscapeTool" />
+    <tool class="org.apache.velocity.tools.generic.AlternatorTool" />
+    <tool class="org.apache.velocity.tools.generic.ValueParser" />
+    <tool class="org.apache.velocity.tools.generic.SortTool" />
+</toolbox>
+<toolbox scope="request">
+    <tool class="org.apache.velocity.tools.view.LinkTool" />
+    <tool class="org.apache.velocity.tools.view.ImportTool" />
+</toolbox>
+</tools>-->

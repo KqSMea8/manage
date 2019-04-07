@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>京东国内机票运价管理系统-基础数据维护</title>
+    #parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+        <div class="crumb-nav">
+            <a href="javascript:goHomepage();">首页</a>&gt;
+            <a href="javascript:void(0);" class="href0">PAT运价管理</a>&gt;
+            <a href="javascript:void(0);" class="href0">PAT航班舱位配置表</a>
+        </div>
+        <form id="PatCarryPriceConfig_searchForm" action="${staticPath}/pat/patSeatConfig/patFlightSeatList"
+              method="post">
+            <!-- 此处用于搜索时,所传递的参数 结束 -->
+            <div class="main-con tickets-order-view-wrap">
+                <!-- 搜索内容 start -->
+                <div class="search-wrap-mod mb oz">
+                    <dl class="dl-mod fl">
+                        <dt>出发机场：</dt>
+                        <dd>
+                            <input type="text" class="text text3" name="depCode" value="$!{queryBean.depCode}"/>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>到达机场：</dt>
+                        <dd>
+                            <input type="text" class="text text3" name="arrCode" value="$!{queryBean.arrCode}"/>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>航司：</dt>
+                        <dd>
+                            <select class="text text3" name="airWays">
+                                <option value="">全部</option>
+                                #foreach($air in ${company})
+                                <option value="${air.code}" (#if($!{air.code}== $!{queryBean.airWays}) selected #end)>
+                                    ${air.code}—${air.name}</option>
+                                #end
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>舱位：</dt>
+                        <dd>
+                            <input type="text" class="text text3" name="seat" value="$!{queryBean.seat}"/>
+                        </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>状态：</dt>
+                        <dd>
+                            <select class="text text3" name="state">
+                                <option value='' (#if($!{queryBean.state}== '') selected #end)>全部</option>
+                                <option value='0' (#if($!{queryBean.state}== '0') selected #end)>禁用</option>
+                                <option value='1' (#if($!{queryBean.state}== '1') selected #end)>启用</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <div class="search-btn-box fl" style="padding-left:88px;">
+                        <input type="button" id="query" class="btn btn2" onclick="queryPatCarryPriceConfig()" value="查询"/>
+                        <input type="button" class="btn btn2" onclick="addPatCarryPriceConfig()" value="新增"/>
+                    </div>
+
+                    <div class="spacer"></div>
+                </div>
+                <!-- 搜索内容 end -->
+
+                <!-- 搜索结果 start -->
+                <div class="order-mes-mod mb">
+                    <table>
+                        <thead>
+                        <tr class="single-line-text">
+                            <th style="width:2%;"><input type="checkbox" onclick="checkBox('patId',this.checked)"/></th>
+                            <th style="width:7%;">航空公司</th>
+                            <th style="width:4%;">热门类型</th>
+                            <th style="width:8%">出发城市</th>
+                            <th style="width:8%">到达城市</th>
+                            <th style="width:4%;">航班</th>
+                            <th style="width:2%;">舱位</th>
+                            <th style="width:3%;">状态</th>
+                            <th style="width:5%;">有效日期</th>
+                            <th style="width:4%;">预定时间范围起止</th>
+                            <th style="width:6%;">创建时间</th>
+                            <th style="width:6%;">更新时间</th>
+                            <th style="width:4%;">操作人</th>
+                            <th style="width:5%;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #if($!{pageInfo.list})
+                        #foreach($patConfig in ${pageInfo.list})
+                        <tr>
+                            <td>
+                                <input type="checkbox" value="$!{$patConfig.id}" name="patId">
+                            </td>
+
+                            <td>
+                                #foreach($comp in ${company})
+                                #if($!{patConfig.airWays} == $!{comp.code})
+                                $!{comp.code}—$!{comp.name}
+                                #end
+                                #end
+                            </td>
+                            <td>
+                                #foreach($type in ${airlineType})
+                                #if($!{type.key}==$!{patConfig.airlineType})
+                                ${type.value}
+                                #end
+                                #end
+                            </td>
+                            <td class="text-left">
+                                #foreach($port in ${airport})
+                                #if($!{patConfig.depCode} == $!{port.code})
+                                $!{port.code}—$!{port.name}
+                                #end
+                                #end
+                            </td>
+                            <td class="text-left">
+                                #foreach($port in ${airport})
+                                #if($!{patConfig.arrCode} == $!{port.code})
+                                $!{port.code}—$!{port.name}
+                                #end
+                                #end
+                            </td>
+                            <td>$!{patConfig.flightNo}</td>
+                            <td>$!{patConfig.seat}</td>
+                            <td>
+                                #if($!{patConfig.state}=='0')禁用#end
+                                #if($!{patConfig.state}=='1')启用#end
+                            </td>
+                            <td>$!{patConfig.deptDate}</td>
+                            <td>$!{patConfig.reserveTimeDuration}</td>
+
+                            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{patConfig.createTime})</td>
+                            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{patConfig.updateTime})</td>
+                            <td>$!{patConfig.operator}</td>
+                            <td>
+                                <a href="javascript:void(0);" onclick="updatePatCarryPriceConfig('${patConfig.id}')">【修改】</a>
+                                <a href="javascript:void(0);" onclick="deleteById('${patConfig.id}')">【删除】</a>
+                            </td>
+                        </tr>
+                        #end
+                        #end
+                        #if($!{pageInfo.list.size()} == 0)
+                        <tr>
+                            <td colspan="18">
+                                <label style="color: gray;">很抱歉，没有找到相关记录！</label>
+                            </td>
+                        </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 搜索结果 end -->
+                <!-- 分页 start -->
+                <div class="pagelist mb oz">
+                    #if($!{pageInfo.list})
+                    #parse('/comm/pagination.vm')
+                    #end
+                </div>
+                <!-- 分页 end -->
+            </div>
+        </form>
+    </div>
+
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+    //查询
+    function queryPatCarryPriceConfig() {
+        formToTrim("PatCarryPriceConfig_searchForm");
+        $("#PatCarryPriceConfig_searchForm").submit();
+    }
+    //带有分页信息查询
+    function finishEditqueryPatCarryPrice() {
+        var pageIndex1 = document.createElement("input");
+        pageIndex1.setAttribute("type", "hiden");
+        pageIndex1.setAttribute("value", "${pageIndex}");
+        pageIndex1.setAttribute("name", "pageIndex");
+        $(".spacer").append(pageIndex1);
+
+        var pageSize1 = document.createElement("input");
+        pageSize1.setAttribute("type", "hiden");
+        pageSize1.setAttribute("value", "${pageSize}");
+        pageSize1.setAttribute("name", "pageSize");
+        $(".spacer").append(pageIndex1);
+
+        formToTrim("PatCarryPriceConfig_searchForm");
+        $("#PatCarryPriceConfig_searchForm").submit();
+
+    }
+    //新增
+    function addPatCarryPriceConfig(){
+    	showDialog("dialog","新增PAT航班舱位配置","${staticPath}/pat/patSeatConfig/toAddPatFlightSeat",700,450);
+    }
+    //修改
+    function updatePatCarryPriceConfig(luggageId) {
+        showDialog("dialog", "修改PAT运价航班舱位配置", "${staticPath}/pat/patSeatConfig/toUpdatePatFlightSeat?id=" + luggageId, 700, 750);
+    }
+    //删除
+    function deleteById(id){
+    		if(!confirm("确定要删除吗?")){
+    			return;
+    		}
+    		$.ajax({
+    			 url: "${staticPath}/pat/patSeatConfig/deletePatFlightSeat",
+    			 data: {
+    				 "id" : id,
+    			 },
+    			 dataType:"json",
+    			 success: function(data){
+    				 if(data == 1){
+    					 alert("删除成功");
+    					 queryPatCarryPriceConfig();
+    					 //finishEditqueryPatCarryPrice();
+    				 }else{
+    					 alert("删除失败");
+    				 }
+    			 }
+    		 });
+    }
+
+    //获取表单对象
+    function getTableForm() {
+        return document.getElementById('PatCarryPriceConfig_searchForm');
+    }
+    //复选框勾选数量
+    function checkedCount(name) {
+        var batchChecks = document.getElementsByName(name);
+        var count = 0;
+        for (var i = 0;i < batchChecks.length; i++) {
+            if (batchChecks[i].checked) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    //批量勾选复选按钮
+    function checkBox(name,checked){
+        $("input[name='"+name+"']").attr("checked",checked);
+    }
+</script>
+</body>
+</html>
+

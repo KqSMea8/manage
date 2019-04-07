@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd">
+
+	<!-- 注册中心 address="192.168.150.119:40660,192.168.150.121:40660" -->
+    <jsf:registry id="jsfRegistry1" index="i.jsf.jd.com"/>
+    <!-- 服务端 -->
+    <jsf:server id="jsf" protocol="jsf"/>
+   <!-- 发布服务 alias可以改成自己的 -->
+    <!--GDS接口JSF-->
+
+    <!-- 运价信息相关服务 -->
+    <jsf:provider id="carryPriceServiceSoa"
+                  interface="com.flight.carryprice.service.CarryPriceService"
+                  alias="${carry.price.service.alias}"
+                  ref="carryPriceService" server="jsf" timeout="30000">
+    </jsf:provider>
+
+    <!--<jsf:parameter key="security.token.server.fileUrl" value="flight-carryprice-api.token"/>
+    <jsf:parameter key="security.isOpen.provider" value="1"/>-->
+</beans>

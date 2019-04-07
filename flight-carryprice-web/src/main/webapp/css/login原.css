@@ -1,0 +1,125 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*
+ *@description:机票供货平台
+ *@author:Zhang Xu 2013-08-10 
+*/
+html{background-color:#fff;}
+body,ul,li,p,h1,h2,dl,dt,dd,table,tr,td,form,span,button,input{margin:0;padding:0;font-size:12px;font-family:SimSun,arial,"\5b8b\4f53";color:#333;}
+ul,ol{list-style:none;}
+a{text-decoration:none;}
+.oz{overflow:hidden;zoom:1;}
+.fl{float:left;}
+.fr{float:right;}
+.spacer{content:".";height:0;clear:both;visibility:hidden;font-size:0;line-height:0;}
+*:focus{outline:none;}
+.btn{cursor:pointer;border:0;}
+.text,img{border:0;}
+.required{color:#f00;padding-right:4px;}
+/*****site-nav start*****/
+.site-nav{height:28px;border-bottom:1px solid #ebebeb;background:url(../images/login/site-nav-bg.jpg) repeat-x;}
+.site-nav-con{width:980px;margin:0 auto;} 
+.site-nav li{float:left;font:12px/28px arial,"\5b8b\4f53";padding-top:1px; width:80px; padding-left:20px; height:27px; cursor:pointer;}
+.site-nav li.site-li01{ background:url(../images/login/site-li01.jpg) no-repeat left 0;}
+.site-nav li.site-li02{ background:url(../images/login/site-li02.jpg) no-repeat left 0;}
+.site-nav li.site-li03{ background:url(../images/login/site-li03.jpg) no-repeat left 0;}
+.site-nav a{color:#666;}
+.site-nav b{margin:0 14px;color:#c7c7c7;font-size:10px;line-height:28px;vertical-align:top;}
+/*****site-nav end*****/
+/*****登录页 start*****/
+/*header start*/
+.header{width:980px;margin:0 auto;padding-bottom:5px;}
+.header h1{background-color:#fff;padding-top:5px;}
+.header h1 a{display:block;}
+/*header end*/
+/*con start*/
+.con{width:100%; margin:0 auto; vertical-align:baseline; position:relative;}
+.offer-con{height:390px; position:relative;margin-bottom:10px; width:100%;}
+
+/*.slide-ad{height:366px;}*/
+.login-bg{ width:990px; height:0; position:relative; margin:0 auto; z-index:9998;}
+.login{position:absolute;top:24px;right:0px;height:344px;width:327px;background:rgba(0,0,0,0.4);z-index:9999; filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#66000000', EndColorStr='#66000000'); BORDER-LEFT: transparent 1px solid; BORDER-TOP: transparent 1px solid; BORDER-RIGHT: transparent 1px solid; _background: 0; _border: 0;}
+.login h4{ color:#fff; font-size:18px; margin:20px 30px;}
+.login dl{padding-left:38px;margin-bottom:8px;}
+.login dt{float:left;font:bold 14px/33px "Microsoft yahei","\5b8b\4f53";padding-right:20px; color:#fff;}
+.login dd{float:left;}
+.login .text{background:#fff url(../images/login/login-sprite.png) no-repeat 0 -86px;line-height:18px;padding:7px 0 8px 8px;width:183px;height:18px;}
+.login .yzm dt{padding-right:6px;}
+.login .yzm dd img{cursor: pointer;}
+.login .yzm-text{background:#fff url(../images/login/login-sprite.png) no-repeat -195px -86px;width:86px;margin-right:17px;}
+.save-secret-box dt{padding-left:47px;vertical-align:middle;line-height:22px;}
+.save-secret-box input{_margin-top:-4px;vertical-align:middle;margin-right:6px;}
+.save-secret-box label{font:normal 12px/20px arial,"\5b8b\4f53";vertical-align:middle;color:#555;}
+.login-btn dt{padding-left:48px;}
+.login-btn .btn{width:191px;height:38px;background:url(../images/login/login-sprite.png) no-repeat 0 0;font:bold 16px/38px "\5b8b\4f53";color:#fdf4ea;}
+.login-btn .btn:hover{background-position:0 -44px;}
+.login p{line-height:20px;}
+.login .apply{padding-left:30px;text-align:center;}
+.login .apply a:link,.login .apply a:visited{color:#08c;}
+.login .apply a:hover,.login .apply a:active{color:#f60;text-decoration:underline;}
+.login b{margin:0 7px;color:#d3d3d3;}
+.login .tip{padding-left:96px;color:#888;}
+.warn-tip{line-height:26px;padding-left:90px;color:#f00;}
+/*焦点视图效果 start*/
+.banner{position:relative; width:100%;height:390px;}
+
+.banner li{width:100%; height:390px; display:none; position:absolute; top:0; left:0; }
+
+.banner li div.ban-1{display:block; width:100%; height:390px; background:url(../images/login/ban-1_20150112.jpg) no-repeat center 0; cursor: default; background-size: cover; position:absolute; top:0; left:0;}
+
+.banner li div.ban-2{display:block; width:100%; height:390px;  background:url(../images/login/ban-2.jpg) no-repeat center 0; cursor: default; background-size: cover; position:absolute; top:0; left:0;}
+
+.banner li div.ban-3{display:block; width:100%; height:390px; background:url(../images/login/ban-3_20150112.jpg) no-repeat center 0; cursor: default; background-size: cover; position:absolute; top:0; left:0;}
+
+.ban-ol{position:absolute;left:49%;bottom:0px;width:100px;height:15px;line-height:15px;z-index:10;}
+.ban-ol li{float:left;width:12px;height:12px;line-height:15px;margin-right:10px;background:url(../images/login/slide_pag_bg.png) 0 0;color:#fff;cursor:pointer;}
+.ban-ol li.active{background-position:0 -12px;}
+/*焦点视图效果 end*/
+.contact-way{height:30px; width:100%;}
+.contact-waybg{ width:1200px; margin:0 auto; height:auto;}
+.contact-way li{margin-left:18px;float:left;display:inline;background:url(../images/login/login-sprite.png) no-repeat;width:255px;height:20px;font:bold 14px/20px arial,"Microsoft yahei";padding:5px 0 5px 36px;}
+.contact-way .qq{background-position:-272px 6px;}
+.contact-way .tel{background-position:-267px -40px;padding-left:44px;}
+.contact-way .mar{margin-right:125px;}
+.contact-way span{font:600 16px/20px verdana;color:#f60;}
+/*con end*/
+/*****登录页 end*****/
+/*****注册页 start*****/
+.register-header{padding:20px 0;position:relative;width:980px;margin:0 auto;}
+.register-header h2{margin-top:20px;width:164px;height:26px;background:url(../images/login/login-sprite.png) no-repeat 0 -174px;}
+.register-wrap{border-top: 1px solid #ebebeb;padding:30px 0 30px 200px;}
+.register-wrap .item-mod{overflow:hidden;zoom:1;margin-bottom:10px;}
+.register-wrap .required{line-height:30px;}
+.item-mod label,.know-way dt{width:90px;text-align:right;padding-right:10px;line-height:30px;font-size:14px;}
+.item-mod .required{font-weight: normal;}
+.item-mod .txt{padding:4px 0 4px 4px;width:256px;height:20px;border:1px solid #ddd;line-height:20px;}
+.item-mod .tip,.item-mod .warn-tip2,.item-mod .warn-tip3{float:left;padding-left:10px;line-height:30px;color:#999;}
+.item-mod .tip{padding-left:30px;}
+.item-mod .warn-tip2{color:#f00;}
+.item-mod .warn-tip3{color:#73ac22;}
+.item-mod .warn-icon,.item-mod .succeed-icon{float:left;margin:7px 4px 0 0;width:16px;height:16px;background:url(../images/login/login-sprite.png) no-repeat;}
+.item-mod .warn-icon{background-position:-284px -175px;}
+.item-mod .succeed-icon{background-position:-284px -194px;}
+.item-mod .select-mod{width:126px;height:30px;border:1px solid #ddd;margin-right:10px;}
+.street-mes{padding:0 0 10px 100px;}
+.street-mes textarea{padding:4px;width:460px;height:20px;border:1px solid #ddd;line-height:20px;}
+.work-time span{float:left;padding-right:10px;line-height:30px;}
+.work-time .select-mod{width:119px;}
+.agree-protocol{padding:10px 0 0 100px;overflow: hidden;zoom:1;}
+.agree-protocol .agree-check{*margin-top:-4px;float:left;}
+.agree-protocol label{padding-left:4px;float:left;color:#0463a7;}
+.agree-protocol a:hover,.agree-protocol a:active{color:#007ed9;text-decoration:underline;}
+.register-submit{position:relative;left:100px;padding-top:20px;}
+.register-submit .register-btn,.register-submit .cannot-resigter-btn{width:191px;height:38px;background:url(../images/login/login-sprite.png) no-repeat;cursor:pointer;border:none;}
+.register-submit .register-btn{background-position:0 0;font:bold 16px/38px "\5b8b\4f53";color:#fdf4ea;}
+.register-submit .register-btn:hover{background-position:0 -44px;}
+.register-submit .cannot-resigter-btn{background-position:0 -252px;font:bold 16px/38px "\5b8b\4f53";color:#888;}
+/*****注册页 end*****/
+/*footer start*/
+.footer{border-top:1px solid #d3d3d3;padding:10px 0 20px;width:100%;margin:0 auto;font:normal 12px/24px arial,"\5b8b\4f53";}
+.footer-nav{text-align:center;}
+.footer a:link,.footer a:visited{margin:0 7px;color:#5a5a5a;}
+.footer a:hover,.footer a:active{color:#444;text-decoration:underline;}
+.footer-nav b{font-weight:400;color:#d3d3d3;}
+.copyright{color:#5a5a5a;text-align:center;line-height:18px;}
+/*footer end*/

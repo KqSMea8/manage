@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.AlPopedomTblroleMapper" >
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.AlPopedomTblrole" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="AppCode" property="appcode" jdbcType="INTEGER" />
+    <result column="RoleCode" property="rolecode" jdbcType="INTEGER" />
+    <result column="RoleName" property="rolename" jdbcType="VARCHAR" />
+    <result column="GroupsCode" property="groupscode" jdbcType="INTEGER" />
+    <result column="IsEnabled" property="isenabled" jdbcType="SMALLINT" />
+  </resultMap>
+  
+  <!-- 查询角色列表 -->
+  <select id="queryRoleList" parameterType="com.flight.carryprice.entity.AlPopedomTblrole" resultMap="BaseResultMap">
+  		select * from al_popedom_tblrole 
+  		<where>
+  			<if test="rolecode != null and rolecode !=''"> 
+  				and rolecode = #{rolecode}
+  			</if>
+  		</where>
+  		order by id desc
+  </select>
+</mapper>

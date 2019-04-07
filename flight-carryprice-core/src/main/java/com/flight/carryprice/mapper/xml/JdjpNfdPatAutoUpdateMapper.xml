@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flight.carryprice.mapper.JdjpNfdPatAutoUpdateMapper">
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpNfdPatAutoUpdate">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="airline_type" jdbcType="TINYINT" property="airlineType" />
+    <result column="airline_popular_type" jdbcType="TINYINT" property="airlinePopularType" />
+    <result column="dept_date" jdbcType="VARCHAR" property="deptDate" />
+    <result column="execute_quartz_time" jdbcType="TIMESTAMP" property="executeQuartzTime" />
+    <result column="execute_interval_day" jdbcType="DECIMAL" property="executeIntervalDay" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+  </resultMap>
+
+    <select id ="queryByPopularAndAirType" parameterType="com.flight.carryprice.entity.JdjpNfdPatAutoUpdate" resultMap = "BaseResultMap">
+    select id, airline_type, airline_popular_type,dept_date,execute_quartz_time,execute_interval_day,create_time,update_time,operator from jdjp_nfd_pat_auto_update
+    <where>
+        <if test = "airlineType != null">
+            and airline_type = #{airlineType}
+        </if>
+        <if test = "airlinePopularType != null ">
+            and airline_popular_type = #{airlinePopularType}
+        </if>
+        <if test="executeQuartzTime != null">
+            and execute_quartz_time &lt;= now()
+        </if>
+    </where>
+        ORDER BY update_time DESC
+    </select>
+    <update id="updateExecuteQuartzTimeBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update jdjp_nfd_pat_auto_update
+            <set>
+                execute_quartz_time=DATE_ADD(NOW(),INTERVAL #{item.executeIntervalDay}*24*60*60 SECOND)
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+</mapper>

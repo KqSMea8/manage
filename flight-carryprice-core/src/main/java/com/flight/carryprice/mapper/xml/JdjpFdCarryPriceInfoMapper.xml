@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpFdCarryPriceInfoMapper" >
+	<resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpFdCarryPriceInfo" >
+		<!--
+		  WARNING - @mbggenerated
+		-->
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dep_code" property="depCode" jdbcType="VARCHAR" />
+		<result column="arr_code" property="arrCode" jdbcType="VARCHAR" />
+		<result column="air_ways" property="airWays" jdbcType="VARCHAR" />
+		<result column="distance" property="distance" jdbcType="INTEGER" />
+		<result column="seat" property="seat" jdbcType="VARCHAR" />
+		<result column="carry_price" property="carryPrice" jdbcType="DECIMAL" />
+		<result column="airline_type" property="airlineType" jdbcType="TINYINT"/>
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<result column="take_off_effect_date" property="takeOffEffectDate" jdbcType="DATE" />
+		<result column="take_off_expire_date" property="takeOffExpireDate" jdbcType="DATE" />
+		<result column="seat_type" property="seatType" jdbcType="TINYINT"/>
+		<result column="seat_level" property="seatLevel" jdbcType="VARCHAR"/>
+		<result column="discount" property="discount" jdbcType="DECIMAL" />
+		<result column="source" property="source" jdbcType="TINYINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<sql id="allFields">
+		id,dep_code,arr_code,air_ways,distance,seat,carry_price,
+		airline_type,state,take_off_effect_date,take_off_expire_date,
+		seat_type,seat_level,discount,source,create_time,update_time,operator
+	</sql>
+
+	<select id="queryList" parameterType="com.flight.carryprice.entity.JdjpFdCarryPriceInfo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="allFields"/>
+		FROM jdjp_fd_carry_price_info
+		<where>
+			<if test="depCode != null and depCode != ''">
+				and dep_code = #{depCode}
+			</if>
+			<if test="arrCode != null and arrCode != ''">
+				and arr_code = #{arrCode}
+			</if>
+			<if test="airWays != null and airWays != ''">
+				and air_ways = #{airWays}
+			</if>
+			<if test="state != null">
+				and state = #{state}
+			</if>
+			<if test="seat != null and seat != ''">
+				and seat = #{seat}
+			</if>
+			<if test="source != null">
+				and source = #{source}
+			</if>
+			<if test="depDate != null">
+				and #{depDate} BETWEEN take_off_effect_date AND take_off_expire_date
+			</if>
+		</where>
+		order by state desc,air_ways, dep_code, arr_code, discount DESC, seat, id DESC
+	</select>
+
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into jdjp_fd_carry_price_info
+            ( dep_code,arr_code,air_ways,
+              distance,seat,carry_price,
+              airline_type,state,take_off_effect_date,
+              take_off_expire_date,seat_type,seat_level,
+              discount,source,create_time,
+              update_time,operator
+            )
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.depCode},#{item.arrCode},#{item.airWays},
+            #{item.distance},#{item.seat},#{item.carryPrice},
+            #{item.airlineType},#{item.state}, #{item.takeOffEffectDate},
+            #{item.takeOffExpireDate},#{item.seatType},#{item.seatLevel},
+            #{item.discount},#{item.source},#{item.createTime},
+            #{item.updateTime},#{item.operator}
+            )
+        </foreach>
+    </insert>
+
+	<update id="updateBatchToInvaildByParams" parameterType="com.flight.carryprice.entity.JdjpFdCarryPriceInfo" >
+		update jdjp_fd_carry_price_info
+		set state = 0 , update_time = now()
+		WHERE 1=1
+		<if test="depCode != null and depCode != ''">
+			and dep_code = #{depCode}
+		</if>
+		<if test="arrCode != null and arrCode != ''">
+			and arr_code = #{arrCode}
+		</if>
+		<if test="airWays != null and airWays != ''">
+			and air_ways = #{airWays}
+		</if>
+		<if test="state != null">
+			and state = #{state}
+		</if>
+		<if test="seat != null and seat != ''">
+			and seat = #{seat}
+		</if>
+		<if test="source != null">
+			and source = #{source}
+		</if>
+		<if test="source != null and source != ''">
+			and source = #{source}
+		</if>
+	</update>
+
+	<update id="updateBatch" useGeneratedKeys="true" keyProperty="id">
+		UPDATE jdjp_fd_carry_price_info
+		set state = #{state},update_time = now(), operator = #{operator}
+		WHERE id IN
+		<foreach collection="ids" item="item" separator="," open="(" close=")" >
+			#{item}
+		</foreach>
+	</update>
+
+	<select id="selectByIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="allFields"/>
+		FROM jdjp_fd_carry_price_info
+		WHERE id IN
+		<foreach collection="ids" item="item" separator="," open="(" close=")" >
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="queryListBySeats" resultMap="BaseResultMap">
+		SELECT seat,carry_price	FROM jdjp_fd_carry_price_info
+		WHERE air_ways = #{airWays}
+		and dep_code = #{depCode}
+		and arr_code = #{arrCode}
+		and state = 1
+		and seat IN
+		<foreach collection="seats" item="item" separator="," open="(" close=")" >
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="queryListByLimit" resultMap="BaseResultMap">
+		SELECT
+		<include refid="allFields"/>
+		FROM jdjp_fd_carry_price_info
+		limit #{pageIndex},#{pageSize}
+	</select>
+
+
+</mapper>

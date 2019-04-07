@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
+<log4j:configuration>
+
+	<!--输出到控制台 -->
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="DEBUG" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{yyyy.MM.dd HH:mm:ss SS} %5p [%t] %C{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<!--输出到文件 所有日志 -->
+	<appender name="fileAppenderAll" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/export/Logs/all.log" />
+		<param name="DatePattern" value=".yyyy-MM-dd-HH" />
+        <param name="Append" value="true" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{yyyy.MM.dd HH:mm:ss SS} %5p [%t] %C{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<!--输出到文件（error） -->
+	<appender name="fileAppenderError" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/export/Logs/error.log" />
+		<param name="DatePattern" value=".yyyy-MM-dd-HH" />
+        <param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{yyyy.MM.dd HH:mm:ss SS} %5p [%t] %C{1}.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="ERROR" />
+			<param name="LevelMax" value="ERROR" />
+		</filter>
+	</appender>
+
+	<!-- 文件：sql日志 -->
+	<appender name="fileSql" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/export/Logs/sql.log" />
+		<param name="DatePattern" value=".yyyy-MM-dd-HH" />
+        <param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{yyyy.MM.dd HH:mm:ss SS} %5p [%t] %C{1}.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="ERROR" />
+		</filter>
+	</appender>
+
+
+	<category name="com.flight.manager.mapper" additivity="true">
+		<priority value="DEBUG" />
+		<appender-ref ref="fileSql" />
+	</category>
+	<!-- <category name="org.apache.mybatis">  
+        <priority value="DEBUG" />  
+        <appender-ref ref="fileSql" />
+    </category>
+    <category name="org.mybatis.spring">  
+        <priority value="DEBUG" />  
+        <appender-ref ref="fileSql" />
+    </category> -->
+  
+	<category name="java.sql" additivity="true">
+        <priority value="ERROR"/>
+        <appender-ref ref="fileSql"/>
+    </category>
+
+
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="fileAppenderAll" />
+		<appender-ref ref="fileAppenderError" />
+	</root>
+</log4j:configuration>

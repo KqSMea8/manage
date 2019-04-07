@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.AlPopedomTblmoduleMapper" >
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.AlPopedomTblmodule" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="AppCode" property="appcode" jdbcType="INTEGER" />
+    <result column="MenuCode" property="menucode" jdbcType="INTEGER" />
+    <result column="ModuleCode" property="modulecode" jdbcType="INTEGER" />
+    <result column="ModuleName" property="modulename" jdbcType="VARCHAR" />
+    <result column="ModuleNameStyle" property="modulenamestyle" jdbcType="VARCHAR" />
+    <result column="Target" property="target" jdbcType="VARCHAR" />
+    <result column="ModuleSort" property="modulesort" jdbcType="SMALLINT" />
+    <result column="ParentId" property="parentid" jdbcType="INTEGER" />
+    <result column="IsOpen" property="isopen" jdbcType="SMALLINT" />
+    <result column="IsEnabled" property="isenabled" jdbcType="SMALLINT" />
+    <result column="ModuleURL" property="moduleurl" jdbcType="LONGVARCHAR" />
+    <result column="NewModuleURL" property="newmoduleurl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  
+  <select id="selectLeftModule" resultMap="BaseResultMap">
+	select * from al_Popedom_tblModule module
+	where module.isenabled = 0
+	   and module.newmoduleurl is not null
+	   and module.newmoduleurl != ''
+	   and module.appcode = #{appCode}
+	   and exists (select distinct p.modulecode from al_Popedom_tblRolePopedom p
+	        where exists( select r.RoleCode from al_popedom_tblUserRole r,al_popedom_tblrole tr
+	                 where r.rolecode = tr.rolecode and tr.isEnabled = 0
+	                 and r.isEnabled = 0 and r.userCode = #{userCode}	and r.rolecode = p.rolecode
+			)and p.modulecode = module.modulecode
+		)
+	 order by module.modulesort
+   </select>
+  
+</mapper>

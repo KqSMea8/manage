@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>京东国内机票运价管理系统-基础数据维护</title>
+    #parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+        <div class="crumb-nav">
+            <a href="javascript:goHomepage();">首页</a>&gt;
+            <a href="javascript:void(0);" class="href0">PAT运价管理</a>&gt;
+            <a href="javascript:void(0);" class="href0">PAT运价更新策略</a>
+        </div>
+        <form id="PatCarryPricePolicy_searchForm" action="${staticPath}/pat/patUpdatePolicy/patUpdatePolicyList"
+              method="post">
+            <!-- 此处用于搜索时,所传递的参数 结束 -->
+            <div class="main-con tickets-order-view-wrap">
+                <!-- 搜索内容 start -->
+                <div class="search-wrap-mod mb oz">
+
+                    <dl class="dl-mod fl">
+                        <dt>出发机场：</dt>
+                            <dd>
+                              <input type="text" class="text text3" name="depCode" value="$!{queryBean.depCode}"/>
+                            </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>到达机场：</dt>
+                            <dd>
+                              <input type="text" class="text text3" name="arrCode" value="$!{queryBean.arrCode}"/>
+                            </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>航司：</dt>
+                             <dd>
+                                <select class="text text3" name="airWays">
+                                                    <option value="">全部</option>
+                                                    #foreach($com in ${company})
+                                                        <option value="${com.code}" (#if($!{com.code} == $!{queryBean.airWays}) selected #end)>
+                                                                ${com.code}—${com.name}</option>
+                                                    #end
+                                 </select>
+                             </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>舱位：</dt>
+                            <dd>
+                              <input type="text" class="text text3" name="seat" value="$!{queryBean.seat}"/>
+                            </dd>
+                    </dl>
+                    <dl class="dl-mod fl">
+                        <dt>航线类型：</dt>
+                        <dd>
+                            <select class="text text3" name="airlineType">
+                                <option value="">全部</option>
+                                #foreach($patType in ${airlineType})
+                                    <option value="${patType.key}" (#if($!{patType.key}== $!{queryBean.airlineType}) selected #end)>
+                                            ${patType.value}</option>
+                                #end
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl class="dl-mod fl">
+                        <dt>同步状态：</dt>
+                        <dd>
+                            <select class="text text3" name="syncStatus">
+                                <option value=''>全部</option>
+                                <option value='0' (#if($!{queryBean.syncStatus}== '0') selected #end)>未同步</option>
+                                <option value='1' (#if($!{queryBean.syncStatus}== '1') selected #end)>同步中</option>
+                                <option value='2' (#if($!{queryBean.syncStatus}== '2') selected #end)>同步完成</option>
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <div class="search-btn-box fl" style="padding-left:88px;">
+                        <input type="button" id="query" class="btn btn2" onclick="queryPatCarryPricePolicy()" value="查询"/>
+                        <input type="button" class="btn btn2" onclick="addPatCarryPricePolicy()" value="新增"/>
+                    </div>
+
+                    <div class="spacer"></div>
+                </div>
+                <!-- 搜索内容 end -->
+
+                <!-- 搜索结果 start -->
+                <div class="order-mes-mod mb">
+                    <table>
+                        <thead>
+                        <tr class="single-line-text">
+                            <th style="width:2%;">序号</th>
+                            <th style="width:12%;">航司/航线/航班/舱位</th>
+                            <th style="width:7%;">热门类型</th>
+                            <th style="width:10%">起飞时间</th>
+                            <th style="width:7%">更新时刻</th>
+                            <th style="width:5%;">同步状态</th>
+                            <th style="width:7%;">同步开始时间</th>
+                            <th style="width:7%;">同步结束时间</th>
+                            <th style="width:7%;">插入时间</th>
+                            <th style="width:5%;">新增类型</th>
+                            <th style="width:4%;">操作人</th>
+                            <th style="width:10%;">备注</th>
+                            <th style="width:4%;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #if($!{pageInfo.list})
+                            #foreach($patPolicy in ${pageInfo.list})
+                                <tr>
+                                    <td>$!{velocityCount}</td>
+                                    <td>
+                                        #foreach($lines in ${patPolicy.airlines.split(',')})
+                                     	#if($!lines.indexOf(':')!=-1)
+                                            #if($!{velocityCount}<3)
+
+                                                #set($line = $lines.split(':'))
+
+                                                #if($line[0] == '***')所有#end
+                                                #if($line[0] != '***')
+                                                    #foreach($com in ${company})
+                                                        #if($!{com.code} == $line[0])
+                                                            ${com.code}—${com.name}
+                                                        #end
+                                                    #end
+                                                #end
+                                                ：
+                                                #set($lineCity = $line[1].split('/'))
+
+                                                #if($lineCity[0] == '***')所有#end
+                                                #if($lineCity[0] != '***')
+                                                    #foreach($air in ${airport})
+                                                        #if($!{air.code} == $lineCity[0])
+                                                            ${air.code}—${air.name}
+                                                        #end
+                                                    #end
+                                                #end
+                                                /
+                                                #if($lineCity[1] == '***')所有#end
+                                                #if($lineCity[1] != '***')
+                                                    #foreach($air in ${airport})
+                                                        #if($!{air.code} == $lineCity[1])
+                                                            ${air.code}—${air.name}
+                                                        #end
+                                                    #end
+                                                #end
+                                                :
+                                                航班:$line[2]
+                                                :
+                                                舱位:$line[3]
+                                                :
+                                                有效期:$line[4]
+                                                :
+                                                预定时间范围:$line[5]
+                                                <br/>
+                                            #end
+                                            #if($!{velocityCount}>=3 && $!{velocityCount} == $!patPolicy.airlines.split(',').size())
+                                                ... ...<br/>... ...
+                                            #end
+                                     	#end
+                                     	#end
+                                    </td>
+
+
+                                    <td>
+                                            #foreach($type in ${airlineType})
+                                            	#if($!{type.key}==$!{patPolicy.airlineType})
+                                            			${type.value}
+                                            	#end
+                                            #end
+                                    </td>
+                                    <td>
+                                            $!{patPolicy.depDate}
+                                    </td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{patPolicy.planQuartzTime})</td>
+                                    <td>
+                                        #if($!{patPolicy.syncStatus}=='0')未同步#end
+                                        #if($!{patPolicy.syncStatus}=='1')同步中#end
+                                        #if($!{patPolicy.syncStatus}=='2')同步完成#end
+                                    </td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{patPolicy.executeQuartzTime})</td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{patPolicy.executeFinishTime})</td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{patPolicy.createTime})</td>
+                                    <td>
+                                        #if($!{patPolicy.source}=='0')自动#end
+                                        #if($!{patPolicy.source}=='1')手工#end
+                                    </td>
+                                    <td>$!{patPolicy.operator}</td>
+                                    <td>$!{patPolicy.remark}</td>
+                                    <td>
+                                        #if($!{patPolicy.source}=='1' && $!{patPolicy.syncStatus}=='0')
+                                           <a href="javascript:void(0);" onclick="updatePatCarryPricePolicy('${patPolicy.id}')">【修改】</a>
+                                    	   <a href="javascript:void(0);" onclick="deleteById('${patPolicy.id}')">【删除】</a>
+                                    	#end
+                                    </td>
+                                </tr>
+                            #end
+                        #end
+                        #if($!{pageInfo.list.size()} == 0)
+                            <tr>
+                                <td colspan="18">
+                                    <label style="color: gray;">很抱歉，没有找到相关记录！</label>
+                                </td>
+                            </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 搜索结果 end -->
+                <!-- 分页 start -->
+                <div class="pagelist mb oz">
+                    #if($!{pageInfo.list})
+                        #parse('/comm/pagination.vm')
+                    #end
+                </div>
+                <!-- 分页 end -->
+            </div>
+        </form>
+    </div>
+
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+    //查询
+    function queryPatCarryPricePolicy() {
+        formToTrim("PatCarryPricePolicy_searchForm");
+        $("#PatCarryPricePolicy_searchForm").submit();
+    }
+    //带有分页信息查询
+    function finishEditqueryPatCarryPricePolicy() {
+        var pageIndex1 = document.createElement("input");
+        pageIndex1.setAttribute("type", "hiden");
+        pageIndex1.setAttribute("value", "${pageIndex}");
+        pageIndex1.setAttribute("name", "pageIndex");
+        $(".spacer").append(pageIndex1);
+
+        var pageSize1 = document.createElement("input");
+        pageSize1.setAttribute("type", "hiden");
+        pageSize1.setAttribute("value", "${pageSize}");
+        pageSize1.setAttribute("name", "pageSize");
+        $(".spacer").append(pageIndex1);
+
+        formToTrim("PatCarryPricePolicy_searchForm");
+        $("#PatCarryPricePolicy_searchForm").submit();
+
+    }
+    //新增
+    function addPatCarryPricePolicy(){
+    	showDialog("dialog","新增PAT运价更新策略","${staticPath}/pat/patUpdatePolicy/toAddPatUpdatePolicy",700,550);
+    }
+    //修改
+    function updatePatCarryPricePolicy(policyId) {
+        showDialog("dialog", "修改PAT运价更新策略", "${staticPath}/pat/patUpdatePolicy/toUpdatePatUpdatePolicy?id=" + policyId, 700, 750);
+    }
+    //删除
+    function deleteById(id){
+    		if(!confirm("确定要删除吗?")){
+    			return;
+    		}
+    		$.ajax({
+    			 url: "${staticPath}/pat/patUpdatePolicy/deletePatUpdatePolicy",
+    			 data: {
+    				 "id" : id,
+    			 },
+    			 dataType:"json",
+    			 success: function(data){
+    				 if(data > 0){
+    					 alert("删除成功");
+    					 queryPatCarryPricePolicy();
+    				 }else if(data == -1){
+    					 alert("删除失败");
+    				 }else{
+    					 alert("删除失败");
+    				 }
+    			 }
+    		 });
+    }
+
+    //获取表单对象
+    function getTableForm() {
+        return document.getElementById('PatCarryPricePolicy_searchForm');
+    }
+    //复选框勾选数量
+    function checkedCount(name) {
+        var batchChecks = document.getElementsByName(name);
+        var count = 0;
+        for (var i = 0;i < batchChecks.length; i++) {
+            if (batchChecks[i].checked) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    //批量勾选复选按钮
+    function checkBox(name,checked){
+        $("input[name='"+name+"']").attr("checked",checked);
+    }
+</script>
+</body>
+</html>
+

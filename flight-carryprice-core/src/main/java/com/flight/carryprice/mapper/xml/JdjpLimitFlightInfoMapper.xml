@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpLimitFlightInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpLimitFlightInfo" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="air_ways" property="airWays" jdbcType="VARCHAR" />
+    <result column="dep_code" property="depCode" jdbcType="VARCHAR" />
+    <result column="arr_code" property="arrCode" jdbcType="VARCHAR" />
+    <result column="flight_no" property="flightNo" jdbcType="VARCHAR" />
+    <result column="seat" property="seat" jdbcType="VARCHAR" />
+	<result column="is_false_seat" property="isFalseSeat" jdbcType="TINYINT" />
+    <result column="limit_sale_time_begin" property="limitSaleTimeBegin" jdbcType="TIMESTAMP" />
+    <result column="limit_sale_time_end" property="limitSaleTimeEnd" jdbcType="TIMESTAMP" />
+    <result column="limit_time_begin" property="limitTimeBegin" jdbcType="TIMESTAMP" />
+    <result column="limit_time_end" property="limitTimeEnd" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+  </resultMap>
+	<sql id="allFields">
+		id, air_ways,dep_code,arr_code,flight_no,seat,is_false_seat,limit_sale_time_begin,
+	  	limit_time_begin,limit_sale_time_end,limit_time_end,create_time,update_time,operator
+	</sql>
+  <select id="queryList" parameterType="com.flight.carryprice.entity.JdjpLimitFlightInfo" resultMap="BaseResultMap">
+	select <include refid="allFields"/>
+	  from jdjp_limit_flight_info
+	<where>
+		<if test="limitTimeBegin != null">
+			and #{limitTimeBegin} BETWEEN limit_time_begin and limit_time_end
+		</if>
+		<if test="limitSaleTimeBegin != null" >
+			and #{limitSaleTimeBegin} BETWEEN limit_sale_time_begin and limit_sale_time_end
+		</if>
+		<if test="depCode != null and depCode != ''">
+			and dep_code = #{depCode}
+		</if>
+		<if test="arrCode != null and arrCode != ''">
+			and arr_code = #{arrCode}
+		</if>
+		<if test="airWays != null and airWays != ''">
+			and air_ways = #{airWays}
+		</if>
+		<if test="flightNo != null and flightNo != ''">
+			and (flight_no like "%"#{flightNo}"%")
+		</if>
+		<if test="isFalseSeat != null">
+			and is_false_seat = #{isFalseSeat}
+		</if>
+		<if test="seat != null and seat != ''">
+			and seat = #{seat}
+		</if>
+	</where>
+	order by create_time desc,id
+	</select>
+	<select id="queryEffectList" parameterType="com.flight.carryprice.entity.JdjpLimitFlightInfo" resultMap="BaseResultMap">
+		select <include refid="allFields"/>
+		from jdjp_limit_flight_info
+		<where>
+			<if test="depCode != null and depCode != ''">
+				and dep_code = #{depCode}
+			</if>
+			<if test="arrCode != null and arrCode != ''">
+				and arr_code = #{arrCode}
+			</if>
+			<if test="flightNo != null and flightNo != ''">
+				and flight_no = #{flightNo}
+			</if>
+			<if test="isFalseSeat != null">
+				and is_false_seat = #{isFalseSeat}
+			</if>
+			<if test="seat != null and seat != ''">
+				and seat = #{seat}
+			</if>
+			<if test="airWays != null and airWays != ''">
+				and air_ways = #{airWays}
+			</if>
+			<if test="1">
+				and (limit_sale_time_end IS NULL OR UNIX_TIMESTAMP(NOW()) &lt;= UNIX_TIMESTAMP(limit_sale_time_end))
+				and (limit_time_end IS NULL OR UNIX_TIMESTAMP(NOW()) &lt;= UNIX_TIMESTAMP(limit_time_end))
+			</if>
+
+		</where>
+		order by create_time desc,id
+	</select>
+	<select id="queryFields" parameterType="com.flight.carryprice.entity.JdjpLimitFlightInfo" resultMap="BaseResultMap">
+		SELECT dep_code,arr_code,air_ways,flight_no,is_false_seat,seat FROM jdjp_limit_flight_info GROUP BY dep_code,arr_code,air_ways,flight_no,is_false_seat,seat;
+	</select>
+</mapper>

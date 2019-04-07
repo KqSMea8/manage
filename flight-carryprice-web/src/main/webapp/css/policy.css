@@ -1,0 +1,223 @@
+﻿@charset "utf-8";
+label.error {
+    color: Red;
+}
+
+.remarkError {
+    color: Red;
+}
+
+.limitFlightNos{
+    color: Red;
+}
+
+.search-wrap-mod {
+    padding: 20px 0 4px 20px;
+}
+
+.operate-box2 {
+    padding: 20px 350px;
+}
+
+.ftx03 {
+    color: #999;
+}
+/*.btn1 {*/
+    /*width: 150px;*/
+    /*height: 30px;*/
+    /*line-height: 30px;*/
+    /*margin: 0 335px;*/
+/*}*/
+.ftx04 {
+    color: #999;
+    line-height: 20px;
+    width: 1100px;
+}
+
+/*div.f3 {*/
+    /*float: left;*/
+    /*height: 18px;*/
+    /*line-height: 11px;*/
+    /*padding: 5px 20px;*/
+    /*width: 1100px;*/
+/*}*/
+
+textarea.remark {
+    /* float: left; */
+    height: 60px;
+    margin: 0px 1px 0px -80px;
+    width: 80%;
+}
+
+div.f2 {
+    float: left;
+    height: 18px;
+    line-height: 11px;
+    padding: 2px 150px;
+    width: 90%;
+}
+.f3 {
+    float: left;
+    /*height: 85px;*/
+    line-height: 11px;
+    padding: 0px 20px;
+    width: 90%;
+}
+
+.item {
+    padding: 30px 0px 0px 0px;
+    zoom: 1;
+}
+
+/*.label {*/
+    /*float: left;*/
+    /*height: 30px;*/
+    /*line-height: 19px;*/
+    /*padding: 0px 20px;*/
+    /*width: 150px;*/
+    /*text-align: right;*/
+/*}*/
+.label {
+    float: left;
+    height: 0px;
+    line-height: 19px;
+    padding: 0px 0px;
+    width: 120px;
+    text-align: right;
+}
+
+
+.label1 {
+    float: left;
+    height: 30px;
+    line-height: 19px;
+    padding: 0px 0px;
+    width: 100px;
+    text-align: right;
+}
+
+.form em {
+    color: #e4393c;
+}
+
+.s_pubbox_hd {
+    margin-bottom: 25px;
+    position: relative;
+    border-bottom: 1px solid #808080;
+    height: 40px;
+    line-height: 40px;
+}
+
+.s_pubbox_tit {
+    font-size: 20px;
+    line-height: 20px;
+    height: 40px;
+    color: #000;
+    font-family: 'Microsoft YaHei';
+    float: left;
+    padding-right: 80px;
+}
+
+h3 {
+    font-weight: bold;
+}
+
+.s_pubbox_bd {
+    position: relative;
+}
+
+.s_mod1 {
+    position: relative;
+    border-bottom: 1px solid #999;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.s_mod1 .s_mod1_tit {
+    position: absolute;
+    left: 0px;
+    height: 26px;
+    line-height: 26px;
+    top: 0px;
+    font-size: 16px;
+    color: #767676;
+    font-family: 'Microsoft YaHei';
+    font-weight: normal;
+}
+
+.dateStyle {
+    width: 178px;
+}
+
+
+body, ol, ul, li, p, h1, h2, h3, h4, h5, dl, dt, dd, table, colgroup, col, tr, th, td, img, form, select, option, input, textarea, span, button, label, b, i, s {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    /*font: 14px SimSun, Helvetica, Arial, sans-serif;*/
+}
+
+
+.ra {
+    height: 18px;
+    line-height: 1px;
+}
+
+span {
+    /*height: 18px;*/
+    line-height: 11px;
+}
+
+.dateError {
+    float: left;
+    width: 240px;
+}
+.checkBoxStyle{
+    margin-left: 8px;
+}
+.order-mes-mod table {
+    width: 98%;
+    border-collapse: collapse;
+}
+
+
+/*****************************************/
+.text, .file-input {
+    display: inline-block;
+    /* height: 20px; */
+    line-height: 14px;
+    border: 1px solid #bbb;
+    padding-left: 3px;
+}
+.item1 {
+    padding: 0px 0px 125px 90px;
+    zoom: 1;
+}
+
+.select001{
+    width: 147px;
+    height: 22px;
+}
+.box3{
+    width: 500px;
+    margin: auto;
+    display: flex;
+}
+
+.text8{
+    width: 280px;
+}
+
+.operate-box2 {
+    padding: 20px 500px;
+}
+
+.s_textarea {
+    padding-left: 4px;
+    border: 1px solid #666;
+    resize: none;
+    vertical-align: top;
+    padding-top: 2px;
+    overflow-y:visible;
+}

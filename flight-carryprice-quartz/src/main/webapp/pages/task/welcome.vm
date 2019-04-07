@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+	<title>成功启动界面</title>
+<meta name="description" content="京东国内机票工单管理系统-您身边的商务出行服务专家。">
+<meta name="keywords" content="京东国内机票工单管理系统-您身边的商务出行服务专家。">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+
+<body>
+<div class="content" >
+
+    <div id="preview" style="display: block;">
+        <dt>启动成功!</dt>
+    </div>
+
+ </div>
+
+</body>
+</html>

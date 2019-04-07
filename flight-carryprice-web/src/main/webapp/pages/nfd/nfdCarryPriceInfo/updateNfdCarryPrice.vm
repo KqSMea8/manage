@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<style>
+radio{width:12px;position:relative;top:4px}
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+	<div class="pop-wrap">
+		<div class="add-staff-pop oz order-mes-mod">
+			<form id="aircompany_form">			
+				<table>
+				    <tr>
+				    <input type="hidden" name="airlinePopularType" value="${queryBean.airlinePopularType}">
+                        <td><span style="color: red">*</span>运价类型(不可修改项)</td>
+                        <td>
+                           <select type="hidden" disabled="disabled">
+                                <option value="0" (#if(0 == $!{queryBean.airlinePopularType}) selected #end)>NFD</option>
+                                <option value="1" (#if(2 == $!{queryBean.airlinePopularType}) selected #end)>PAT</option>
+                            </select>
+                        </td>
+                   </tr>
+                   <tr>
+						<td>
+							
+							<input type="hidden" name="id" value="${queryBean.id}">
+							<span style="color: red">*</span>航空公司(不可修改项)
+						
+						</td>
+						<td>
+						 <input type="hidden" name="airWays" value="${queryBean.airWays}">
+                         <select name="airWays" disabled="disabled">
+						  #foreach($air in ${company})
+							<option value="${air.code}" (#if($!{air.code}== $!{queryBean.airWays}) selected #end)>
+							${air.code}—${air.name}</option>
+						  #end
+						</select>					
+					  </td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>舱位(不可修改项)</td>
+						<input type="hidden" name="seat" value="${queryBean.seat}">
+						<td id="seatList">
+							<input name="seat" type="checkbox" value="$!{queryBean.seat}" style="width:10px;height:10px;align:left;" disabled="disabled" checked="checked"/> ${queryBean.seat}
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>政策码</td>
+						<td>
+							<input type="text" name="priceLevel" value="$!{queryBean.priceLevel}" class="validate[required]" />
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>出发机场</td>
+						<td>
+                       <select  name="depCode" >
+						#foreach($air in ${airport})
+							<option value="${air.code}" (#if($!{air.code}== $!{queryBean.depCode}) selected #end)>
+							${air.code}-${air.name}</option>
+						#end
+						</select>				
+					  </td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>到达机场</td>
+						<td>
+                       <select  name="arrCode" >
+						#foreach($air in ${airport})
+							<option value="${air.code}" (#if($!{air.code}== $!{queryBean.arrCode}) selected #end)>
+							${air.code}-${air.name}</option>
+						#end
+						</select>				
+					  </td>
+					</tr>
+					<tr>
+						<td colspan="2" align="left"><span style="color: red">*</span>去程时刻限制(例：23点59分填写2359)</td>
+					</tr>
+							#if($!{limit1})
+								#foreach($limit in ${limit1})
+						<tr><td><a class="delFlightAndPrice"  href="#">删除</a></td>
+							<td >
+									<input type="text" name="flightTimeLimit1" class="flightTimeLimit1" maxlength="4" style="width: 100px" value="${limit}"/>-<input type="text" name="flightTimeLimit2"  class="flightTimeLimit2" maxlength="4" style="width: 100px" value="$!{limit2.get($math.sub($!{velocityCount},1))}"/>  
+							</td>
+						</tr>
+								#end
+							#end
+							
+					<tr id="continue_add">
+						<td></td>
+						 <td colspan="3"><a  href="javascript:addLimit()">继续添加限制</a></td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>舱位等级</td>
+						<td>
+                       <select  name="seatLevel" >
+                       		<option value=""  (#if($!{queryBean.seatLevel}== '') selected #end)>-请选择-</option>
+							<option value="Y" (#if($!{queryBean.seatLevel}== 'Y') selected #end)>经济舱</option>
+							<option value="C" (#if($!{queryBean.seatLevel}== 'C') selected #end)>商务舱</option>
+							<option value="F" (#if($!{queryBean.seatLevel}== 'F') selected #end)>头等舱</option>
+						</select>				
+					  </td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>运价(价格)</td>
+						<td>
+							#if($!{queryBean.carryPrice})
+								<input type="text" name="carryPrice" value="$number.format("#",$!{queryBean.carryPrice})" />
+							#end
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>里程</td>
+						<td><input type="text" name="distance" value="$!{queryBean.distance}" /></td>
+					</tr>
+					<tr>
+					<td><span style="color: red">*</span>使用状态</td>
+					<td>
+						<input type="radio" value="1" name="state" (#if($!{queryBean.state}== '1') checked #end)>使用
+						<input type="radio" value="0" name="state" (#if($!{queryBean.state}== '0') checked #end)>禁用
+                    </td>
+                    	<tr>
+						<td><span style="color: red">*</span>航线类型</td>
+						<td>
+							<input type="radio" value="1" name="airlineType" (#if($!{queryBean.airlineType}== '1') checked #end)>热门
+							<input type="radio" value="0" name="airlineType" (#if($!{queryBean.airlineType}== '0') checked #end)>普通
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>适用星期（班期限制）</td>
+						<td>
+							<input type="checkBox" name="schedules" value="1"  style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '1') checked #end)
+								#end/>一
+							<input type="checkBox" name="schedules" value="2"  style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '2') checked #end)
+								#end/>二
+							<input type="checkBox" name="schedules" value="3"  style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '3') checked #end)
+								#end/>三
+							<input type="checkBox" name="schedules" value="4" style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '4') checked #end)
+								#end/>四
+							<input type="checkBox" name="schedules" value="5"  style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '5') checked #end)
+								#end/>五
+							<input type="checkBox" name="schedules" value="6"  style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '6') checked #end)
+								#end/>六
+							<input type="checkBox" name="schedules" value="7"  style="width:15px;height:15px;align:left;margin-left:5px"
+								#foreach($air in ${scheduleList})
+								(#if($!{air}== '7') checked #end)
+								#end/>七
+						</td>
+					</tr>
+
+                    <tr>
+						<td><span style="color: red">*</span>有效期起始时间</td>
+						<td>
+						<input type="text" name="takeOffEffectDate" id="takeOffEffectDate" class="validate[required]"readonly="readonly"
+							   value="$!date.format('yyyy-MM-dd',$!{queryBean.takeOffEffectDate})"
+								   onfocus="WdatePicker({doubleCalendar: true ,dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'takeOffExpireDate\')}' })"  />-
+						<input type="text" name="takeOffExpireDate" id="takeOffExpireDate" class="validate[required]" readonly="readonly"
+							   value="$!date.format('yyyy-MM-dd',$!{queryBean.takeOffExpireDate})"
+							   onfocus="WdatePicker({doubleCalendar: true ,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'takeOffEffectDate\')}'})"  />
+					</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>预定最大天数</td>
+						<td>
+							<input type="text" name="advanceBiggestDay" value="$!{queryBean.advanceBiggestDay}">
+	                    </td>
+                    </tr>
+                    <tr>
+						<td><span style="color: red">*</span>预定最小天数</td>
+						<td>
+							<input type="text" name="advanceSmallestDay" value="$!{queryBean.advanceSmallestDay}">
+	                    </td>
+                    </tr>   
+                    <tr>
+						<td><span style="color: red"></span>适用航班</td>
+						<td>
+							<textarea rows="4" cols="40"  name="includeFlightNo" placeholder="示例：1830-1831/1865-1865 多个航线之间用“/”隔开" >$!{queryBean.includeFlightNo}</textarea>
+	                    </td>
+                    </tr>
+                    <tr>
+						<td><span style="color: red"></span>不适用航班</td>
+						<td>
+							<textarea rows="4" cols="40"  name="excludeFlightNo" placeholder="示例：1830-1831/1865-1865 多个航线之间用“/”隔开"  >$!{queryBean.excludeFlightNo}</textarea>
+	                    </td>
+                    </tr>
+              
+					<tr>
+						<td><span style="color: red"></span>退票规则</td>
+						<td>
+							<textarea rows="4" cols="40"  name="refundRule" >$!{queryBean.refundRule}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red"></span>改签规则</td>
+						<td>
+							<textarea rows="4" cols="40"  name="changeRule" >$!{queryBean.changeRule}</textarea>
+						</td>
+					</tr>
+				
+				</table>
+				
+	            <div class="operate-box2" style="padding-left: 200px">
+	            	<input type="button" class="btn btn4" value="返回" onclick="javascript:goBack();">
+		            <input type="button" id="saveBtn" class="btn btn3" value="确定" onclick="javascript:save();">
+	            </div>
+            </form>            
+		</div>
+	</div>
+	<div id="flown" class="inputContainer"></div>
+<script type="text/javascript">
+	//提交时表单验证
+	$(function(){
+	  $('#aircompany_form').validationEngine({
+		    scroll: true, //屏幕自动滚动到第一个验证不通过的位置。
+		    addPromptClass: 'formError-noArrow formError-text',  //样式
+		    binded: false,   //是否绑定即时验证
+		    //showArrow: false,  //是否显示提示信息
+		    promptPosition: 'centerRight', //提示信息位置
+		    showOneMessage: true,  //是否只显示一个提示信息
+		    autoPositionUpdate :true,  //是否自动调整提示层的位置
+	    	maxErrorsPerField: 1  //单个元素显示错误提示的最大数量，值设为数值。默认 false 表示不限制。
+	  });
+	});
+	//页面加载完成为去程时间限制添加删除
+    $(function(){
+    	$(".delFlightAndPrice").unbind("click").click(function() {
+ 			var limit = $('.flightTimeLimit1');
+		 	if(limit.length<2){
+				alert("去程时刻限制为必填项");
+				return;
+			} 
+			$(this).parent().parent().remove();
+		});
+    });
+	//继续添加航班起飞时间限制
+	function addLimit() {
+		$("#continue_add")
+				.before(
+						' <tr> <td><a class="delFlightAndPrice"  href="#"  >删除</a></td>'+
+					              '<td><input type="text" name="flightTimeLimit1"  class="flightTimeLimit1" maxlength="4" style="width: 100px" />-'+
+					              '<input type="text" name="flightTimeLimit2"  class="flightTimeLimit2" style="width: 100px"  maxlength="4"></td>'+
+								'</tr>');
+		//添加删除点击事件
+		$(".delFlightAndPrice").unbind("click").click(function() {
+ 			var limit = $('.flightTimeLimit1');
+		 	if(limit.length<2){
+				alert("去程时刻限制为必填项");
+				return;
+			} 
+			$(this).parent().parent().remove();
+		});
+	}
+
+	//保存
+	function save(){
+		//去程时刻限制校验
+		var reg = /[0-2]\d{3}/;  /* 简单去程时刻限制匹配,4位数字 */
+		var limit1 = $('.flightTimeLimit1');
+		var limit2 = $('.flightTimeLimit2');
+		var minAndMax=0;
+		var a=0;
+		if(limit1.length<1){
+			alert("请选择去程时刻限制");
+			return;
+		}
+		var limit1 = $('.flightTimeLimit1');
+		for(var i=0;i<limit1.length;i++){
+			var val1=limit1[i].value;
+			var val2=limit2[i].value;
+			if((!reg.test(val1)||!reg.test(val1))||(val1>=val2)){
+				a=a+1;
+			}else if((val1<0||val1>2359)||(val2<0||val2>2359)){
+				minAndMax=minAndMax+1;
+			}
+		}
+		if(a>0){
+			alert("去程时刻限制:开始格式不正确或不能为空");
+			return;
+		}
+		if(minAndMax>0){
+			alert("去程时刻限制:最小值为0000-最大值为2359");
+			return;
+		}
+   
+		var isValid = $("#aircompany_form").validationEngine("validate");
+		if(!isValid){
+			return;
+		}
+		//运价校验
+		var number=/^(0|[1-9]\d*)$/; /* 匹配非负整数 */
+		if(!number.test($('input[name="carryPrice"]').attr("value"))){
+			alert("NFD运价:不应包含空格且为非负整数");
+			return;
+		}
+		//里程校验
+		if(!number.test($('input[name="distance"]').attr("value"))){
+			alert("里程:不应包含空格且为非负整数");
+			return;
+		}
+		//星期校验
+		var flightCycle=$('input[name="schedules"]:checked');
+		var flightCycleValue="";
+		if(flightCycle.length==0)
+		{
+			alert("请选择适用星期");
+			return;	
+		}
+		if(flightCycle.length==1){
+			flightCycleValue=flightCycle[0].value;
+		}
+		else{
+			flightCycleValue=flightCycle[0].value;
+			for(var i=1;i<flightCycle.length;i++){   //取到对象数组后，我们来循环检测它是不是被选中  
+		       flightCycleValue=flightCycleValue+','+flightCycle[i].value;   //如果选中，将value添加到变量s中
+		   }
+		}
+		//校验有效期是否为空
+		if($('input[name="takeOffEffectDate"]').attr("value")==''){
+			alert("有效期:不应为空");
+			return;
+		}
+		if($('input[name="takeOffExpireDate"]').attr("value")==''){
+			alert("有效期:不应为空");
+			return;
+		}
+		//最大天数、最小天数校验
+		if(!number.test($('input[name="advanceBiggestDay"]').attr("value"))){
+			alert("预订最大天数:不应包含空格且为非负整数");
+			return;
+		}
+		if(!number.test($('input[name="advanceSmallestDay"]').attr("value"))){
+			alert("预订最小天数:不应包含空格且为非负整数");
+			return;
+		}
+		//适用、不适用航班格式校验
+		var flight=/^[0-9]+-[0-9]+((\/[0-9]+-[0-9]+)+)?$/;  /* 适用、不适用航班正则表达式 */
+		
+		var include=$('textarea[name="includeFlightNo"]').attr("value");
+		if($.trim(include) !=''){ 
+			if(!flight.test(include)){
+				alert("适用航班:输入数据格式错误");
+				return;
+			}
+	 	}  
+ 		var exclude=$('textarea[name="excludeFlightNo"]').attr("value"); 
+ 		if($.trim(exclude) !=''){ 
+ 			if(!flight.test(exclude)){
+ 				alert("不适用航班:输入数据格式错误");
+ 				return;
+ 			}
+ 	 	}	
+		//把表单转为json对象
+		var jsonObj = $("#aircompany_form").serializeObject();
+		jsonObj.schedules=flightCycleValue;
+		if(jsonObj.depCode==jsonObj.arrCode){
+			alert("出发机场和到达机场不能相同");
+			return;
+		}
+		var jsonStr = JSON.stringify(jsonObj);
+		if(!confirm("确定要更新吗?")){
+			return;	
+		}
+		$.ajax({
+			 url: "${staticPath}/nfd/nfdCarryPriceInfo/doUpdateNfdCarryPrice",
+			 data: {
+				 "jsonStr" : jsonStr,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					 alert("更新成功");
+					 queryNfdCarryPriceInfo();
+				 }else if(data == -1){
+					 alert("更新失败");
+				 }else{
+					 alert("更新失败");
+				 }
+			 }
+		 });	
+	}
+	//返回
+	function goBack(){
+		$("#dialog").empty().dialog("close");
+	}
+	//选择航线类型
+    function showType(){
+    	var type=$("input[name='airlineType']:checked").val();
+    	if(type==0){
+    		 $("#airType").show();
+    	}
+    	else{
+    		$("#airType").hide();
+    	}
+    }
+    
+</script>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpNfdUpdatePolicyMapper">
+
+    <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpNfdUpdatePolicy">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="dep_code" property="depCode" jdbcType="VARCHAR"/>
+        <result column="arr_code" property="arrCode" jdbcType="VARCHAR"/>
+        <result column="air_ways" property="airWays" jdbcType="VARCHAR"/>
+        <result column="dep_date" property="depDate" jdbcType="VARCHAR"/>
+        <result column="plan_quartz_time" property="planQuartzTime" jdbcType="TIMESTAMP"/>
+        <result column="sync_status" property="syncStatus" jdbcType="TINYINT"/>
+        <result column="airline_type" property="airlineType" jdbcType="TINYINT"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="airwaysName" property="airwaysName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="execute_quartz_time" property="executeQuartzTime" jdbcType="TIMESTAMP"/>
+        <result column="execute_finish_time" property="executeFinishTime" jdbcType="TIMESTAMP"/>
+        <result column="source" property="source" jdbcType="TINYINT"/>
+        <result column="airlines" jdbcType="LONGVARCHAR" property="airlines"/>
+    </resultMap>
+
+    <!-- '同步状态  0-未同步   1-同步中   2-同步完成' -->
+    <select id="queryList" resultMap="BaseResultMap" parameterType="com.flight.carryprice.entity.JdjpNfdUpdatePolicy">
+        select c.id,c.dep_code,c.arr_code,c.air_ways,c.dep_date,c.plan_quartz_time,c.sync_status,
+        c.airline_type,c.operator,c.remark,c.create_time,c.execute_quartz_time,c.execute_finish_time,source,airlines
+        from jdjp_nfd_update_policy c where 1=1
+        <if test="airWays !=null and airWays != ''">
+            and c.air_ways=#{airWays}
+        </if>
+        <if test="depDate !=null and depDate != ''">
+            and c.dep_date=#{depDate}
+        </if>
+        <if test="depCode !=null and depCode != ''">
+            and c.dep_code=#{depCode}
+        </if>
+        <if test="arrCode !=null and arrCode != ''">
+            and c.arr_code=#{arrCode}
+        </if>
+        <if test="syncStatus!=null">
+            and c.sync_status=#{syncStatus}
+        </if>
+        order by id desc
+    </select>
+
+    <!-- 查询未处理的nfd更新策略id -->
+    <select id="queryNfdUpdatePolicys" resultMap="BaseResultMap">
+        select
+        c.id
+        from
+        jdjp_nfd_update_policy c
+        where
+        c.sync_status = 0 and c.plan_quartz_time &lt;= now()
+    </select>
+
+</mapper>

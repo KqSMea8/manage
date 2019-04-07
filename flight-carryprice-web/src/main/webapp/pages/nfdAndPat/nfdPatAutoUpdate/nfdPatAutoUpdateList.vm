@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统-NFD PAT运价管理</title>
+	#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+    	<div class="crumb-nav">
+    		<a href="javascript:goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">NFD&PAT运价管理</a>&gt;
+    		<a href="javascript:void(0);" class="href0">NFD&PAT运价自动更新配置</a>
+    	</div>
+   		<form id="nfdPatAutoUpdateForm" action="${staticPath}/nfdAndPat/nfdPatAutoUpdate/nfdPatAutoUpdateList" method="post">
+   		<!-- 此处用于搜索时,所传递的参数 结束 -->
+    	<div class="main-con tickets-order-view-wrap">
+    		<!-- 搜索内容 start -->
+			<div class="search-wrap-mod mb oz">
+            <dl class="dl-mod fl">
+                <dt>运价类型: </dt>
+                 <dd>
+                    <select class="text text3" name="airlinePopularType" id="airlinePopularType" >
+                        <option value="" (#if($!{airlinePopularType} == '') selected #end)>全部</option>
+                        <option value=0 (#if(0== $!{queryBean.airlinePopularType}) selected #end)>NFD</option>
+                        <option value=1 (#if(1== $!{queryBean.airlinePopularType}) selected #end)>PAT</option>
+                    </select>
+                 <dd/>
+
+                <dl class="dl-mod fl">
+                    <dt>航线类型：</dt>
+                    <dd>
+                        <select class="text text3" name="airlineType" id="airlineType">
+                        <option value="">全部</option>
+                        #foreach($aType in ${airLineTypeList})
+							<option value="${aType.key}" (#if($!{aType.key}== $!{queryBean.airlineType}) selected #end)>
+							${aType.value}</option>
+						#end
+                        </select>
+                    </dd>
+                </dl>
+
+                <div class="search-btn-box fl" style="padding-left:88px;">
+                    <input type="button" id="query" class="btn btn2" onclick="queryNfdAutoUpdate()"  value="查询" />
+                    <input type="button" class="btn btn2" onclick="addNfdAutoUpdate()" value="新增" />
+                </div>
+                
+                <div class="spacer"></div>
+			</div>
+			<!-- 搜索内容 end -->
+			
+			<!-- 搜索结果 start -->
+			<div class="order-mes-mod mb">
+                <table>
+                    <thead>
+                        <tr class="single-line-text">
+                            <th style="width:5%;">运价类型</th>
+                        	<th style="width:10%;">航线类型</th>
+                            <th style="width:15%;">更新时间</th>
+                            <th style="width:10%">更新频率</th>
+                            <th style="width:20%;">执行时间</th>
+                            <th style="width:20%;">操作时间</th>
+                            <th style="width:10%;">操作员</th>
+                            <th style="width:10%;">操作</th>                          
+                         </tr>
+                    </thead>
+					<tbody>
+					#if($!{nfdPatAutoUpdateList})
+						#foreach($map in ${nfdPatAutoUpdateList})
+							<tr>
+							    <td>
+									<input type="hidden" id="id" name="id" value="${map.id}">
+                                	#if($!{map.airlinePopularType}=='0')NFD#end
+                                	#if($!{map.airlinePopularType}=='1')PAT#end
+                                </td>
+								<td>
+								    #foreach($aType in ${airLineTypeList})
+                                        #if($!{aType.key}==$!{map.airlineType})
+                                             ${aType.value}
+                                        #end
+                                    #end
+								</td>
+								<td>
+									$!{map.deptDate}
+								</td>
+								<td>
+									#if($!{map.executeIntervalDay}>=1)
+									    $number.format("#",$!{map.executeIntervalDay})天1次 
+									#end
+									#if($!{map.executeIntervalDay}<1)
+										1天$math.div(1,$!{map.executeIntervalDay})次
+									#end
+								</td>
+								<td>
+									$!date.format('yyyy-MM-dd HH:mm',$!{map.executeQuartzTime})
+								</td>
+								<td>
+									$!date.format('yyyy-MM-dd HH:mm',$!{map.updateTime})
+								</td>
+								<td>
+									$!{map.operator}
+								</td>
+								<td>
+									<a href="javascript:void(0);" onclick="updateNfdAutoUpdate('${map.id}')">【修改】</a><br/>
+									<a href="javascript:void(0);" onclick="deleteNfdAutoUpdate('${map.id}')">【删除】</a>
+								</td>
+							</tr>
+						#end
+					#end
+					#if($!{nfdPatAutoUpdateList.size()} == 0)
+						<tr>
+							<td colspan="8">
+								<label style="color: gray;">很抱歉，没有找到相关记录！</label>
+							</td>
+						</tr>
+					#end
+					</tbody>
+                </table>
+            </div>
+            <!-- 搜索结果 end -->
+          
+        </div>
+        </form>
+    </div>
+    
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+	//查询
+	function queryNfdAutoUpdate() {
+		formToTrim("nfdPatAutoUpdateForm");
+		$("#nfdPatAutoUpdateForm").submit();
+	}
+
+	//新增
+	function addNfdAutoUpdate(){
+		showDialog("dialog","新增nfd运价管理信息","${staticPath}/nfdAndPat/nfdPatAutoUpdate/toAddNfdPatAutoUpdate",700,450);
+	}
+	//修改
+	function updateNfdAutoUpdate(id){
+		showDialog("dialog","修改nfd运价管理信息","${staticPath}/nfdAndPat/nfdPatAutoUpdate/toUpdateNfdPatAutoUpdate?id="+id,700,450);
+	}
+	//删除
+	function deleteNfdAutoUpdate(id){
+		if(!confirm("确定要删除吗?")){
+			return;	
+		}
+		$.ajax({
+			 url: "${staticPath}/nfdAndPat/nfdPatAutoUpdate/deleteNfdPatAutoUpdate",
+			 data: {
+				 "id" : id,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					 alert("删除成功");
+					 window.location.href = "${staticPath}/nfdAndPat/nfdPatAutoUpdate/nfdPatAutoUpdateList";
+				 }else{
+					 alert(data);
+				 }
+			 }
+		 });
+	}
+</script>
+</body>
+</html>
+

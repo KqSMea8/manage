@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flight.carryprice.mapper.JdjpFdDifferenceMapper">
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpFdDifference">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="dep_code" jdbcType="VARCHAR" property="depCode" />
+    <result column="arr_code" jdbcType="VARCHAR" property="arrCode" />
+    <result column="air_ways" jdbcType="VARCHAR" property="airWays" />
+    <result column="distance" jdbcType="INTEGER" property="distance" />
+    <result column="seat" jdbcType="VARCHAR" property="seat" />
+    <result column="carry_price" jdbcType="DECIMAL" property="carryPrice" />
+    <result column="airline_type" jdbcType="TINYINT" property="airlineType" />
+    <result column="take_off_effect_date" jdbcType="DATE" property="takeOffEffectDate" />
+    <result column="take_off_expire_date" jdbcType="DATE" property="takeOffExpireDate" />
+    <result column="seat_type" jdbcType="TINYINT" property="seatType" />
+    <result column="seat_level" jdbcType="VARCHAR" property="seatLevel" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="database_id" jdbcType="BIGINT" property="databaseId" />
+    <result column="version_num" jdbcType="VARCHAR" property="versionNum" />
+    <result column="dep_code_redis" jdbcType="VARCHAR" property="depCodeRedis" />
+    <result column="arr_code_redis" jdbcType="VARCHAR" property="arrCodeRedis" />
+    <result column="air_ways_redis" jdbcType="VARCHAR" property="airWaysRedis" />
+    <result column="distance_redis" jdbcType="INTEGER" property="distanceRedis" />
+    <result column="seat_redis" jdbcType="VARCHAR" property="seatRedis" />
+    <result column="carry_price_redis" jdbcType="DECIMAL" property="carryPriceRedis" />
+    <result column="airline_type_redis" jdbcType="TINYINT" property="airlineTypeRedis" />
+    <result column="take_off_effect_date_redis" jdbcType="DATE" property="takeOffEffectDateRedis" />
+    <result column="take_off_expire_date_redis" jdbcType="DATE" property="takeOffExpireDateRedis" />
+    <result column="seat_type_redis" jdbcType="TINYINT" property="seatTypeRedis" />
+    <result column="seat_level_redis" jdbcType="VARCHAR" property="seatLevelRedis" />
+    <result column="discount_redis" jdbcType="DECIMAL" property="discountRedis" />
+    <result column="source_redis" jdbcType="TINYINT" property="sourceRedis" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+  </resultMap>
+
+  <sql id="allFields">
+    id,dep_code,arr_code,air_ways,distance,seat,
+    carry_price,airline_type,take_off_effect_date,take_off_expire_date,
+    seat_type,seat_level,discount,source,database_id,version_num,
+    dep_code_redis,arr_code_redis,air_ways_redis,distance_redis,seat_redis,
+    carry_price_redis,airline_type_redis,take_off_effect_date_redis,take_off_expire_date_redis,
+    seat_type_redis,seat_level_redis,discount_redis,source_redis,create_time,update_time,operator
+  </sql>
+
+  <select id="queryList" parameterType="com.flight.carryprice.entity.JdjpFdDifference" resultMap="BaseResultMap">
+    SELECT
+    <include refid="allFields"/>
+    FROM jdjp_fd_difference
+    <where>
+      <if test="depCode != null and depCode != ''">
+        and (dep_code = #{depCode} OR dep_code_redis = #{depCode})
+      </if>
+      <if test="arrCode != null and arrCode != ''">
+        and (arr_code = #{arrCode} OR arr_code_redis = #{arrCode})
+      </if>
+      <if test="airWays != null and airWays != ''">
+        and (air_ways = #{airWays} OR air_ways_redis = #{airWays})
+      </if>
+      <if test="seat != null and seat != ''">
+        and (seat = #{seat} OR seat_redis = #{seat})
+      </if>
+      <if test="versionNum != null and versionNum != ''">
+        and version_num=#{versionNum}
+      </if>
+    </where>
+  </select>
+
+  <select id="getVersionNumList" resultType="java.lang.String">
+    SELECT DISTINCT(version_num) FROM jdjp_fd_difference ORDER BY version_num DESC limit 10
+  </select>
+
+</mapper>

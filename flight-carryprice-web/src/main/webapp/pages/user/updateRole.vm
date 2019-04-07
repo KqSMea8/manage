@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票运价管理系统-修改角色</title>
+	#parse('/comm/public.vm')
+	<style type="text/css">
+	.item-select{ width:140px; height:30px;}
+	.search-wrap-mod dl input{ margin-right:5px;}
+	.search-wrap-mod{ padding:20px 0 4px 20px;}
+	#roleArl{ float:left; width:710px; height:auto; padding:5px 10px; border:1px solid #999; overflow:hidden;}
+	.div_cabin{ margin-left:95px; overflow:hidden; margin-bottom:20px;}
+	.search-wrap-mod dl{ clear:both; line-height:30px;}
+	.operate-box2{ padding:20px 96px;}
+	.mr5{ margin-right:5px;}
+	.regionArea{width:450px; height:20px; padding:5px 10px; border:1px solid #999; overflow:hidden; margin-right:5px;}
+	</style>
+	
+	<link rel="stylesheet" href="${staticPath}/ui/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="${staticPath}/ui/ztree/js/jquery.ztree.all.min.js"></script>
+	
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="new_content">
+    <!--left-content start-->
+	 #parse('/comm/left.vm')
+    <!--left-content end-->
+        <!--right-content start  -->
+    <div class="right-content" style="border:0;">
+    	<div class="crumb-nav">
+    		<a href="javascript:goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">账号管理</a>&gt;
+    		<a href="javascript:void(0);" class="href0">修改角色</a>
+    	</div>
+    	<div class="main-con tickets-autosell-wrap">
+			<div class="search-wrap-mod mb oz">
+			    <form id="from" action="" method="post">
+			       <dl class="dl-mod">
+			         <dt>角色名称：</dt>
+			         <dd><input type="text" class="text text3" id="rolename" name="rolename" value="$!{role.rolename}" /></dd>
+			         <dd><label class="required">*</label></dd>
+			       </dl>
+			       <dl class="dl-mod">
+			         <dt>角色权限：</dt>
+			         <dd>
+						<div class="content_wrap">
+							<div class="zTreeDemoBackground left">
+								<ul id="roleTree" class="ztree"></ul>
+							</div>
+						</div>
+						
+						<div class="operate-box2">
+			                <input type="button" class="btn btn1" value="保存" onclick="save();">
+			                <input type="button" class="btn btn1" value="返回" onclick="goback();">
+			           </div>
+			         </dd>
+			         <dd><label class="required">*</label></dd>
+			       </dl>
+                </form>
+			</div>
+        </div>
+    </div>
+	<!-- right-content end -->	
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+</body>
+<script type="text/javascript">
+
+	$(function(){
+		var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+		
+		var zNodes = null;  //树节点
+		$.ajax({
+			async : false,
+			url : "${staticPath}/userManager/role/queryAllMenuWithModel?roleId=${role.id}",
+			success : function(data){
+				if(isBlank(data)){
+					alert("初始化菜单失败");
+					return;
+				}
+				zNodes = data
+			}
+		});
+				
+		$.fn.zTree.init($("#roleTree"), setting, zNodes);
+		var zTree = $.fn.zTree.getZTreeObj("roleTree");
+		zTree.setting.check.chkboxType = { "Y" : "ps", "N" : "ps" };
+
+	});
+	
+	
+	//获取所有选中节点
+	function getAllCheckNode(){
+        var treeObj=$.fn.zTree.getZTreeObj("roleTree");
+        var nodes=treeObj.getCheckedNodes(true);
+        return nodes;
+    }
+	
+	/*保存*/
+	function save(){
+		var rolename = $("#rolename").val();
+		if(isBlank(rolename)){ 
+		    alert("角色名称不能为空！");
+		    return false; 
+		}
+		
+		var nodes = getAllCheckNode();
+		if(nodes == null || nodes.length <= 0){
+			alert("请至少选择一个权限菜单");
+			return false;
+		}
+		
+		var nodeStr = "";//选中权限id，逗号隔开
+		for(var i = 0;i<nodes.length;i++){
+			var id = nodes[i].id;
+			id = id.substring(2);  //因父子id可能重复，父id格式为p_id,子id格式为 c_id，所以去除前缀
+			nodeStr += id + ",";
+		}
+	    
+		$.ajax({
+			   type: "POST",    
+		       url: "${staticPath}/userManager/role/doUpdaterole",
+		       data: {
+		    	   "roleId" : "${role.id}",
+		    	   "rolename" : rolename,
+		    	   "nodeStr" : nodeStr
+		       },
+			   dataType: "json",
+		       success: function(data){
+		    	   if(isBlank(data)){  //返回信息为空
+		    		   alert("没有获取到返回信息");
+		    	   	   return;
+		    	   }
+		    	   
+		    	   if(data == 1){
+	          			alert("添加成功！");
+	          			goback();
+          		   }else if(data == -1){
+          				alert("信息填写不完整！");
+          		   }else if(data == -2){
+          			   alert("查询不到要修改的角色")
+          		   }else{
+          				alert("添加失败，未知错误");
+          		   }
+		    	   
+			   }
+		}); 
+		
+	}
+	
+	//返回
+	function goback(){
+		//var queryParams = $.trim($("#queryParams").val());
+		window.location.href="${staticPath}/userManager/role/roleList";
+	}
+	
+</script>
+</html>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+			default-lazy-init="true">
+
+	<!-- quartz  start -->
+	<!-- 要调用的工作类 -->
+    <bean id="quartzTaskJob" class="com.flight.carryprice.quartz.QuartzTaskJob" />
+    <!--***************************************************************************************************************-->
+    <!-- 自动维护运价缓存任务 job start-->
+    <bean id="carryPriceMissionJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--   调用的类 -->
+        <property name="targetObject">
+            <ref bean="quartzTaskJob"/>
+        </property>
+        <!--  调用类中的方法 -->
+        <property name="targetMethod">
+            <value>addCarryPriceTask</value>
+        </property>
+        <!-- 控制只有一个该job在执行 -->
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+    <bean id="carryPriceMissionJobTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="carryPriceMissionJobTask"/>
+        </property>
+        <property name="cronExpression">
+            <value>${carryPriceMissionJob.time}</value>
+        </property>
+    </bean>
+    <bean id="carryPriceMissionJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean = "carryPriceMissionJobTime"/>
+            </list>
+        </property>
+        <property name="autoStartup">
+            <value>false</value>
+        </property>
+    </bean>
+    <!-- 自动维护运价缓存任务job end-->
+    <!--***************************************************************************************************************-->
+    <!-- 自动刷新FD运价缓存信息 job start-->
+    <bean id="fdCarryPriceAutoToRedisJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--   调用的类 -->
+        <property name="targetObject">
+            <ref bean="quartzTaskJob"/>
+        </property>
+        <!--  调用类中的方法 -->
+        <property name="targetMethod">
+            <value>autoFlushFdToRedis</value>
+        </property>
+        <!-- 控制只有一个该job在执行 -->
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+    <bean id="fdCarryPriceAutoToRedisJobTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="fdCarryPriceAutoToRedisJobTask"/>
+        </property>
+        <property name="cronExpression">
+            <value>${fdCarryPriceAutoToRedisJob.time}</value>
+        </property>
+    </bean>
+    <bean id="fdCarryPriceAutoToRedisJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean = "fdCarryPriceAutoToRedisJobTime"/>
+            </list>
+        </property>
+        <property name="autoStartup">
+            <value>false</value>
+        </property>
+    </bean>
+    <!-- 自动刷新FD运价缓存信息 job end-->
+    <!--***************************************************************************************************************-->
+    <!-- 手动刷新FD运价缓存信息 job start-->
+    <bean id="fdCarryPriceManualToRedisJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--   调用的类 -->
+        <property name="targetObject">
+            <ref bean="quartzTaskJob"/>
+        </property>
+        <!--  调用类中的方法 -->
+        <property name="targetMethod">
+            <value>manualFlushFdToRedis</value>
+        </property>
+        <!-- 控制只有一个该job在执行 -->
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+    <bean id="fdCarryPriceManualToRedisJobTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="fdCarryPriceManualToRedisJobTask"/>
+        </property>
+        <property name="cronExpression">
+            <value>${fdCarryPriceManualToRedisJob.time}</value>
+        </property>
+    </bean>
+    <bean id="fdCarryPriceManualToRedisJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean = "fdCarryPriceManualToRedisJobTime"/>
+            </list>
+        </property>
+        <property name="autoStartup">
+            <value>false</value>
+        </property>
+    </bean>
+    <!-- 手动刷新FD运价缓存信息 job end-->
+    <!--***************************************************************************************************************-->
+    <!-- 自动插入FD运价更新策略  job start-->
+    <bean id="fdUpdatePolicyAutoAddJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--   调用的类 -->
+        <property name="targetObject">
+            <ref bean="quartzTaskJob"/>
+        </property>
+        <!--  调用类中的方法 -->
+        <property name="targetMethod">
+            <value>autoAddFdUpdatePolicy</value>
+        </property>
+        <!-- 控制只有一个该job在执行 -->
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+    <bean id="fdUpdatePolicyAutoAddJobTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="fdUpdatePolicyAutoAddJobTask"/>
+        </property>
+        <property name="cronExpression">
+            <value>${fdUpdatePolicyAutoAdd.time}</value>
+        </property>
+    </bean>
+    <bean id="fdUpdatePolicyAutoAddJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean = "fdUpdatePolicyAutoAddJobTime"/>
+            </list>
+        </property>
+        <property name="autoStartup">
+            <value>false</value>
+        </property>
+    </bean>
+    <!-- 自动插入FD运价更新策略 job end-->
+    <!--***************************************************************************************************************-->
+    <!-- FD运价维护更新(扫描FD更新策略更新FD运价) job start-->
+    <bean id="fdCarryPriceUpdateByPolicyJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--   调用的类 -->
+        <property name="targetObject">
+            <ref bean="quartzTaskJob"/>
+        </property>
+        <!--  调用类中的方法 -->
+        <property name="targetMethod">
+            <value>updateFdCarryPriceByPolicy</value>
+        </property>
+        <!-- 控制只有一个该job在执行 -->
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+    <bean id="fdCarryPriceUpdateByPolicyJobTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="fdCarryPriceUpdateByPolicyJobTask"/>
+        </property>
+        <property name="cronExpression">
+            <value>${fdCarryPriceUpdateByPolicyJob.time}</value>
+        </property>
+    </bean>
+    <bean id="fdCarryPriceUpdateByPolicyJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean = "fdCarryPriceUpdateByPolicyJobTime"/>
+            </list>
+        </property>
+        <property name="autoStartup">
+            <value>false</value>
+        </property>
+    </bean>
+    <!-- FD运价维护更新(扫描FD更新策略更新FD运价) job end-->
+    <!--***************************************************************************************************************-->
+    <!-- NFD PAT运价自动更新配置 job start-->
+    <bean id="nfdPatAutoUpdateJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzTaskJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>nfdPatAutoUpdateJob</value>
+        </property>
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+    <bean id="nfdPatAutoUpdateJobTaskTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="nfdPatAutoUpdateJobTask"/>
+        </property>
+        <property name="cronExpression">
+            <value>${nfdPatAutoUpdateJob.time}</value>
+        </property>
+    </bean>
+    <bean id="nfdPatAutoUpdateJobTaskScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean = "nfdPatAutoUpdateJobTaskTime"/>
+            </list>
+        </property>
+        <property name="autoStartup">
+            <value>false</value>
+        </property>
+    </bean>
+    <!-- NFD PAT运价自动更新配置 job end-->
+    <!--***************************************************************************************************************-->
+
+
+
+
+
+
+    <util:map id="schedulerMap">
+        <!-- 手动刷新FD运价缓存信息 -->
+        <entry key="addCarryPriceTaskJob" value-ref="carryPriceMissionJobScheduler"/>
+        <!-- 自动刷新FD运价缓存信息 -->
+        <entry key="autoFlushFdToRedisJob" value-ref="fdCarryPriceAutoToRedisJobScheduler"/>
+        <!-- 手动刷新FD运价缓存信息 -->
+        <entry key="manualFlushFdToRedisJob" value-ref="fdCarryPriceManualToRedisJobScheduler"/>
+        <!-- 自动插入FD运价更新策略 -->
+        <entry key="autoAddFdUpdatePolicyJob" value-ref="fdUpdatePolicyAutoAddJobScheduler"/>
+        <!-- FD运价维护更新(扫描FD更新策略更新FD运价)-->
+        <entry key="updateFdCarryPriceByPolicyJob" value-ref="fdCarryPriceUpdateByPolicyJobScheduler"/>
+        <!-- NFD PAT运价自动更新配置-->
+        <entry key="nfdPatAutoUpdateJob" value-ref="nfdPatAutoUpdateJobTaskScheduler"/>
+    </util:map>
+
+    <!--  线程池  -->
+	 <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	   <!--  线程池维护线程的最少数量 --> 
+	  <property name="corePoolSize" value="10" /> 
+	   <!--  线程池维护线程所允许的空闲时间 --> 
+	  <property name="keepAliveSeconds" value="30000" /> 
+	   <!--  线程池维护线程的最大数量 --> 
+	  <property name="maxPoolSize" value="1000" /> 
+	   <!--  线程池所使用的缓冲队列 --> 
+	  <property name="queueCapacity" value="200" /> 
+	</bean>
+	 
+</beans>

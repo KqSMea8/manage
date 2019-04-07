@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<style>
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+	<div class="pop-wrap">
+		<div class="oz order-mes-mod inputContainer">
+			<div class="order-mes-mod mb">
+				<table>
+					<thead>
+					<tr class="single-line-text">
+						<th style="width:10%;">航空公司</th>
+						<th style="width:10%">出发机场</th>
+						<th style="width:10%;">到达机场</th>
+						<th style="width:5%;">舱位</th>
+						<th style="width:10%;">舱位类型 </th>
+						<th style="width:10%;">航线类型</th>
+						<th style="width:5%;">价格</th>
+						<th style="width:5%;">里程</th>
+						<th style="width:5%;">状态</th>
+						<th style="width:10%;">开始时间</th>
+						<th style="width:10%;">结束时间</th>
+						<th style="width:5%;">操作人</th>
+						<th style="width:5%;">操作日期</th>
+					</tr>
+					</thead>
+					<tbody>
+						#if(!${fdCarryPriceInfo})
+							<tr>
+								<td colspan="13">
+									<label style="color: gray;">很抱歉，没有找到相关记录！</label>
+								</td>
+							</tr>
+						#end
+						#if(${fdCarryPriceInfo})
+							<tr>
+								<td>$!{fdCarryPriceInfo.airWays}</td>
+								<td class="text-left">$!{fdCarryPriceInfo.depCode} </td>
+								<td class="text-left">$!{fdCarryPriceInfo.arrCode} </td>
+								<td>$!{fdCarryPriceInfo.seat}</td>
+								<td>
+									#foreach($item in $!seatTypeMap.entrySet())
+										#if($!{fdCarryPriceInfo.seatType} == $!{item.key})
+											$!{item.value}
+										#end
+									#end
+								</td>
+								<td>
+									#if($!{fdCarryPriceInfo.airlineType}==0)普通航线#end
+									#if($!{fdCarryPriceInfo.airlineType}==1)热门航线#end
+								</td>
+								<td>$!{number.format("#0.00", $!{fdCarryPriceInfo.carryPrice})}</td>
+								<td>$!{fdCarryPriceInfo.distance}</td>
+								<td>
+									#if($!{fdCarryPriceInfo.state}==0)禁用#end
+									#if($!{fdCarryPriceInfo.state}==1)启用#end
+								</td>
+								<td>$!{date.format('yyyy-MM-dd',$!{fdCarryPriceInfo.takeOffEffectDate})}</td>
+								<td>$!{date.format('yyyy-MM-dd',$!{fdCarryPriceInfo.takeOffExpireDate})}</td>
+								<td>$!{fdCarryPriceInfo.operator}</td>
+								<td>$!{date.format('yyyy-MM-dd',$!{fdCarryPriceInfo.updateTime})}</td>
+							</tr>
+						#end
+						<tr class="single-line-text">
+							<th style="width:10%;">航空公司(Redis)</th>
+							<th style="width:10%">出发机场(Redis)</th>
+							<th style="width:10%;">到达机场(Redis)</th>
+							<th style="width:5%;">舱位(Redis)</th>
+							<th style="width:10%;">舱位类型(Redis) </th>
+							<th style="width:10%;">航线类型(Redis)</th>
+							<th style="width:5%;">价格(Redis)</th>
+							<th style="width:5%;">里程(Redis)</th>
+							<th style="width:5%;">状态(Redis)</th>
+							<th style="width:10%;">开始时间(Redis)</th>
+							<th style="width:10%;">结束时间(Redis)</th>
+							<th style="width:5%;">操作人(Redis)</th>
+							<th style="width:5%;">操作日期(Redis)</th>
+						</tr>
+						#if(!${redisFdCarryPriceInfo})
+							<tr>
+								<td colspan="13">
+									<label style="color: gray;">很抱歉，没有找到相关记录！</label>
+								</td>
+							</tr>
+						#end
+						#if(${redisFdCarryPriceInfo})
+							<tr>
+								<td>$!{redisFdCarryPriceInfo.airWays}</td>
+								<td class="text-left">$!{redisFdCarryPriceInfo.depCode} </td>
+								<td class="text-left">$!{redisFdCarryPriceInfo.arrCode} </td>
+								<td>$!{redisFdCarryPriceInfo.seat}</td>
+								<td>
+									#foreach($item in $!seatTypeMap.entrySet())
+										#if($!{fdCarryPriceInfo.seatType} == $!{item.key})
+											$!{item.value}
+										#end
+									#end
+								</td>
+								<td>
+									#if($!{redisFdCarryPriceInfo.airlineType}==0)普通航线#end
+									#if($!{redisFdCarryPriceInfo.airlineType}==1)热门航线#end
+								</td>
+								<td>$!{number.format("#0.00", $!{redisFdCarryPriceInfo.carryPrice})}</td>
+								<td>$!{redisFdCarryPriceInfo.distance}</td>
+								<td>
+									#if($!{redisFdCarryPriceInfo.state}==0)禁用#end
+									#if($!{redisFdCarryPriceInfo.state}==1)启用#end
+								</td>
+								<td>$!{date.format('yyyy-MM-dd',$!{redisFdCarryPriceInfo.takeOffEffectDate})}</td>
+								<td>$!{date.format('yyyy-MM-dd',$!{redisFdCarryPriceInfo.takeOffExpireDate})}</td>
+								<td>$!{redisFdCarryPriceInfo.operator}</td>
+								<td>$!{date.format('yyyy-MM-dd',$!{redisFdCarryPriceInfo.updateTime})}</td>
+							</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="flown" class="inputContainer"></div>
+<script type="text/javascript">
+	//返回
+	function goBack(){
+		$("#dialog").empty().dialog("close");
+	}
+</script>
+</body>
+</html>

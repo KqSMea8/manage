@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://jsf.jd.com/schema/jsf  http://jsf.jd.com/schema/jsf/jsf.xsd">
+
+    <jsf:registry id="jsfRegistry1" index="i.jsf.jd.com"/>
+
+    <!--GDS接口JSF-->
+    <jsf:consumer id="gdsCommonService"
+                  interface="com.jd.gds.service.GdsCommonService"
+                  protocol="jsf"
+                  alias="${gdsCommonServiceJSFAlias}"
+                  timeout="120000"
+                  retries="0"
+                  registry="jsfRegistry1">
+    </jsf:consumer>
+    <jsf:parameter key="security.token.client.fileUrl" value="flight-carryprice-work_token.conf"/>
+
+    <!--GDS接口JSF-->
+    <!--<jsf:consumer id="gdsCommonServiceJsf"
+                  interface="com.jd.gds.service.GdsCommonService"
+                  protocol="jsf"
+                  alias="${gdsCommonServiceJSFAlias}"
+                  timeout="120000"
+                  retries="0"
+                  registry="jsfRegistry">
+    </jsf:consumer>-->
+
+</beans>

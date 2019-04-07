@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpNfdCarryPriceInfoMapper">
+
+    <!-- 基础resultMap，包含全部字段 -->
+    <resultMap id="baseResultMap" type="com.flight.carryprice.entity.JdjpNfdCarryPriceInfo">
+        <id column="id" property="id"/>
+        <result column="dep_code" property="depCode"/>
+        <result column="arr_code" property="arrCode"/>
+        <result column="air_ways" property="airWays"/>
+        <result column="seat" property="seat"/>
+        <result column="price_level" property="priceLevel"/>
+        <result column="price_level_seat" property="priceLevelSeat"/>
+        <result column="carry_price" property="carryPrice"/>
+        <result column="distance" property="distance"/>
+        <result column="airline_type" property="airlineType"/>
+        <result column="take_off_effect_date" property="takeOffEffectDate"/>
+        <result column="take_off_expire_date" property="takeOffExpireDate"/>
+        <result column="advance_smallest_day" property="advanceSmallestDay"/>
+        <result column="advance_biggest_day" property="advanceBiggestDay"/>
+        <result column="include_flight_no" property="includeFlightNo"/>
+        <result column="exclude_flight_no" property="excludeFlightNo"/>
+        <result column="refund_rule" property="refundRule"/>
+        <result column="change_rule" property="changeRule"/>
+        <result column="schedules" property="schedules"/>
+        <result column="seat_type" property="seatType"/>
+        <result column="seat_level" property="seatLevel"/>
+        <result column="discount" property="discount"/>
+        <result column="state" property="state"/>
+        <result column="flight_time_limit" property="flightTimeLimit"/>
+        <result column="airline_popular_type" property="airlinePopularType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="operator" property="operator"/>
+    </resultMap>
+
+    <!-- 根据条件查询NFD运价 -->
+    <select id="queryList" resultMap="baseResultMap" parameterType="com.flight.carryprice.entity.JdjpNfdCarryPriceInfo">
+        select id, dep_code,arr_code, air_ways,seat,price_level,price_level_seat,carry_price,distance,airline_type,take_off_effect_date
+        ,take_off_expire_date,advance_smallest_day,advance_biggest_day, include_flight_no,exclude_flight_no, refund_rule, change_rule,
+        schedules,seat_type, seat_level,discount,state,flight_time_limit,airline_popular_type, create_time,update_time, operator from jdjp_nfd_carry_price_info where 1 = 1
+        <if test="airWays != null and airWays != ''">
+            and air_ways = #{airWays}
+        </if>
+        <if test="depCode != null and depCode != ''">
+            and dep_code = #{depCode}
+        </if>
+        <if test="arrCode != null and arrCode != ''">
+            and arr_code = #{arrCode}
+        </if>
+        <if test="depDate != null and depDate != ''">
+            and #{depDate} BETWEEN take_off_effect_date AND take_off_expire_date
+        </if>
+        <if test="seat != null and seat != ''">
+            and seat = #{seat}
+        </if>
+        <if test="priceLevelSeat != null and priceLevelSeat != ''">
+            and price_level_seat = #{priceLevelSeat}
+        </if>
+        <if test="state != null ">
+            and state = #{state}
+        </if>
+        <if test="airlinePopularType != null ">
+            and airline_popular_type = #{airlinePopularType}
+        </if>
+        order by update_time desc
+    </select>
+    <update id="updateBatch" useGeneratedKeys="true" keyProperty="id">
+        UPDATE jdjp_nfd_carry_price_info
+        set state = #{state}, operator = #{operator}
+        WHERE id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")" >
+            #{item}
+        </foreach>
+    </update>
+<!-- test-->
+</mapper>

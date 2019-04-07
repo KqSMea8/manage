@@ -1,0 +1,93 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Tahoma, SimSun;
+	font-size: 12px;
+	color: #333;
+}
+
+.airFontBold {
+	font-weight: bold;
+}
+
+.airNotice {
+	font-size: 12px;
+	font-weight: normal;
+	color: red;
+	padding-left: 10px;
+}
+
+.airFontRed {
+	color: red;
+}
+
+.airFontOrange {
+	color: #f50;
+}
+
+.airFontGreen {
+	color: #609217;
+}
+
+.airBtn {
+	width: 100px;
+	text-align: center;
+	height: 27px;
+	line-height: 27px;
+	color: #315778;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	background: url(/images/airPic.gif) no-repeat 0 -30px;
+}
+
+.airBg1 {
+	background: #fbfff2;
+}
+
+.airBg2 {
+	background: #f2fbff;
+}
+
+.airTableStyle {
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+
+.airTableStyle td {
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	border: 1px solid #bdbdbd;
+}
+
+.airTableStyle h3 {
+	height: 30px;
+	line-height: 30px;
+	text-indent: 10px;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: left;
+	background: url(/images/airPic.gif) repeat-x top;
+}
+
+.airTableStyle a {
+	color: #05b;
+	text-decoration: none;
+}
+
+.airTableStyle a:visited {
+	color: #05b;
+	text-decoration: none;
+}
+
+.airTableStyle a:hover {
+	color: #002654;
+	text-decoration: none;
+}
+.changeColor{
+	border-width:1px;
+}

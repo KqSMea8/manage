@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.AlUsersMapper" >
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.AlUsers" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="UserCode" property="usercode" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="ChargePerson" property="chargeperson" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="PayPD" property="paypd" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+    <result column="Fax" property="fax" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="Msn" property="msn" jdbcType="VARCHAR" />
+    <result column="IsDefault" property="isdefault" jdbcType="INTEGER" />
+    <result column="Mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="CompanyId" property="companyid" jdbcType="INTEGER" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="AppId" property="appid" jdbcType="INTEGER" />
+    <result column="Worknumber" property="worknumber" jdbcType="VARCHAR" />
+    <result column="ExtNumber" property="extnumber" jdbcType="VARCHAR" />
+    <result column="Post" property="post" jdbcType="VARCHAR" />
+    <result column="SecondaryAuthentication" property="secondaryauthentication" jdbcType="VARCHAR" />
+    <result column="UserLevel" property="userlevel" jdbcType="VARCHAR" />
+    <result column="RatePwd" property="ratepwd" jdbcType="VARCHAR" />
+    <result column="BindType" property="bindtype" jdbcType="VARCHAR" />
+    <result column="BindProvider" property="bindprovider" jdbcType="VARCHAR" />
+    <result column="AgencyCode" property="agencycode" jdbcType="INTEGER" />
+    <result column="IsCompany" property="iscompany" jdbcType="INTEGER" />
+    <result column="RegisterUrl" property="registerurl" jdbcType="VARCHAR" />
+    <result column="TheSpeed" property="thespeed" jdbcType="VARCHAR" />
+    <result column="LastLoginTime" property="lastlogintime" jdbcType="TIMESTAMP" />
+    <result column="LastLoginCity" property="lastlogincity" jdbcType="VARCHAR" />
+    <result column="LastLoginIp" property="lastloginip" jdbcType="VARCHAR" />
+    <result column="RateInvalidDay" property="rateinvalidday" jdbcType="INTEGER" />
+    <result column="sign_key" property="signKey" jdbcType="VARCHAR" />
+    <result column="aes_key" property="aesKey" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="Remarks" property="remarks" jdbcType="LONGVARCHAR" />
+    <result column="IUrl" property="iurl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  
+  
+  <!-- 用户登录时，查询user,放入session -->
+  <select id="findUserByUserNameAndAppCode" resultMap="BaseResultMap">
+	  	SELECT
+			a.*
+		FROM
+			al_users a
+		WHERE
+			a.AppId = #{appCode}
+		AND a.UserName = #{userName}
+		AND a.status = 1
+		AND a.UserCode IN (
+			SELECT DISTINCT
+				UserCode
+			FROM
+				al_popedom_tblUserRole
+			WHERE
+				IsEnabled = 0
+			AND RoleCode IN (
+				SELECT
+					RoleCode
+				FROM
+					al_popedom_tblRole
+				WHERE
+					IsEnabled = 0
+				AND AppCode = #{appCode}
+			)
+		)
+  </select>
+  
+  
+  <select id="queryUserList" parameterType="com.flight.carryprice.entity.AlUsers" resultMap="BaseResultMap">
+  		select * from al_users
+  		<where>
+  			<if test="username != null and username != ''">
+  				and	userName = #{username}
+  			</if>
+  			<if test="status != null">
+  				and status = #{status}
+  			</if>
+  			<if test="rolecode != null and rolecode !=''">
+  				AND UserCode IN (
+					SELECT DISTINCT
+						UserCode
+					FROM
+						al_popedom_tblUserRole
+					WHERE
+						IsEnabled = 0
+					AND RoleCode IN (
+						SELECT
+							RoleCode
+						FROM
+							al_popedom_tblRole
+						WHERE RoleCode = #{rolecode}
+					)
+				)
+  			</if>
+  		</where> 
+  		order by id desc
+  </select>
+  
+  
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,414 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.flight</groupId>
+		<artifactId>flight-carryprice</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>flight-carryprice-common</artifactId>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+
+		<!--<dependency>-->
+			<!--<groupId>com.jd.security.configsec</groupId>-->
+			<!--<artifactId>spring-configsec-sdk</artifactId>-->
+			<!--&lt;!&ndash;<version>1.0.3-SNAPSHOT</version>&ndash;&gt;-->
+		<!--</dependency>-->
+
+		<!--<dependency>
+			<groupId>com.jd.air.self.api</groupId>
+			<artifactId>jd-air-flight-carryprice-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		&lt;!&ndash; jsf-gds-api.jar start&ndash;&gt;
+		<dependency>
+			<groupId>com.jd.air.self.api</groupId>
+			<artifactId>jd-air-flight-gds-api</artifactId>
+		</dependency>-->
+		<!-- jsf-gds-api.jar end-->
+		<!-- 杂 start -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.junrar</groupId>
+			<artifactId>junrar</artifactId>
+			<version>0.7</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.ant/ant -->
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		<!--spring-aop依赖 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<!--spring-oxm依赖 -->
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-xml</artifactId>
+		</dependency>
+		<!-- 杂 end -->
+
+		<!-- 参数验证 start -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
+		<!-- <dependency> <groupId>javax.el</groupId> <artifactId>javax.el-api</artifactId> 
+			</dependency> <dependency> <groupId>org.glassfish.web</groupId> <artifactId>javax.el</artifactId> 
+			</dependency> -->
+		<!-- 参数验证 end -->
+
+		<!-- Apache start -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+
+		<!-- Apache end -->
+
+		<!-- poi start -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+
+
+		<!-- <dependency> <groupId>org.apache.poi</groupId> <artifactId>poi-ooxml-schemas</artifactId> 
+			</dependency> -->
+		<!-- poi end -->
+
+		<!--web start -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+		<!--web end -->
+
+		<!--Spring start -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<!-- spring end -->
+
+
+		<!--mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!--druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+
+		<!--Mybatis start -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+		</dependency>
+		<!-- mybatis end -->
+
+
+
+		<!--spring-json依赖 start -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		<!--spring-json依赖 end -->
+		<!-- httpclient start -->
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<!-- httpclient end -->
+
+		<!-- 京东redis start -->
+		<!--<dependency>
+			<groupId>com.jd.jim.cli</groupId>
+			<artifactId>jim-cli-jedis</artifactId>
+			<version>${jdcloud.jimdb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jd.jim.cli</groupId>
+			<artifactId>jim-cli-api</artifactId>
+			<version>${jdcloud.jimdb.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.jd.jim.cli</groupId>
+					<artifactId>jim-cli-config</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.jd.jim.cli</groupId>
+			<artifactId>jim-cli-config</artifactId>
+			<version>${jdcloud.jimdb.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jd.jim.cli</groupId>
+			<artifactId>jim-cli-driver</artifactId>
+			<version>${jdcloud.jimdb.version}</version>
+		</dependency>-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>${commons-pool2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>${slf4j-api.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons-collections4.version}</version>
+		</dependency>
+		<!-- 京东redis end -->
+		<!-- fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.28</version>
+		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jd.common</groupId>
+			<artifactId>jd-common-util</artifactId>
+		</dependency>
+
+		<!--ump 报警jar start -->
+		<dependency>
+			<groupId>com.jd.ump</groupId>
+			<artifactId>profiler</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jd.ump</groupId>
+			<artifactId>jannotation</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--ump 报警jar end -->
+
+		<!-- velocity begin -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+		<!-- velocity end -->
+		<!-- pop 统一配置 -->
+		<dependency>
+			<groupId>com.jd.pop</groupId>
+			<artifactId>pop-configcenter-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<!--<dependency>
+			<groupId>com.jd.security</groupId>
+			<artifactId>jd-security-tomcat</artifactId>
+			<version>1.11.WEBAPP</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jd.security.configsec</groupId>
+			<artifactId>spring-configsec-sdk</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jd.lifetravel.component</groupId>
+			<artifactId>securityLog-util</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		&lt;!&ndash; 基础数据 start &ndash;&gt;
+		<dependency>
+			<groupId>com.jd.airplane</groupId>
+			<artifactId>flight-base-client</artifactId>
+			<version>1.0.11-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.jd.airplane</groupId>
+					<artifactId>flight-base-model</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jd.airplane</groupId>
+			<artifactId>flight-base-service</artifactId>
+			<version>1.0.11-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.jd.airplane</groupId>
+					<artifactId>flight-base-model</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.jd.airplane</groupId>
+			<artifactId>flight-base-model</artifactId>
+			<version>1.0.11-SNAPSHOT</version>
+		</dependency>-->
+		<!-- 基础数据 end -->
+	</dependencies>
+
+</project>

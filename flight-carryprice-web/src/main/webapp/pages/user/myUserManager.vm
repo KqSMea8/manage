@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>京东国内机票运价管理系统-个人信息管理</title>
+#parse('/comm/public.vm')
+</head>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+	#parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+    	<div class="crumb-nav">
+    		<a href="javascript:void(0);" onclick="goHomepage();">首页</a>&gt;
+    		<a href="javascript:void(0);" class="href0">账号管理</a>&gt;
+    		<a href="javascript:void(0);" class="href0">个人信息管理</a>
+    	</div>
+    	<div class="main-con com-mes-settings-wrap">
+    		<!-- 基础信息 start -->
+            <div class="order-mes-mod mb">
+                <div class="border-box base-mes" id="base-div">
+                	<input type="hidden" id="userId" value="${user.id}">
+                	<input type="hidden" id="username" value="${user.username.trim()}">
+                    <dl class="dl-mod">
+                        <dt>用户名：</dt>
+                        <dd>${user.username}</dd>
+                    </dl>
+                    <dl class="dl-mod">
+                        <dt><label class="required">*</label>原始密码：</dt>
+                        <dd>
+                            <input type="password" class="text text3" id="pastPassword" name="password" value=""/>
+                        </dd>
+                        <dd ><div class="warn-tip" style="display:none;" id="pswTip_div"><i class="weak-icon"></i>此项不能为空！</div></dd>
+                    </dl>
+                    <dl class="dl-mod">
+                        <dt><label class="required">*</label>新密码：</dt>
+                        <dd>
+                            <input type="password" class="text text3" id="newPassword" name="exPassword" value=""/>
+                        </dd>
+                        <dd ><div class="warn-tip" style="display:none;" id="newPswTip_div"><i class="weak-icon"></i>此项不能为空！</div></dd>
+                    </dl>
+                    <dl class="dl-mod">
+                        <dt><label class="required">*</label>确认新密码：</dt>
+                        <dd>
+                            <input type="password" class="text text3" id="confirmPassword" value=""/>
+                        </dd>
+                        <dd>
+                            <input type="button" class="btn btn2 fl" id="updatePassword" value="修改密码"/>
+                        </dd>
+                        <dd >
+                        	<div class="warn-tip" style="display:none;" id="confirmPswTip_div"><i class="weak-icon"></i>此项不能为空！</div>
+                            <div class="warn-tip" style="display:none;" id="samePswTip_div"><i class="weak-icon"></i>新密码与确认新密码不一致！</div>
+                        </dd>
+                    </dl>
+	                <dl class="dl-mod">
+                        <dt>姓名：</dt>
+                        <dd>$!{user.chargeperson}</dd>
+                    </dl>
+					<dl class="dl-mod">
+                        <dt>手机：</dt>
+                        <dd>$!{user.mobile}</dd>
+                    </dl>
+                    <dl class="dl-mod">
+                        <dt>电话：</dt>
+                        <dd>$!{user.tel}</dd>
+                    </dl>
+                    <dl class="dl-mod">
+                        <dt>工号：</dt>
+                        <dd>$!{user.worknumber}</dd>
+                    </dl>
+                </div>
+            </div>
+			<!-- 基础信息 end -->
+        </div>
+    </div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+	$(function(){
+		$("#updatePassword").click(function(){
+			if($("#pastPassword").length==0 ||$("#pastPassword").val()==''){
+				$("#pswTip_div").show();
+				$("#pastPassword").focus();
+				return false;
+			}else{
+				$("#pswTip_div").hide();
+			}
+			
+			if($("#newPassword").length==0 ||$("#newPassword").val()==''){
+				$("#newPswTip_div").show();
+				$("#newPassword").focus();
+				return false;
+			}else {
+				$("#newPswTip_div").hide();
+			}
+			
+			if($("#confirmPassword").length==0 ||$("#confirmPassword").val()==''){
+				$("#confirmPswTip_div").show();
+				$("#samePswTip_div").hide();
+				$("#confirmPassword").focus();
+				return false;
+			}else {
+				$("#confirmPswTip_div").hide();
+				$("#samePswTip_div").hide();
+			}
+			
+			if($("#newPassword").val()!=$("#confirmPassword").val()){
+				$("#confirmPswTip_div").hide();
+				$("#samePswTip_div").show();
+				$("#confirmPassword").focus();
+				return false;
+			}else {
+				$("#confirmPswTip_div").hide();
+				$("#samePswTip_div").hide();
+			}
+			
+			var pastPassword = $("#pastPassword").val();
+			var newPassword = $("#newPassword").val();
+			var userId = $("#userId").val();
+			
+			if(!confirm("修改密码后需要重新登录，确定要修改吗?")){
+				return;
+			}
+			
+			$.ajax({
+				type:"post",
+				url:"${staticPath}/userManager/myUser/updateMyUserPassword",
+				data:{"userId":userId,"password":pastPassword,"newPassword":newPassword},
+				dataType:"json",
+				success:function(data){
+					console.log(data)
+					if(data=="1"){
+						alert("密码修改成功");
+						window.location.href = "${staticPath}/common/anon/logout";
+					}else if(data=="-1"){
+						alert("后台获取到的信息不全");
+					}else if(data=="-2"){
+						alert("原密码输入错误");
+					}else if(data=="-3"){
+						alert("用户不存在");
+					}else{
+						alert("其他错误");
+					}
+				}
+			});
+			
+		});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+    <!DOCTYPE html>
+<style>
+.radio input{width:12px;position:relative;top:4px}
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+	<div class="pop-wrap">
+		<div class="add-staff-pop oz order-mes-mod">
+			<form id="airlineType_form">			
+				<table>
+
+				    <tr>
+                        <td><span style="color: red">*</span>运价类型</td>
+                        <td>
+                           <select class="text text3" name="airline_Popular_Type" class="validate[required]" id="airline_Popular_Type" >
+                                <option value='' >请选择</option>
+                                <option value=0 >NFD</option>
+                                <option value=1 >PAT</option>
+                            </select>
+                        </td>
+                    </tr>
+					<tr>
+						<td><span style="color: red">*</span>航线类型</td>
+						<td>
+						    <select class="text text3" name="airline_type" id="airline_type_id">
+                            <option value="">全部</option>
+								#foreach($aType in ${airLineTypeList})
+								<option value="${aType.key}">
+									${aType.value}</option>
+								#end
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="color: red">*</span>更新时间
+						</td>
+						<td>
+							T+<input type="text" name="dept_day" size="5" maxlength="2"/>&nbsp;&nbsp;
+							T+<input type="text" name="dept_day" size="5" maxlength="2"/>&nbsp;&nbsp;
+							T+<input type="text" name="dept_day" size="5" maxlength="2"/>&nbsp;&nbsp;
+						</td>			
+					</tr>
+					<tr>
+						<td>
+							<span style="color: red">*</span>更新频率
+						</td>
+						<td>
+							<select class="text text3" name="execute_interval_day">
+                      		<option value="">请选择</option>
+                       		#foreach($day in ${dayList})
+								<option value="${day.key}">
+									${day.value}
+								</option>
+							#end
+                        	</select>
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>执行时间</td>
+						<td><input type="text" name="execute_time"  readonly="readonly"
+									onfocus="WdatePicker({doubleCalendar: true ,dateFmt:'yyyy-MM-dd HH:mm',minDate:'%y-%M-%d %H:%m'})"/></td>
+					</tr>
+				</table>
+				
+	            <div class="operate-box2" style="padding-left: 200px">
+	            	<input type="button" class="btn btn4" value="返回" onclick="javascript:goBack();">
+		            <input type="button" id="saveBtn" class="btn btn3" value="确定" onclick="javascript:save();">
+	            </div>
+            </form>
+		</div>
+	</div>
+	<div id="flown" class="inputContainer"></div>
+<script type="text/javascript">
+	//提交时表单验证
+	$(function(){
+	  $('#airlineType_form').validationEngine({
+		    scroll: true, //屏幕自动滚动到第一个验证不通过的位置。
+		    addPromptClass: 'formError-noArrow formError-text',  //样式
+		    binded: false,   //是否绑定即时验证
+		    //showArrow: false,  //是否显示提示信息
+		    promptPosition: 'centerRight', //提示信息位置
+		    showOneMessage: true,  //是否只显示一个提示信息
+		    autoPositionUpdate :true,  //是否自动调整提示层的位置
+	    	maxErrorsPerField: 1  //单个元素显示错误提示的最大数量，值设为数值。默认 false 表示不限制。
+	  });
+	});
+	//保存
+	function save(){
+		//把表单转为json对象
+		var jsonObj = $("#airlineType_form").serializeObject();
+		//校验
+		if(jsonObj.airline_Popular_Type == null || jsonObj.airline_Popular_Type == ""){
+        			alert("请选择运价类型");
+        			return;
+        }
+        //航线类型校验
+        if(jsonObj.airline_type==""){
+            alert("请选择航线类型");
+            return;
+        }
+
+		//更新时间
+		if(jsonObj.dept_day==""){
+			alert("请填写更新时间");
+			return;	
+		}
+		//更新频率
+		if(jsonObj.execute_interval_day==""){
+			alert("请选择更新频率");
+			return;	
+		}
+		//执行时间
+		if(jsonObj.execute_time==""){
+			alert("请填写执行时间");
+			return;	
+		}
+		var jsonStr = JSON.stringify(jsonObj);
+		if(!confirm("确定要保存吗?")){
+			return;	
+		}
+		$.ajax({
+			 url: "${staticPath}/nfdAndPat/nfdPatAutoUpdate/addNfdPatAutoUpdate",
+			 data: {
+				 "json" : jsonStr,
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data == 1){
+					 alert("新增成功");
+					 window.location.href = "${staticPath}/nfdAndPat/nfdPatAutoUpdate/nfdPatAutoUpdateList";
+				 }else{
+					 alert(data);
+				 }
+			 }
+		 });
+	}
+	//返回
+	function goBack(){
+		$("#dialog").empty().dialog("close");
+	}
+	$(function(){
+        changeAirType();
+    })
+
+</script>
+</body>
+</html>

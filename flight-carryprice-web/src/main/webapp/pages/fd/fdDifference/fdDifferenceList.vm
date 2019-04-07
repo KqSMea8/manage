@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>京东国内机票工单管理系统-基础数据维护</title>
+	#parse('/comm/public.vm')
+</head>
+<style>
+    .diff {
+        background: lightyellow;
+    }
+    .red {
+        color: red;
+    }
+</style>
+<body>
+#parse('/comm/header.vm')
+<!-- content start -->
+<div class="content">
+    <!--left-content start-->
+    #parse('/comm/left.vm')
+    <!--left-content end-->
+    <!--right-content start  -->
+    <div class="right-content">
+        <div class="crumb-nav">
+            <a href="javascript:goHomepage();">首页</a>&gt;
+            <a href="javascript:void(0);" class="href0">FD运价管理</a>&gt;
+            <a href="javascript:void(0);" class="href0">FD运价数据差异</a>
+        </div>
+   		<form id="searchForm" action="${staticPath}/fd/fdDifference/getFdDifferenceList" method="post">
+   		<!-- 此处用于搜索时,所传递的参数 结束 -->
+    	<div class="main-con tickets-order-view-wrap">
+    		<!-- 搜索内容 start -->
+			<div class="search-wrap-mod mb oz">
+                <dl class="dl-mod fl">
+                    <dt>出发机场：</dt>
+                    <dd>
+                        <select class="select-mod" id="depCode" name="depCode">
+                            <option value="">--请选择--</option>
+                            #foreach($airport in ${airportList})
+                                <option  value="${airport.code}" #if($!{queryBean.depCode} == $!{airport.code}) selected #end>
+                                    $!{airport.code}—$!{airport.name}
+                                </option>
+                            #end
+                        </select>
+                    </dd>
+                </dl>
+                
+                <dl class="dl-mod fl">
+                    <dt>到达机场：</dt>
+                    <dd>
+                        <select class="select-mod" id="arrCode" name="arrCode">
+                            <option value="">--请选择--</option>
+                            #foreach($airport in $!{airportList})
+                                <option  value="${airport.code}" #if($!{queryBean.arrCode} == $!{airport.code}) selected #end>
+                                    $!{airport.code}—$!{airport.name}
+                                </option>
+                            #end
+                        </select>
+                    </dd>
+                </dl>
+                
+                <dl class="dl-mod fl">
+                    <dt>航司：</dt>
+                    <dd>
+                        <select class="select-mod" id="airWays" name="airWays">
+                            <option value="">--请选择--</option>
+                            #foreach($aircorp in ${aircorpList})
+                                <option  value="$!{aircorp.code}" #if($!{aircorp.code} == $!{queryBean.airWays}) selected="selected" #end>
+                                    $!{aircorp.code}—$!{aircorp.name}
+                                </option>
+                            #end
+                        </select>
+                    </dd>
+                </dl>
+                <dl class="dl-mod fl">
+                    <dt>舱位：</dt>
+                    <dd>
+                        <input type="text" class="text text3" id ="seat" name="seat" value="$!{queryBean.seat}" />
+                    </dd>
+                </dl>
+                <dl class="dl-mod fl">
+                    <dt>版本号：</dt>
+                    <dd>
+                        <select class="select-mod" name="versionNum">
+                            #foreach($version in ${versionNumList})
+                                <option value = "$!{version}" #if($!{queryBean.versionNum} == $!{version}) selected #end>
+                                    $!{version}
+                                </option>
+                            #end
+                        </select>
+                    </dd>
+                </dl>
+
+                <div class="search-btn-box fl" style="padding-left:88px;">
+                    <input type="button" id="query" class="btn btn2" value="查询" />
+                    <input type="button" class="btn btn2" onclick="exportDis()" value="导出"/>
+                </div>
+
+                <dl class="dl-mod fl"><dt></dt><dd></dd></dl>
+                <dl class="dl-mod fl">
+                    #if($!{runningFlag})
+                        <div class="red">该批次版本正在比较运行中,数据目前可能不全面</div>
+                    #end
+                </dl>
+                <div class="spacer"></div>
+			</div>
+			<!-- 搜索内容 end -->
+			
+			<!-- 搜索结果 start -->
+			<div class="order-mes-mod mb">
+                <table>
+                    <thead>
+                        <tr class="single-line-text">
+                        	<th style="width:5%;">序号</th>
+                            <th style="width:5%;">来源</th>
+                            <th style="width:5%;">航空公司</th>
+                            <th style="width:5%">出发机场</th>
+                            <th style="width:5%;">到达机场</th>
+                            <th style="width:6%;">舱位</th>
+                            <th style="width:6%;">价格</th>
+                            <th style="width:6%;">里程</th>
+                            <th style="width:5%;">数据来源</th>
+                            <th style="width:10%;">开始日期</th>
+                            <th style="width:10%;">结束日期</th>
+                            <th style="width:7%;">航线类型</th>
+                            <th style="width:8%;">舱位类型</th>
+                            <th style="width:6%;">舱位等级</th>
+                            <th style="width:6%;">折扣</th>
+                            <th style="width:10%;">扫描版本</th>
+                         </tr>
+                    </thead>
+					<tbody>
+                        #if($!{pageInfo.list})
+                            #foreach($fd in ${pageInfo.list})
+							<tr>
+								<td rowspan="2">$!{velocityCount}</td>
+                                <td>数据库</td>
+								<td #if($!{fd.airWays} != $!{fd.airWaysRedis}) class="diff" #end>$!{fd.airWays}</td>
+								<td #if($!{fd.depCode} != $!{fd.depCodeRedis}) class="diff" #end>$!{fd.depCode}</td>
+								<td #if($!{fd.arrCode} != $!{fd.arrCodeRedis}) class="diff" #end>$!{fd.arrCode}</td>
+								<td #if($!{fd.seat} != $!{fd.seatRedis}) class="diff" #end>$!{fd.seat}</td>
+								<td #if($!{fd.carryPrice} != $!{fd.carryPriceRedis}) class="diff" #end>$!number.format("#0.00", $!{fd.carryPrice})</td>
+								<td #if($!{fd.distance} != $!{fd.distanceRedis}) class="diff" #end>$!{fd.distance}</td>
+                                <td #if($!{fd.source} != $!{fd.sourceRedis}) class="diff" #end>$!{fd.source}</td>
+								<td #if($!{fd.takeOffEffectDate} != $!{fd.takeOffEffectDateRedis}) class="diff" #end>$!date.format('yyyy-MM-dd',$!{fd.takeOffEffectDate})</td>
+								<td #if($!{fd.takeOffExpireDate} != $!{fd.takeOffExpireDateRedis}) class="diff" #end>$!date.format('yyyy-MM-dd',$!{fd.takeOffExpireDate})</td>
+								<td #if($!{fd.airlineType} != $!{fd.airlineTypeRedis}) class="diff" #end>$!{fd.airlineType}</td>
+                                <td #if($!{fd.seatType} != $!{fd.seatTypeRedis}) class="diff" #end>$!{fd.seatType}</td>
+                                <td #if($!{fd.seatLevel} != $!{fd.seatLevelRedis}) class="diff" #end>$!{fd.seatLevel}</td>
+                                <td #if($!{fd.discount} != $!{fd.discountRedis}) class="diff" #end>$!{fd.discount}</td>
+                                <td rowspan="2">$!{fd.versionNum}</td>
+							</tr>
+                        <tr>
+                            <td>缓存</td>
+                            <td #if($!{fd.airWays} != $!{fd.airWaysRedis}) class="diff" #end>$!{fd.airWaysRedis}</td>
+                            <td #if($!{fd.depCode} != $!{fd.depCodeRedis}) class="diff" #end>$!{fd.depCodeRedis}</td>
+                            <td #if($!{fd.arrCode} != $!{fd.arrCodeRedis}) class="diff" #end>$!{fd.arrCodeRedis}</td>
+                            <td #if($!{fd.seat} != $!{fd.seatRedis}) class="diff" #end>$!{fd.seatRedis}</td>
+                            <td #if($!{fd.carryPrice} != $!{fd.carryPriceRedis}) class="diff" #end>$!number.format("#0.00", $!{fd.carryPriceRedis})</td>
+                            <td #if($!{fd.distance} != $!{fd.distanceRedis}) class="diff" #end>$!{fd.distanceRedis}</td>
+                            <td #if($!{fd.source} != $!{fd.sourceRedis}) class="diff" #end>$!{fd.sourceRedis}</td>
+                            <td #if($!{fd.takeOffEffectDate} != $!{fd.takeOffEffectDateRedis}) class="diff" #end>$!date.format('yyyy-MM-dd',$!{fd.takeOffEffectDateRedis})</td>
+                            <td #if($!{fd.takeOffExpireDate} != $!{fd.takeOffExpireDateRedis}) class="diff" #end>$!date.format('yyyy-MM-dd',$!{fd.takeOffExpireDateRedis})</td>
+                            <td #if($!{fd.airlineType} != $!{fd.airlineTypeRedis}) class="diff" #end>$!{fd.airlineTypeRedis}</td>
+                            <td #if($!{fd.seatType} != $!{fd.seatTypeRedis}) class="diff" #end>$!{fd.seatTypeRedis}</td>
+                            <td #if($!{fd.seatLevel} != $!{fd.seatLevelRedis}) class="diff" #end>$!{fd.seatLevelRedis}</td>
+                            <td #if($!{fd.discount} != $!{fd.discountRedis}) class="diff" #end>$!{fd.discountRedis}</td>
+                        </tr>
+                        #end
+                    #end
+                    #if($!{pageInfo.list.size()} == 0)
+                    <tr>
+                        <td colspan="16">
+                            <label style="color: gray;">很抱，没有找到相关记录！</label>
+                        </td>
+                    </tr>
+                    #end
+					</tbody>
+                </table>
+            </div>
+            <!-- 搜索结果 end -->
+            <!-- 分页 start -->
+            <div class="pagelist mb oz">
+                #if($!{pageInfo.list.size()}!=0)
+                #parse('/comm/pagination.vm')
+           		#end
+            </div>
+            <!-- 分页 end -->
+        </div>
+        </form>
+    </div>
+    
+    <!-- 弹出层 -->
+    <div id="dialog"></div>
+    <!-- right-con end -->
+</div>
+<!-- content end -->
+<!-- footer start -->
+<!-- footer end -->
+<script type="text/javascript">
+	//绑定查询按钮
+	$(function() {
+		$("#query").bind("click", query);
+
+	});
+	//查询
+	function query() {
+		formToTrim("searchForm");
+		$("#searchForm").submit();
+	}
+
+
+    //导出
+    function exportDis() {
+        if ('${pageInfo.total}' <= 0) {
+            alert("没有数据");
+            return;
+        }
+
+        $("#searchForm").attr("action", "${staticPath}/fd/fdDifference/downLoadExcel").submit();
+        $("#searchForm").attr("action", "${staticPath}/fd/fdDifference/getFdDifferenceList");
+    }
+
+
+</script>
+</body>
+</html>
+

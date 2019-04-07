@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flight.carryprice.mapper.JdjpRunparametersMapper" >
+  <resultMap id="BaseResultMap" type="com.flight.carryprice.entity.JdjpRunparameters" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <select id="queryList" parameterType="com.flight.carryprice.entity.JdjpRunparameters" resultMap="BaseResultMap">
+  		select id, value, name, remark, operator, update_time from jdjp_runparameters
+  		<where>
+  			<if test="name != null and name != ''">
+  				and name = #{name}
+  			</if>
+  		</where>
+  		order by id desc
+  </select>
+</mapper>

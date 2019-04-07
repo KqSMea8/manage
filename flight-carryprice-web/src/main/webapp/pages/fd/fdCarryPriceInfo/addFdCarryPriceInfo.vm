@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<style>
+    <!--
+    .select_len{height: 22px;width: 200px;}
+    -->
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+	<div class="pop-wrap">
+		<div class="oz order-mes-mod">
+			<form id="carryprice_form">			
+				<table>
+					<tr>
+						<td><span style="color: red">*</span>出发机场</td>
+						<td colspan="3">
+                            <select class="select-mod select_len validate[required]" id="depCode" name="depCode">
+                                <option value="">--请选择--</option>
+								#foreach($airport in ${airportList})
+									<option value="${airport.code}" #if($!{queryBean.depCode} == $!{airport.code}) selected #end>
+										$!{airport.code}—$!{airport.name}
+									</option>
+								#end
+                            </select>
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>到达机场</td>
+						<td colspan="3">
+							<select class="select-mod select_len validate[required]" id="arrCode" name="arrCode">
+                                <option value="">--请选择--</option>
+								#if($!{airportList})
+									#foreach($airport in ${airportList})
+                                        <option  value="${airport.code}" #if($!{queryBean.arrCode} == $!{airport.code}) selected #end>
+											$!{airport.code}—$!{airport.name}
+                                        </option>
+									#end
+								#end
+                            </select>
+	                        </select>
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>航空公司</td>
+						<td colspan="3">
+							<select class="select-mod select_len validate[required]" id="airWays" name="airWays">
+                                <option value="">--请选择--</option>
+								#if($!{aircorpList})
+									#foreach($aircorp in ${aircorpList})
+                                        <option  value="$!{aircorp.code}" #if($!{aircorp.code} == $!{queryBean.airWays}) selected="selected" #end>
+											$!{aircorp.code}—$!{aircorp.name}
+                                        </option>
+									#end
+								#end
+	                        </select>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%"><span style="color: red">*</span>舱位</td>
+						<td width="20%"><input type="text" name="seatOne" class="text text3 validate[required,minSize[1],maxSize[2]]" style="width: 100px" /></td>
+						<td width="15%"><span style="color: red">*</span>价格</td>
+						<td width="30%"><input type="text" name="carryPriceOne" class="text text3 validate[required,custom[number2Decimal]]" maxlength="5" style="width: 100px" /></td>
+					</tr>
+					<tr id="continue_add">
+						<td></td>
+						 <td colspan="3"><a  href="javascript:addFlightAndPrice()">继续添加舱位</a></td>
+						</tr>
+					<tr>
+						<td><span style="color: red">*</span>里程</td>
+						<td colspan="3"><input type="text" name="distance" class="text text3 validate[required,custom[integer]]" /></td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>状态</td>
+						<td colspan="3">
+							<select name="state" class="validate[required]">
+								<option value="1">启用</option>
+								<option value="0">禁用</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>开始日期</td>
+						<td colspan="3">
+							<input type="text" name="takeOffEffectDate" id="takeOffEffectDate" class="text validate[required]" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'takeOffExpireDate\')}'})"/>
+						</td>
+					</tr>
+					<tr>
+						<td><span style="color: red">*</span>结束日期</td>
+						<td colspan="3">
+							<input type="text" name="takeOffExpireDate" id="takeOffExpireDate" class="text validate[required]" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'takeOffEffectDate\')}'})"/>
+						</td>
+					</tr>
+				</table>
+				
+	            <div class="operate-box2" style="padding-left: 200px">
+	            	<input type="button" class="btn btn4" value="返回" onclick="javascript:goBack();">
+		            <input type="button" id="saveBtn" class="btn btn3" value="确定" onclick="javascript:save();">
+	            </div>
+            </form>            
+		</div>
+	</div>
+	<div id="flown" class="inputContainer"></div>
+<script type="text/javascript">
+	//提交保单时验证
+	$(function(){
+	  $('#carryprice_form').validationEngine({
+		    scroll: true, //屏幕自动滚动到第一个验证不通过的位置。
+		    addPromptClass: 'formError-noArrow formError-text',  //样式
+		    binded: false,   //是否绑定即时验证
+		    //showArrow: false,  //是否显示提示信息
+		    promptPosition: 'centerRight', //提示信息位置
+		    showOneMessage: true,  //是否只显示一个提示信息
+		    autoPositionUpdate :true,  //是否自动调整提示层的位置
+		    isOverflown : false,  //滚动时正确显示，需在外部元素中添加 inputContainer
+	    	maxErrorsPerField: 1  //单个元素显示错误提示的最大数量，值设为数值。默认 false 表示不限制。
+	  });
+	});
+	
+	//继续添加舱位和价格
+	function addFlightAndPrice() {
+		$("#continue_add")
+				.before(
+						' <tr> <td><span style="color:red">*</span>舱位：</td>'+
+					              '<td><input type="text" name="seatOne" class="text text3 validate[required,minSize[1],maxSize[2]]" style="width: 100px" ></td>'+
+					              '<td ><span style="color:red">*</span>价格：</td>'+
+					              '<td><input type="text" name="carryPriceOne" class="text text3 validate[required,custom[number2Decimal]]" style="width: 100px"  onkeydown="if(event.keyCode==13)event.keyCode=9" onKeyPress="if ((event.keyCode<48 || event.keyCode>57)) event.returnValue=false" value=""  maxlength="5">&nbsp;<a class="delFlightAndPrice"  href="#">删除<a/></td>'+
+								'</tr>');
+		//添加删除点击事件
+		$(".delFlightAndPrice").unbind("click").click(function() {
+			$(this).parent().parent().remove();
+		});
+	}
+	//保存
+	function save(){
+		
+		var isValid = $("#carryprice_form").validationEngine("validate");
+		if(!isValid){
+			return;
+		}
+				
+		//把表单转为json对象
+		var jsonObj = $("#carryprice_form").serializeObject();
+		//删除舱位和价格，在下面单独提取出来
+		delete jsonObj.seatOne;
+		delete jsonObj.carryPriceOne;
+		
+		if(jsonObj.depCode == jsonObj.arrCode){
+			alert("出发机场和到达机场不能相同");
+			return;
+		}
+		
+		var jsonStr = JSON.stringify(jsonObj);
+		
+		if(!confirm("确定要保存吗?")){
+			return;	
+		}
+		
+		//放入多个舱位，逗号隔开
+		var seates="";
+		$("input[name='seatOne']").each(function(i){
+            seates = seates + $(this).val()+",";
+			});
+		//放入多个价格，逗号隔开
+		var carryPrices="";
+		$("input[name='carryPriceOne']").each(function(i){
+            carryPrices = carryPrices + $(this).val()+",";
+		});
+		
+		$.ajax({
+			 url: "${staticPath}/fd/fdCarryPriceInfo/doAddFdCarryPriceInfo",
+			 data: {
+				 "jsonStr" : jsonStr,
+				 "seates":seates,
+				 "carryPrices":carryPrices
+			 },
+			 dataType:"json",
+			 success: function(data){
+				 if(data > 0){
+					 alert("新增成功");
+					 window.location.href = "${staticPath}/fd/fdCarryPriceInfo/getFdCarryPriceInfoList";
+				 }else if(data == -1){
+					 alert("转换json失败");
+				 }else if(data == -2){
+					 alert("舱位信息与价格信息不对等");
+				 }else{
+					 alert("新增失败");
+				 }
+			 }
+		 });
+		
+	}
+	//返回
+	function goBack(){
+		$("#dialog").empty().dialog("close");
+	}
+  
+</script>
+</body>
+</html>

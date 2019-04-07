@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>京东国内机票工单管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="京东国内机票工单管理系统-您身边的商务出行服务专家。"/>
+    <meta name="keywords" content="京东国内机票工单管理系统-您身边的商务出行服务专家。"/>
+    <link rel="shortcut icon" type="images/x-icon" href="${rc.contextPath}/common/images/favicon.ico"/>
+    <link rel="stylesheet" href="${rc.contextPath}/common/css/reset-min.css" type="text/css" />
+    <link rel="stylesheet" href="${rc.contextPath}/common/css/login.css" type="text/css" />
+</head>
+<body>
+<div class="login">
+    <!--供货主标题start-->
+    <div class="login_tit">
+        <h2>定时任务</h2>
+    </div>
+    <!--供货主标题end-->
+
+    <!--供货主内容start-->
+    <div class="login_out">
+        <div class="login_con">
+            <div class="logtop"></div>
+            <div class="loginbox">
+                <div class="loginbox-l fl">
+                    <img src="${rc.contextPath}/common/images/login/user-icon.jpg" alt="用户头像" />
+                </div>
+                <div class="loginbox-r fl">
+                    <h3 class="ml10">定时任务</h3>
+                    <form action="${rc.contextPath}/common/anon/login" method="post" id="loginForm">
+                        <dl>
+                            <dt>用户名</dt>
+                            <dd><input type="text" name="userName" id="userName" value="$!{userName}"/></dd>
+                        </dl>
+                        <dl>
+                            <dt>密&nbsp;&nbsp;&nbsp;码</dt>
+                            <dd><input type="password" name="password" id="password" value="$!{password}"/></dd>
+                        </dl>
+                        <dl>
+                            <dt>验证码</dt>
+                            <dd><input type="text" class="valid" name="captcha" id="captcha"/></dd>
+                            <dd><img src="${rc.contextPath}/common/anon/genMask" alt="验证码" width="72" height="28" onclick="captchaFlush(this);"/></dd>
+                        </dl>
+                        #if($!{loginResult})
+                            <p id="loginResult" class="warn-p">$!{loginResult}</p>
+                        #end
+                        <dl>
+                            <dt><input type="button"  class="button" value="登&nbsp;录" id="btn_login"/></dt>
+                            <dd><input type="reset"  class="button" value="重&nbsp;置" id="btn_reset"/></dd>
+                        </dl>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    .
+</div>
+
+<script type="text/javascript" src="${rc.contextPath}/common/js/common/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/common/js/login/login.js"></script>
+
+</body>
+</html>

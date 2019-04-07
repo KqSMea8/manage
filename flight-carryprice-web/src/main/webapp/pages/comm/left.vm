@@ -1,0 +1,88 @@
+<div class="left-content  fl">
+    <div class="left-menu" id="left_menu">
+        <h2>机票运价平台</h2>
+        <ul class="menu-con">
+				#if($!{sessionMenuList})
+					#foreach($menu in $sessionMenuList)
+
+ 			<li>
+					#if($!{menu.moduleList})
+
+ 				<h3><span class="${menu.menunamestyle}"></span>${menu.menuname}<b></b></h3>
+ 				<ul
+					#if(${menu.isCurrent} == '1')
+                            class="current"
+					#end
+                         >
+
+						#foreach($module in $menu.moduleList)
+
+						#set($urlSplit=${module.newmoduleurl})
+						#set($urlSplit=$urlSplit.split("/"))
+							#set($urlSplit0=${urlSplit[0]})
+							#set($urlSplit1=${urlSplit[1]})
+					    #set($moduleUrl="${urlSplit[0]}/${urlSplit[1]}")
+						<li
+							#if(${moduleUrl}==${thisModuleUrl})
+							#end
+								>
+ 				 		<a href="${rc.contextPath}/${module.newmoduleurl}" style="${module.modulenamestyle}"
+						   #if(${moduleUrl}==${thisModuleUrl})
+							 class="current"
+						   #end
+							   >
+ 				 		<b></b>${module.modulename}
+ 				 		</a>
+ 				 		</li>
+					#end
+ 				 </ul>
+				#end
+ 			</li>
+			#end
+			#end
+			#*</c:if>*#
+		#if('$!menuList'=='')
+            抱歉，您的权限下没有Menu记录
+		#end
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+/*手风琴效果*/
+$(function(){ 
+	$('#left_menu h3').click(function(){
+		var ul=$(this).next();
+		if(ul.css('display')=='none'){
+			$(this).parent('li').addClass('slide-down').siblings().removeClass('slide-down').children('ul').hide();
+			$(ul).show();
+		}else{
+			$(this).parents('li').removeClass('slide-down');
+			$(ul).hide();
+		}
+	})
+	$("#left_menu a").click(function(){
+		$("#left_menu a").each(function(){
+			$(this).removeClass("current");
+		});
+		$(this).addClass("current");
+	})
+	slideDownCurrent();
+})
+/*加载页面时，展开刚才点击的部分*/
+function slideDownCurrent(){
+	$("#left_menu a.current").parent('li').parent('ul').show();
+}
+
+/*点击类目选择效果*/
+function hotGetCur(id){
+ 	var nav =$("#"+id+" a");
+    for (var i=0;i<nav.length;i++){
+        nav[i].onclick = function(){
+            for (var i=0;i<nav.length;i++){
+                nav[i].className='';
+            }
+            $(this).addClass('current');
+        }
+    }
+}
+</script>
